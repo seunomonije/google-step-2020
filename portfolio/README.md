@@ -1,7 +1,8 @@
 #### Personal changes for ease of use
 
- - aliased "mvn package appengine:run" to "maker" (5/21)
+ - aliased `$ mvn package appengine:run ` to `$ maker ` (5/21)
 
+**Original Spec:**
 
 This directory is where you'll write all of your code!
 
