@@ -1,3 +1,10 @@
+
+### Personal changes for ease of use
+
+#### aliased "mvn package appengine:run" to "maker"
+the result of `$ mvn package appengine:run` can now be achieved by typing simply: `$ maker`
+
+
 This directory is where you'll write all of your code!
 
 By default it contains a barebones web app. To run a local server, execute this
