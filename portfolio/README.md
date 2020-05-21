@@ -1,8 +1,6 @@
+#### Personal changes for ease of use
 
-### Personal changes for ease of use
-
-#### aliased "mvn package appengine:run" to "maker"
-the result of `$ mvn package appengine:run` can now be achieved by typing simply: `$ maker`
+ - aliased "mvn package appengine:run" to "maker" (5/21)
 
 
 This directory is where you'll write all of your code!
