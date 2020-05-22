@@ -1,7 +1,14 @@
+html {
+  background: url(images/wtfbet.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
 #content {
-  margin-left: auto;
+  margin-left: 10%;
   margin-right: auto;
-  width: 650px;
+  width: 20%;
 }
 
 #greeting-container {
