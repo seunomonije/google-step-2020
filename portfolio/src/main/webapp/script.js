@@ -26,3 +26,23 @@ function addRandomGreeting() {
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
 }
+
+//handles the preloading -> https://stackoverflow.com/questions/25253391/javascript-loading-screen-while-page-loads
+function onReady(callback) {
+  var intervalId = window.setInterval(function() {
+    if (document.getElementsByTagName('body')[0] !== undefined) {
+      window.clearInterval(intervalId);
+      callback.call(this);
+    }
+  }, 3000);
+}
+
+function setVisible(selector, visible, type) {
+  document.querySelector(selector).style.display = visible ? type : 'none';
+}
+
+onReady(function() {
+    setVisible('#header', true, 'flex');
+    setVisible('#content', true, 'block');
+    setVisible('.loader', false, null);
+});
