@@ -5,17 +5,31 @@
     <title>Google Step 2020</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
+
+    <!-- fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+
   </head>
   <body>
+
+    <div id="header"> 
+        <div id="header-spacer"></div>
+        <img class="headerels headerimages" src = "images/google.png"/>
+        <p class="headerels">Seun Omonije STEP Portfolio</p>
+        <input id="searchbar" class="headerels" type="text" placeholder="Search about me! (unimplemented)" />
+    </div>
+
+
     <div id="content">
       <h1>Start</h1>
       <p>This is my portfolio.</p>
       <p>My name is Seun aka computabeast.</p>
-      <img src = "images/IMG_9177.jpg" style = "height: 100px; width: auto;"/>
+      <img class="contentimages" src="images/headshot.jpg"/>
 
       <p>Click here to get a random message:</p>
       <button onclick="addRandomGreeting()">Hello</button>
       <div id="greeting-container"></div>
     </div>
+
   </body>
 </html>
