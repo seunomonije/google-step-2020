@@ -1,9 +1,74 @@
+/* globals */
+
+html {
+  background: url(images/wtfbet.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+body {
+    margin: 0;
+    height: 0;
+}
+
+/* header */
+
+#header {
+    display: flex;
+    flex-direction: row;
+    top: 0;
+    position: fixed;
+    height: 60px;
+    width: 100%;
+    background-color: white;
+    border-bottom: 1px solid #d3d3d3;
+}
+
+#searchbar{
+    margin-left: 100px;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 5px;
+    width: 40%;
+}
+
+
+#header-spacer{
+    width: 5%;
+}
+
+
+.headerels {
+    font-family: 'Montserrat', sans-serif;
+    color: darkslategray;
+    padding-left:  15px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.headerimages{
+    height: 45px;
+    width: auto;
+}
+
+
+/* content */
 #content {
-  margin-left: auto;
-  margin-right: auto;
-  width: 650px;
+    margin-top: 60px; /* to account for the fixed header */
+    margin-left: 10%;
+    margin-right: auto;
+    width: 20%;
 }
 
 #greeting-container {
-  margin-top: 20px;
+    margin-top: 20px;
+}
+
+.contentimages{
+    height: 200px;
+    width: auto;
 }
