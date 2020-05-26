@@ -1,6 +1,6 @@
 # Google Student Training in Engineering Program
 
-### Let's get this baby started..I'm at Google!!!
+### Let's get this baby started... I'm at Google!!!
 
 
 #### Information provided in the original spec:
