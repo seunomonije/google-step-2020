@@ -40,8 +40,16 @@ function swapLoaderForContent(){
     setVisible('loaderid', true);
 }
 
-window.onload = swapLoaderForContent;
+//*********************** SEARCH BAR FUNCTIONS ***********************
 
+window.onload = function(){
+    swapLoaderForContent();
+    document.getElementById('searchbar').onkeydown = function(e){
+        if(e.keyCode == 13){
+            runSearch(document.getElementById('searchbar').value.toLocaleLowerCase());
+        }
+    };
+}
 
 
 
@@ -51,7 +59,7 @@ function retrieveHtml(){
     var source = document.body.innerHTML;
 
     if (source != null){
-        return source.toLowerCase();    //toLowerCase() to ignore caps, potentially problematic with symbols?
+        return source.toLocaleLowerCase();    //toLocaleLowerCase() to ignore caps
     } else {
         alert("source is null");
     }

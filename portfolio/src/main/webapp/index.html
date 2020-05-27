@@ -18,29 +18,37 @@
         <div id="header-spacer"></div>
         <img class="headerels headerimages" src = "images/google.png"/>
         <p class="headerels">STEP Portfolio</p>
-        <input id="searchbar" class="headerels" type="text" placeholder="Learn about me! (try: my name, projects, who I am) " />
-        <input name="buttonExecute" onclick="runSearch(document.getElementById('searchbar').value.toLowerCase())" type="button" value="Search" />
+        <input id="searchbar" class="headerels" type="text" placeholder="Learn about me! (try: my name, projects, who I am) Press enter to search" />
+
+        <!-- For some reason i need this in, don't know why-->
+        <input name="buttonExecute" style="display:none" onclick="runSearch(document.getElementById('searchbar').value.toLocaleLowerCase())" type="button" value="Search" />
     </div>
 
     <div id="contentspacer"></div>
 
     <div class = "hiddenclass" id="content">
         
-        <!-- this part is not completed yet -->
-        <div id="welcome">
-        <center>
-            <h1 class="bios opener" id="opener1"> Oluseun Omonije </h1>
-            <h2 class="bios opener" id="opener2"> AKA. computabeast </h2>
-            <p class="bios opener" id="opener3"> Welcome to my Step Portfolio! You can search keywords about me using my custom 
-                search bar, hover over the images to enlarge them, and mess around to find some 
-                hidden features.&#128563;
-            </p>
-            
-            <p class="bios opener" id="opener4">On a more serious note, here are some ways to contact me/check out my work</p>
-        </center>
+        <div id="welcome-wrapper">
+            <div id="welcome" class="fade-in">
+                <h1 class="bios opener" id="opener1"> Oluseun Omonije </h1>
+                <h1 class="bios opener" id="opener2"><del>Oluseun</del> <ins>Seun</ins> Omonije</h1>
+                <h2 class="bios opener" id="computabeast"> AKA: THE computabeast </h2>
+                <p class="bios opener" id="opener3"> Welcome to my Step Portfolio! You can search keywords about me using my custom 
+                    search bar, hover over the images to enlarge them, and mess around to find some 
+                    hidden features.&#128563;
+                </p>
+                
+                <p class="bios opener" id="opener4">On a more serious note, here are some ways to contact me/check out my work:</p>
+                <table id="openertable">
+                    <tr>
+                        <td><a href="https://github.com/seunomonije"><img class="websiteicons" src="images/github.png" /></a></td>
+                        <td><a href="https://www.linkedin.com/in/seun-omonije-99b07318b/"><img class="websiteicons" src="images/linkedin.png" /></a></td>
+                        <td><a href="https://www.instagram.com/seunomonije/"><img class="websiteicons" src="images/instagram.png" /></a></td>
+                        <td><a href="https://www.facebook.com/seun.omonije"><img class="websiteicons" src="images/facebook.png" /></a></td>
+                    </tr>
+                </table>
+            </div>
         </div>
-        <!-- end uncompleted part -->
-
 
         <div class="part">
             <div class="text-container">
