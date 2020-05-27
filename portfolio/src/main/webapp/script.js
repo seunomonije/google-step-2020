@@ -15,6 +15,7 @@
 /**
  * Adds a random greeting to the page.
  */
+
 function addRandomGreeting() {
   const greetings =
       ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!', 'Computa beast!'];
@@ -27,22 +28,93 @@ function addRandomGreeting() {
   greetingContainer.innerText = greeting;
 }
 
-//handles the preloading -> https://stackoverflow.com/questions/25253391/javascript-loading-screen-while-page-loads
-function onReady(callback) {
-  var intervalId = window.setInterval(function() {
-    if (document.getElementsByTagName('body')[0] !== undefined) {
-      window.clearInterval(intervalId);
-      callback.call(this);
+//*********************** LOADING SCREEN ***********************
+function setVisible(selector, bool) {
+    const el = document.getElementById(selector);
+    el.classList.toggle('hiddenclass', bool);
+}
+
+function swapLoaderForContent(){
+    setVisible('header', false);
+    setVisible('content', false);
+    setVisible('loaderid', true);
+}
+
+window.onload = swapLoaderForContent;
+
+
+
+
+//*********************** SEARCH IMPLEMENTATION ***********************
+
+function retrieveHtml(){
+    var source = document.body.innerHTML;
+
+    if (source != null){
+        return source.toLowerCase();    //toLowerCase() to ignore caps, potentially problematic with symbols?
+    } else {
+        alert("source is null");
     }
-  }, 3000);
 }
 
-function setVisible(selector, visible, type) {
-  document.querySelector(selector).style.display = visible ? type : 'none';
+
+//js is pass by value so no need for a copy
+function getClosestTag(index, source){
+
+    while (source.charAt(index) != '>'){
+        if (index == 0){
+            alert("index hit 0");
+            break;
+        }
+        index--;
+    }
+
+    var endIndex = index+1; //plus 1 to account for bracket
+
+    while (source.charAt(index) != '<'){
+        index--;
+    }
+
+    var startIndex = index;
+
+    return source.substring(startIndex, endIndex)
+
 }
 
-onReady(function() {
-    setVisible('#header', true, 'flex');
-    setVisible('#content', true, 'block');
-    setVisible('.loader', false, null);
-});
+function retrieveId(string, source){
+
+    var searchForId = string.search("id=\"");
+    if (!searchForId){
+        return;
+    }
+    const startIndex = searchForId+4;
+    var retString = string.charAt(startIndex);
+
+    for(var i = startIndex+1; string.charAt(i) != "\""; i++){
+        retString += string.charAt(i);
+    }
+
+    return retString;
+}
+
+function runSearch(input){
+
+    var source = retrieveHtml();
+
+    var foundIndex = source.indexOf(input);
+    if (foundIndex == -1){return};
+
+    var closestTag = getClosestTag(foundIndex, source); 
+    var gottenId = retrieveId(closestTag, source);
+
+
+    if(gottenId == null){
+        alert("gottenId == null");
+        return;
+    }
+    document.getElementById(gottenId).scrollIntoView({behavior: "smooth"}); // no support for safari or ie
+    
+
+}
+
+
