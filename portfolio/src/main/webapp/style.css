@@ -1,11 +1,7 @@
-/* globals */
+/*************** globals ***************/
 
 html {
-  background: url(images/wtfbet.png) no-repeat center center fixed; 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+    background-color: #f5f5f5; /*super-light-gray*/
 }
 
 body {
@@ -13,7 +9,48 @@ body {
     height: 0;
 }
 
-/* header */
+del {
+    text-decoration: line-through;
+    background-color: #fbb; /*light-red*/
+    color: #555;
+}
+
+ins {
+    text-decoration: none;
+    background-color: #d4fcbc; /*light-green*/
+}
+
+.highlight {
+    background-color: yellow;
+}
+
+input:focus {
+    outline-width: 0; /*i don't want that ugly outline on any input */
+}
+.hidden {
+    visibility: hidden;
+}
+
+.fade-in {
+	opacity: 1;
+	animation-name: fadeInOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	/* accounting for page loading time, if it takes more than 4 seconds to load no point in fading in anyways */
+    animation-duration: 4s; 
+}
+
+@keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+
+/*************** header ***************/
 
 #header {
     display: flex;
@@ -26,16 +63,20 @@ body {
     border-bottom: 1px solid #d3d3d3;
 }
 
-#searchbar{
-    margin-left: 100px;
+#searchbar {
+    margin-left: 80px;
     font-size: 18px;
     font-weight: 600;
     padding: 5px;
     width: 40%;
+    border: 1px solid #d3d3d3;
+    border-radius: 5px;
+    background-color: #d3d3d3; /*light-gray lol*/
+    color: black;
 }
 
 
-#header-spacer{
+#header-spacer {
     width: 5%;
 }
 
@@ -50,25 +91,148 @@ body {
     margin-bottom: auto;
 }
 
-.headerimages{
+.headerimages {
     height: 45px;
     width: auto;
 }
 
-
-/* content */
-#content {
-    margin-top: 60px; /* to account for the fixed header */
-    margin-left: 10%;
-    margin-right: auto;
-    width: 20%;
+/*************** loader ***************/
+.loader {
+  border: 16px solid #ffffff; /* white */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+  
+  position: absolute;
+  top: 40%;
+  left: 50%;
 }
 
-#greeting-container {
-    margin-top: 20px;
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
-.contentimages{
-    height: 200px;
+/*************** content ***************/
+
+#contentspacer {
+    height: 61px; /*61 to account for the 1px border on the 60px header*/
+}
+
+#horizontal-spacer {
+    width: 10%
+}
+
+#welcome-wrapper {
+    text-align:center;
+    display: inline-block;
+    width: 100%;
+}
+#welcome {
+    margin-top: 15%;
+    margin-bottom: 30%;
+}
+
+.websiteicons {
+    height: 80px;
     width: auto;
+    padding: 10px;
+}
+#openertable {
+    display: inline-block;
+}
+
+/* this portion handles the hovering */
+#opener1 {
+    font-size: 60px;
+}
+#opener2 {
+    margin:auto;
+    font-size: 60px;
+    display: none;
+}
+
+div#welcome h1#opener1 {
+    display: block;
+}
+div#welcome:hover h1#opener1 {
+    display: none;
+}
+
+div#welcome h1#opener2 {
+    display: none;
+}
+
+div#welcome:hover h1#opener2 {
+    display: block;
+}
+
+div#welcome h2#computabeast {
+    font-size: 30px;
+    width: 30%;
+    padding: 10px;
+    background-color: #ccff00; /*highlighter*/
+    border-radius: 3px;
+    display:none;
+}
+
+div#welcome:hover h2#computabeast {
+    display:inline-block;
+}
+
+#opener2 {
+    display: none;
+}
+
+/* end hovering portion */
+
+#content {
+    margin-left: 5%;
+    margin-right: auto;
+    width: 90%;
+}
+
+#pictureTable {
+    flex: 1;
+}
+
+.tabler {
+    margin-top: 30px; /*had to do this bc margin-top wasn't working in #picturetable*/
+}
+
+.part {
+    display: flex;
+    margin-top: 5%;
+}
+
+.text-container {
+    margin-right: 2%;
+    margin-left: 2%;
+}
+
+.tablepics {
+    height: 20%; 
+    width: auto;
+     /* lazy -- will add other browsers later */
+    transition: 1s ease-in-out;
+}
+
+.tablepics.rightpics:hover {
+    /* lazy -- will add other browsers later */
+    transform: translate(-15em, 0) scale(2); 
+}
+.tablepics.leftpics:hover {
+    /* lazy -- will add other browsers later */
+    transform: translate(15em, 0) scale(2); 
+}
+
+.bios {
+    scroll-margin: 70px; /*to account for the header*/
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.dts {
+    font-size: 25px;
 }

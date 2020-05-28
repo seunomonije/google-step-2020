@@ -12,23 +12,173 @@
   </head>
   <body>
 
-    <div id="header"> 
+    <div class="loader" id="loaderid"></div>
+
+    <div class="hidden" id="header"> 
         <div id="header-spacer"></div>
         <img class="headerels headerimages" src = "images/google.png"/>
-        <p class="headerels">Seun Omonije STEP Portfolio</p>
-        <input id="searchbar" class="headerels" type="text" placeholder="Search about me! (unimplemented)" />
+        <p class="headerels">STEP Portfolio</p>
+        <input id="searchbar" class="headerels" type="text" 
+               placeholder="Learn about me! (try: my name, projects, who I am) Press enter to search" />
     </div>
 
+    <div id="contentspacer"></div>
 
-    <div id="content">
-      <h1>Start</h1>
-      <p>This is my portfolio.</p>
-      <p>My name is Seun aka computabeast.</p>
-      <img class="contentimages" src="images/headshot.jpg"/>
+    <div class = "hidden" id="content">
+        
+        <div id="welcome-wrapper">
+            <div id="welcome" class="fade-in">
+                <h1 class="bios opener" id="opener1">Oluseun Omonije</h1>
+                <h1 class="bios opener" id="opener2"><del>Oluseun</del> <ins>Seun</ins> Omonije</h1>
+                <h2 class="bios opener" id="computabeast"> AKA: THE computabeast </h2>
+                <p class="bios opener" id="opener3">
+                    Welcome to my Step Portfolio! You can search 
+                    keywords about me using my custom search bar, 
+                    hover over the images to enlarge them, 
+                    and mess around to find some hidden features.&#128563;
+                </p>
+                
+                <p class="bios opener" id="opener4">
+                    On a more serious note, here are some ways to contact me/check out my work:
+                </p>
+                <table id="openertable">
+                    <tr>
+                        <td>
+                            <a href="https://github.com/seunomonije">
+                                <img class="websiteicons" src="images/github.png" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="https://www.linkedin.com/in/seun-omonije-99b07318b/">
+                                <img class="websiteicons" src="images/linkedin.png" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="https://www.instagram.com/seunomonije/">
+                                <img class="websiteicons" src="images/instagram.png" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="https://www.facebook.com/seun.omonije">
+                                <img class="websiteicons" src="images/facebook.png" />
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="part">
+            <div class="text-container">
+                <h1>About Me</h1>
+
+                <p id="bio1" class="bios"> 
+                    My name is Oluseun Omonije, but I go by Seun. 
+                    I am a rising junior at Yale University, working towards my BS in Computer Science. 
+                    I have a passion for problem solving, competing, and improving. 
+                    Programming is just my favorite way of doing so. 
+                    I'm a member of the Varsity Football team at Yale, 2019 Ivy League Champions. #RollDogs.
+                </p>
+
+                <p id="bio2" class="bios">
+                    God and family are two things that are very important to me. 
+                    I am extremely blessed to have two loving parents and two other loving siblings, and one my favorite things to do
+                    is spend time with them. Now that I've been on my own for sometime and able to make my own decisions, I've really understood
+                    the value that family has more than when I was living under my parents' roof. I'm so grateful for what my parents have done for me,
+                    my father is an immigrant from Nigeria, and my mother grew up with a rough childhood, and they sacrificed alot in order to get me 
+                    where I am today. 
+                </p>
+
+                <p id="bio3" class="bios">
+                    I grew up playing all types of sports, football, basketball, track, lacrosse, baseball, etc. I was always naturally good at the sport that I played,
+                    but I fell in love with football the most. One thing led to another, and I ended up playing at Yale. I think sports were an integral part of my childhood
+                    due to the fact that they taught me how to compete, how to be mentally tough, and most importantly, how to work for what you want. 
+                </p>
+
+                <p id="bio4" class="bios">
+                    My programming journey started when I was around 14. I searched on Google, "How to make money", clicked a wikiHow link, and saw that one of the options was
+                    to create a website and then run ads on it. I immediately looked up, "How to create a website", chose an easy drag and drop website, and copied some embed codes of
+                    some popular flash games and pasted them into my site. Popular sites like Addicting Games and Candystand were blocked at my school but my domain wasn't, so I took game requests from my friends 
+                    and the site became pretty popular. I quickly applied for Google Adsense to try and get some revenue, and told my friends to click to ads to get me some money, but I should've known
+                    Google would catch on and my account would be suspended, but at this point I didn't care about the money...I loved building something people used. I tried to add
+                    other features like posting and social networking, but the drag-and-drop website builder that I used didn't support that feature. After some searching
+                    I figured out that I needed to code it. I then googled "How does Facebook code their website" and figured out they used PHP, then searched "How to create posts in PHP". 
+                    I watched Youtube videos for days and copied the methods I saw, tweaking them for my own site, and eventually created my first social network: 
+                    <a href="http://2wocents.com" style="font-weight: bold;">2wocents.com</a>. While doing this, I noticed that I could code for 8+ hours in one sitting, and figured out that this
+                    is what I loved to do.
+                </p>
+
+                <p id="bio5" class="bios">
+                    All in all, I feel I am where I am today because of the blessings that I've received, the people who have sacrificed to get me here, and the work that I had to do
+                    with the support of my loved ones. While I've come a long way, the exciting thing is that I'm nowhere close to where I want to be.
+                </p>
+
+                <p id="bio6" class="bios"> This is who I am. </p>
+
+                <img src="images/signature2.png" style="height: 50px; width: auto;" />
+            
+            </div>
+            <div id="horizontal-spacer"></div>
+            <div id="pictureTable">
+                <table class="tabler">
+
+                    <tr>
+                        <td><img class="tablepics rightpics" src="images/coolpic.jpg"</td>
+                        <td><img class="tablepics rightpics" src="images/jogging.jpg"></td>
+                    </tr>
+
+                    <tr>
+                        <td><img class="tablepics rightpics" src="images/squad.jpg"></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="part">
+            <div id="links-table">
+                <table class="tabler">
+                    <tr>
+                        <td><img class="tablepics leftpics" src="images/2wo.png"</td>
+                        <td><img class="tablepics leftpics" src="images/yale.jpg"></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td><img class="tablepics leftpics" src="images/mrroll.png"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="text-container">
+                <h1>Projects</h1>
+
+                <p class="bios" id="projects1" > Here are some of the projects that I've done:</p>
+
+                <dl class="bios" id="projects2">
+                    <dt class="dts"><a href="http://2wocents.com">2wocents.com</a></dt>
+                        <dd>- Social network I created to hone my computer science skills</dd>
+                    <dt class="dts"><a href="https://apps.apple.com/us/app/mr-roll/id1103794172">Mr. Roll</a></dt>
+                        <dd>- Simple run and jump iPhone game to have some fun with my friends</dd>
+                    <dt class="dts">Raspberry Pi Bluetooth Beacon</dt>
+                        <dd>- I configured a RasPi to emit a bluetooth signal upon startup, which is read 
+                            through an iPhone app which changes color based off the physical proximity 
+                            of the iPhone to the Raspberry Pi. 
+                        </dd>
+                    <dt class="dts">Yale Strength and Conditioning Auditor</dt>
+                        <dd>- Created an auditor for the Yale Strength and Conditioning program that used
+                            algorithms created by myself to determine whether or not an athlete should
+                            increase their maximum weight in an exercise, among other smaller things.  
+                            Used a relational database to organize, gather, and retrieve the data...
+                            this project also was for my database systems class.
+                        </dd>
+                </dl>
+            </div>
+        </div>
 
       <p>Click here to get a random message:</p>
       <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>
+
     </div>
 
   </body>

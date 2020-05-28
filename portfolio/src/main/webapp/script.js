@@ -26,3 +26,105 @@ function addRandomGreeting() {
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
 }
+
+//*********************** LOADING SCREEN ***********************
+function setVisible(selector, bool) {
+    const el = document.getElementById(selector);
+    el.classList.toggle('hiddenclass', bool);
+}
+
+function swapLoaderForContent() {
+    setVisible('header', false);
+    setVisible('content', false);
+    setVisible('loaderid', true);
+}
+
+//*********************** SEARCH BAR FUNCTIONS ***********************
+/**
+  * Swaps the loader for the content and enables search
+  */
+window.onload = function(){
+    swapLoaderForContent();
+    document.getElementById('searchbar').onkeydown = function(e){
+        if(e.keyCode == 13){
+            runSearch(document.getElementById('searchbar')
+                .value.toLocaleLowerCase());
+        }
+    };
+}
+
+//*********************** SEARCH IMPLEMENTATION ***********************
+/**
+  * Retreives the HTML from the source
+  */
+function retrieveHtml(){
+    var source = document.body.innerHTML;
+
+    if (source != null){
+        return source.toLocaleLowerCase();    //toLocaleLowerCase() to ignore caps
+    } else {
+        alert("source is null");
+    }
+}
+
+/**
+  * Finds the closest tag before the provided index in the html text.
+  */
+function getClosestTag(index, source){
+    while (source.charAt(index) != '>'){
+        if (index == 0){
+            alert("index hit 0");
+            break;
+        }
+        index--;
+    }
+
+    var endIndex = index+1; //plus 1 to account for bracket
+
+    while (source.charAt(index) != '<'){
+        index--;
+    }
+
+    var startIndex = index;
+
+    return source.substring(startIndex, endIndex)
+}
+
+/**
+  * Gets HTML id from given word
+  */
+function retrieveId(string, source){
+    var searchForId = string.search("id=\"");
+    if (!searchForId){
+        return;
+    }
+    const startIndex = searchForId+4;
+    var retString = string.charAt(startIndex);
+
+    for(var i = startIndex+1; string.charAt(i) != "\""; i++){
+        retString += string.charAt(i);
+    }
+
+    return retString;
+}
+
+/**
+  * Runs the search by getting the source HTML, getting the appropriate tag, and scrolling towards that id
+  */
+function runSearch(input){
+    var source = retrieveHtml();
+
+    var foundIndex = source.indexOf(input);
+    if (foundIndex == -1){return};
+
+    var closestTag = getClosestTag(foundIndex, source); 
+    var gottenId = retrieveId(closestTag, source);
+
+    if (gottenId == null){
+        alert("gottenId == null");
+        return;
+    }
+
+    // no support for safari or ie
+    document.getElementById(gottenId).scrollIntoView({behavior: "smooth"}); 
+}
