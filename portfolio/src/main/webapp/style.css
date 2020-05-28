@@ -27,7 +27,7 @@ ins {
 input:focus{
     outline-width: 0; /*i don't want that ugly outline on any input */
 }
-.hiddenclass{
+.hidden{
     visibility: hidden;
 }
 

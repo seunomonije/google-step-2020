@@ -124,7 +124,6 @@ function runSearch(input){
     var closestTag = getClosestTag(foundIndex, source); 
     var gottenId = retrieveId(closestTag, source);
 
-
     if(gottenId == null){
         alert("gottenId == null");
         return;
