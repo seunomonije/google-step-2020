@@ -133,5 +133,3 @@ function runSearch(input){
     // no support for safari or ie
     document.getElementById(gottenId).scrollIntoView({behavior: "smooth"}); 
 }
-
-

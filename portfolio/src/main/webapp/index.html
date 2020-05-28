@@ -21,8 +21,10 @@
         <input id="searchbar" class="headerels" type="text" 
                placeholder="Learn about me! (try: my name, projects, who I am) Press enter to search" />
 
-        <!-- For some reason i need this in, don't know why-->
-        <input name="buttonExecute" style="display:none" onclick="runSearch(document.getElementById('searchbar').value.toLocaleLowerCase())" type="button" value="Search" />
+        <!-- For some reason i need this in, don't know why-- will use oninput -->
+        <input name="buttonExecute" style="display:none" 
+                onclick="runSearch(document.getElementById('searchbar').value.toLocaleLowerCase())" 
+                type="button" value="Search" />
     </div>
 
     <div id="contentspacer"></div>
@@ -31,10 +33,11 @@
         
         <div id="welcome-wrapper">
             <div id="welcome" class="fade-in">
-                <h1 class="bios opener" id="opener1"> Oluseun Omonije </h1>
+                <h1 class="bios opener" id="opener1">Oluseun Omonije</h1>
                 <h1 class="bios opener" id="opener2"><del>Oluseun</del> <ins>Seun</ins> Omonije</h1>
                 <h2 class="bios opener" id="computabeast"> AKA: THE computabeast </h2>
-                <p class="bios opener" id="opener3"> Welcome to my Step Portfolio! You can search 
+                <p class="bios opener" id="opener3">
+                    Welcome to my Step Portfolio! You can search 
                     keywords about me using my custom search bar, 
                     hover over the images to enlarge them, 
                     and mess around to find some hidden features.&#128563;
