@@ -68,7 +68,6 @@ function retrieveHtml(){
 
 //js is pass by value so no need for a copy
 function getClosestTag(index, source){
-
     while (source.charAt(index) != '>'){
         if (index == 0){
             alert("index hit 0");
@@ -86,11 +85,9 @@ function getClosestTag(index, source){
     var startIndex = index;
 
     return source.substring(startIndex, endIndex)
-
 }
 
 function retrieveId(string, source){
-
     var searchForId = string.search("id=\"");
     if (!searchForId){
         return;
@@ -106,7 +103,6 @@ function retrieveId(string, source){
 }
 
 function runSearch(input){
-
     var source = retrieveHtml();
 
     var foundIndex = source.indexOf(input);
@@ -121,8 +117,6 @@ function runSearch(input){
         return;
     }
     document.getElementById(gottenId).scrollIntoView({behavior: "smooth"}); // no support for safari or ie
-    
-
 }
 
 
