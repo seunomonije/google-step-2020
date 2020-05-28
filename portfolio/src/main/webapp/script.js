@@ -41,12 +41,15 @@ function swapLoaderForContent(){
 }
 
 //*********************** SEARCH BAR FUNCTIONS ***********************
-
+/**
+  * Swaps the loader for the content and enables search
+  */
 window.onload = function(){
     swapLoaderForContent();
     document.getElementById('searchbar').onkeydown = function(e){
         if(e.keyCode == 13){
-            runSearch(document.getElementById('searchbar').value.toLocaleLowerCase());
+            runSearch(document.getElementById('searchbar')
+                .value.toLocaleLowerCase());
         }
     };
 }
@@ -54,7 +57,9 @@ window.onload = function(){
 
 
 //*********************** SEARCH IMPLEMENTATION ***********************
-
+/**
+  * Retreives the HTML from the source
+  */
 function retrieveHtml(){
     var source = document.body.innerHTML;
 
@@ -66,7 +71,9 @@ function retrieveHtml(){
 }
 
 
-//js is pass by value so no need for a copy
+/**
+  * Finds the closest tag before the provided index in the html text.
+  */
 function getClosestTag(index, source){
     while (source.charAt(index) != '>'){
         if (index == 0){
@@ -87,6 +94,9 @@ function getClosestTag(index, source){
     return source.substring(startIndex, endIndex)
 }
 
+/**
+  * Gets HTML id from given word
+  */
 function retrieveId(string, source){
     var searchForId = string.search("id=\"");
     if (!searchForId){
@@ -102,6 +112,9 @@ function retrieveId(string, source){
     return retString;
 }
 
+/**
+  * Runs the search
+  */
 function runSearch(input){
     var source = retrieveHtml();
 
@@ -116,7 +129,9 @@ function runSearch(input){
         alert("gottenId == null");
         return;
     }
-    document.getElementById(gottenId).scrollIntoView({behavior: "smooth"}); // no support for safari or ie
+
+    // no support for safari or ie
+    document.getElementById(gottenId).scrollIntoView({behavior: "smooth"}); 
 }
 
 

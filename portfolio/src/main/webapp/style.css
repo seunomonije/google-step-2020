@@ -1,7 +1,7 @@
 /*************** globals ***************/
 
 html {
-    background-color: #f5f5f5;
+    background-color: #f5f5f5; /*super-light-gray*/
 }
 
 body {
@@ -32,7 +32,8 @@ input:focus{
 	animation-name: fadeInOpacity;
 	animation-iteration-count: 1;
 	animation-timing-function: ease-in;
-	animation-duration: 4s; /* accounting for page loading time, if it takes more than 4 seconds to load no point in fading in anyways */
+	/* accounting for page loading time, if it takes more than 4 seconds to load no point in fading in anyways */
+    animation-duration: 4s; 
 }
 
 @keyframes fadeInOpacity {
@@ -212,14 +213,17 @@ div#welcome:hover h2#computabeast{
 .tablepics{
     height: 20%; 
     width: auto;
-    transition: 1s ease-in-out; /* lazy -- will add other browsers later */
+     /* lazy -- will add other browsers later */
+    transition: 1s ease-in-out;
 }
 
 .tablepics.rightpics:hover{
-    transform: translate(-15em, 0) scale(2); /* lazy -- will add other browsers later */
+    /* lazy -- will add other browsers later */
+    transform: translate(-15em, 0) scale(2); 
 }
 .tablepics.leftpics:hover{
-    transform: translate(15em, 0) scale(2); /* lazy -- will add other browsers later */
+    /* lazy -- will add other browsers later */
+    transform: translate(15em, 0) scale(2); 
 }
 
 .bios{
