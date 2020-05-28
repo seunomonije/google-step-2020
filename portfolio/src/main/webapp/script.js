@@ -50,7 +50,7 @@ window.onload = function(){
     swapLoaderForContent();
     document.getElementById('searchbar').onkeydown = function(e){
         if(e.keyCode == 13){
-            runSearch(document.getElementById('searchbar').value.toLocaleLowerCase());
+            runSearch(document.getElementById('searchbar').value.toLocaleLowerCase(), 0);
         }
     };
 }
@@ -194,7 +194,9 @@ function runHighlights(ids, highlightedWord, src, index){
     newids = removeDuplicates(ids);
 
     if (index === newids.length){
-        alert("out of bounds");
+        clearDivAtIndex(newids[index-1]);
+        setVisible('nextbutton', true);
+        document.body.scrollIntoView({behavior: "smooth"}); //back to the top
         return;
     }
     
@@ -211,7 +213,9 @@ function runHighlights(ids, highlightedWord, src, index){
     
 }
 
-function runSearch(input){
+function runSearch(input, counter){
+    
+    setVisible('nextbutton', false);
 
     var source = retrieveHtml();  //return back to the starter source code every single time
 
@@ -230,9 +234,14 @@ function runSearch(input){
         return;
     }
 
+    
     var el = document.getElementById("nextbutton")
-    var counter = 0;
+    counter = 0;
     el.addEventListener("click", function(){ 
+        console.log(counter);
+        if (counter == 0){
+            document.getElementById(ids[0]).scrollIntoView({behavior: "smooth"});
+        }
         runHighlights(ids, input, documentCopy, counter);
         counter++;
     });

@@ -29,6 +29,8 @@ input:focus{
 
 .highlight{
     background-color: yellow;
+    transition: 3s ease-in-out;
+    transform: scale(3);
 }
 
 .fade-in {
@@ -90,9 +92,23 @@ input:focus{
     margin-bottom: auto;
 }
 
-.headerimages{
+.headerimages {
     height: 45px;
     width: auto;
+}
+
+#nextbutton {
+    margin-left: 20px;
+    width: 80px;
+    background-color: #4885ed; /* Google blue */
+    border: 1px solid #4885ed;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    text-align:center; 
+    padding: 2px;
+
 }
 
 /*************** loader ***************/

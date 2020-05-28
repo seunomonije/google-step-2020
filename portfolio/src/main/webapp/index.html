@@ -23,9 +23,9 @@
         <input id="searchbar" class="headerels" type="text" placeholder="Learn about me! (try: name, projects, football) Press enter to search" />
 
         <!-- For some reason i need this in, don't know why-->
-        <input name="buttonExecute" style="display:none" onclick="runSearch(document.getElementById('searchbar').value.toLocaleLowerCase())" type="button" value="Search" />
+        <input name="buttonExecute" style="display:none" onclick="runSearch(document.getElementById('searchbar').value.toLocaleLowerCase(), 0)" type="button" value="Search" />
 
-        <input name="buttonExe2" id="nextbutton" type="button" value="next" />
+        <input class="headerels hiddenclass" id="nextbutton" type="button" value="next" />
     </div>
 
     <div id="contentspacer"></div>
