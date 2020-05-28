@@ -40,9 +40,13 @@ function swapLoaderForContent(){
     setVisible('loaderid', true);
 }
 
+// clone the document
+var documentCopy = null; 
+
 //*********************** SEARCH BAR FUNCTIONS ***********************
 
 window.onload = function(){
+    documentCopy = document.cloneNode(true);    //storing for cycling
     swapLoaderForContent();
     document.getElementById('searchbar').onkeydown = function(e){
         if(e.keyCode == 13){
@@ -56,7 +60,8 @@ window.onload = function(){
 //*********************** SEARCH IMPLEMENTATION ***********************
 
 function retrieveHtml(){
-    var source = document.body.innerHTML;
+
+    var source = documentCopy.body.innerHTML;
 
     if (source != null){
         return source.toLocaleLowerCase();    //toLocaleLowerCase() to ignore caps
@@ -68,7 +73,6 @@ function retrieveHtml(){
 
 //js is pass by value so no need for a copy
 function getClosestTag(index, source){
-
     while (source.charAt(index) != '>'){
         if (index == 0){
             alert("index hit 0");
@@ -113,9 +117,7 @@ function getIndicesOf(small, big) {
 
 }
 
-
 function retrieveId(string, source){
-
     var searchForId = string.search("id=\"");
     if (searchForId == -1){
         return "nothing";
@@ -144,9 +146,74 @@ function getIds(array, source){
     return retArr;
 }
 
-function runSearch(input){  //returns an array of [id, index]
+function getCounts(array){  //counts the number duplicate elements in an array
 
-    var source = retrieveHtml();
+    var counts = {};
+    array.forEach(function(x) { 
+        counts[x] = (counts[x] || 0) + 1; 
+    });
+    
+    return counts;
+}
+
+function wrapInSpan(div, wantedWord) {
+
+	var div = document.getElementById(div);
+    var text = div.innerHTML.toLocaleLowerCase();
+
+    //split spaces, commas, quotes
+    var wordArr = text.split(/[\s,"]+/);
+
+    text = [];
+    wordArr.forEach(function(el) {
+        
+        if(el.includes(wantedWord)){    
+            el = '<span class="highlight">' + el + '</span>';
+        }
+        text.push(el);
+    });
+    console.log(text);
+    
+    text = text.join(' ');
+    div.innerHTML = text;
+    console.log(div.innerHTML);
+}
+
+function clearDivAtIndex(div){
+    document.getElementById(div).innerHTML = documentCopy.getElementById(div).innerHTML; 
+}
+
+function removeDuplicates(array){
+    newArr = [...new Set(array)];
+    return newArr;
+}
+
+function runHighlights(ids, highlightedWord, src, index){
+    
+    var countObject = getCounts(ids); // not needed
+    newids = removeDuplicates(ids);
+
+    if (index === newids.length){
+        alert("out of bounds");
+        return;
+    }
+    
+    if (index > 0){
+        clearDivAtIndex(newids[index-1]);
+    }
+
+    wrapInSpan(newids[index], highlightedWord);
+
+    // no support for safari or ie
+    document.getElementById(newids[index]).scrollIntoView({behavior: "smooth"}); 
+
+
+    
+}
+
+function runSearch(input){
+
+    var source = retrieveHtml();  //return back to the starter source code every single time
 
     var foundIndices = getIndicesOf(input, source);
     if (foundIndices == []){
@@ -163,57 +230,13 @@ function runSearch(input){  //returns an array of [id, index]
         return;
     }
 
-    runHighlights(ids, input);
-
-    return;
-}
-
-function getCounts(array){  //counts the number duplicate elements in an array
-
-    var counts = {};
-    array.forEach(function(x) { 
-        counts[x] = (counts[x] || 0) + 1; 
+    var el = document.getElementById("nextbutton")
+    var counter = 0;
+    el.addEventListener("click", function(){ 
+        runHighlights(ids, input, documentCopy, counter);
+        counter++;
     });
     
-    return counts;
-}
-
-function wrapWords(str, tmpl) {
-  return str.replace(/\w+/g, tmpl || "<span>$&</span>");
-}
-
-function wrapInSpan(div, wantedWord) {
-	var paragraph = document.getElementById(div);
-    var text = paragraph.innerHTML;
-
-    var wordArr = text.split(' ');
-    text = [];
-    wordArr.forEach(function(el) {
-        if(el === wantedWord)
-            el = '<span class="matched">' + el + '</span>';
-        text.push(el);
-    });
-    console.log(text);
-    text = text.join(' ');
-    paragraph.innerHTML = text;
-}
-
-function runHighlights(ids, highlightedWord){   //for some reason this will not run multiple times, need to investigate
-    
-    var countObject = getCounts(ids);
-
-    // var div = document.getElementById(ids[0]);
-    // div.innerHTML = div.innerHTML.replace(/(^|<\/?[^>]+>|\s+)([^\s<]+)/g, '$1<span class="word">$2</span>');  //wraps every word within a span
-
-    var div = document.getElementById(ids[0]);
-    div.innerHTML = wrapWords(div.innerHTML);
-    console.log(div);
-
-    for (let [key, value] of Object.entries(countObject)) {
-        if (value > 0){
-
-        }
-    }
 
     return;
 }
