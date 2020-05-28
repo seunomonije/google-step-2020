@@ -85,15 +85,40 @@ function getClosestTag(index, source){
 
     var startIndex = index;
 
-    return source.substring(startIndex, endIndex)
+    return source.substring(startIndex, endIndex);
+}
+
+function getTags(array, source){
+    var retArr = [];
+    console.log("array" + array);
+    for (var i = 0; i < array.length; i++){
+        retArr.push(getClosestTag(array[i], source)); 
+    }
+    console.log(retArr);
+    return retArr;
+}
+
+function getIndicesOf(small, big) {
+
+    var smallLen = small.length;
+    if (smallLen == 0) {return [];}
+
+    var startIndex = 0, index, indices = [];
+
+    while ((index = big.indexOf(small, startIndex)) > -1) {
+        indices.push(index);
+        startIndex = index + smallLen;
+    }
+    return indices;
 
 }
+
 
 function retrieveId(string, source){
 
     var searchForId = string.search("id=\"");
-    if (!searchForId){
-        return;
+    if (searchForId == -1){
+        return "nothing";
     }
     const startIndex = searchForId+4;
     var retString = string.charAt(startIndex);
@@ -105,24 +130,92 @@ function retrieveId(string, source){
     return retString;
 }
 
-function runSearch(input){
+function getIds(array, source){
+    var retArr = [];
+    for (var i = 0; i < array.length; i++){
+        var retriever = retrieveId(array[i], source);
+        if (retriever === "nothing"){
+            continue;
+        } else {
+            retArr.push(retriever);
+        }
+    }
+    console.log(retArr);
+    return retArr;
+}
+
+function runSearch(input){  //returns an array of [id, index]
 
     var source = retrieveHtml();
 
-    var foundIndex = source.indexOf(input);
-    if (foundIndex == -1){return};
-
-    var closestTag = getClosestTag(foundIndex, source); 
-    var gottenId = retrieveId(closestTag, source);
-
-
-    if(gottenId == null){
-        alert("gottenId == null");
+    var foundIndices = getIndicesOf(input, source);
+    if (foundIndices == []){
+        alert("Invalid input");
         return;
     }
-    document.getElementById(gottenId).scrollIntoView({behavior: "smooth"}); // no support for safari or ie
-    
 
+
+    var tags = getTags(foundIndices, source); 
+    var ids = getIds(tags, source);
+
+    if(ids == []){
+        alert("no gotten Ids");
+        return;
+    }
+
+    runHighlights(ids, input);
+
+    return;
+}
+
+function getCounts(array){  //counts the number duplicate elements in an array
+
+    var counts = {};
+    array.forEach(function(x) { 
+        counts[x] = (counts[x] || 0) + 1; 
+    });
+    
+    return counts;
+}
+
+function wrapWords(str, tmpl) {
+  return str.replace(/\w+/g, tmpl || "<span>$&</span>");
+}
+
+function wrapInSpan(div, wantedWord) {
+	var paragraph = document.getElementById(div);
+    var text = paragraph.innerHTML;
+
+    var wordArr = text.split(' ');
+    text = [];
+    wordArr.forEach(function(el) {
+        if(el === wantedWord)
+            el = '<span class="matched">' + el + '</span>';
+        text.push(el);
+    });
+    console.log(text);
+    text = text.join(' ');
+    paragraph.innerHTML = text;
+}
+
+function runHighlights(ids, highlightedWord){   //for some reason this will not run multiple times, need to investigate
+    
+    var countObject = getCounts(ids);
+
+    // var div = document.getElementById(ids[0]);
+    // div.innerHTML = div.innerHTML.replace(/(^|<\/?[^>]+>|\s+)([^\s<]+)/g, '$1<span class="word">$2</span>');  //wraps every word within a span
+
+    var div = document.getElementById(ids[0]);
+    div.innerHTML = wrapWords(div.innerHTML);
+    console.log(div);
+
+    for (let [key, value] of Object.entries(countObject)) {
+        if (value > 0){
+
+        }
+    }
+
+    return;
 }
 
 

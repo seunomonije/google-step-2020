@@ -27,6 +27,10 @@ input:focus{
     visibility: hidden;
 }
 
+.highlight{
+    background-color: yellow;
+}
+
 .fade-in {
 	opacity: 1;
 	animation-name: fadeInOpacity;
