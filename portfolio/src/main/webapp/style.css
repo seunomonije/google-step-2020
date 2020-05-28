@@ -20,17 +20,33 @@ ins {
     background-color: #d4fcbc; /*light-green*/
 }
 
-input:focus{
+input:focus {
     outline-width: 0; /*i don't want that ugly outline on any input */
 }
-.hiddenclass{
+.hiddenclass {
     visibility: hidden;
 }
 
-.highlight{
+.highlight {
     background-color: yellow;
-    transition: 3s ease-in-out;
-    transform: scale(3);
+    display: inline-block;
+    animation-name: hi-animation;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in-out;
+    animation-duration: 2s;
+}
+
+@keyframes hi-animation {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.5);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 .fade-in {

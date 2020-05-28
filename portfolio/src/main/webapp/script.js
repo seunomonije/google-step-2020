@@ -166,7 +166,6 @@ function wrapInSpan(div, wantedWord) {
 
     text = [];
     wordArr.forEach(function(el) {
-        
         if(el.includes(wantedWord)){    
             el = '<span class="highlight">' + el + '</span>';
         }
@@ -213,8 +212,36 @@ function runHighlights(ids, highlightedWord, src, index){
     
 }
 
+function textNodesUnder(node){
+  var all = [];
+  for (node=node.firstChild;node;node=node.nextSibling){
+    if (node.nodeType==3) all.push(node);
+    else all = all.concat(textNodesUnder(node));
+  }
+  return all;
+}
+
+function treeWalker(node){
+    var all = [];
+
+    for (node= node.firstChild; node ; node=node.nextSibling){
+        if (node.nodeType==3){
+            all.push(node);
+        } else {
+            all = all.concat(textNodesUnder(node));
+        }
+    }
+
+    console.log(all);
+    for (var i = 0; i < all.length; i++){
+        console.log(all[i].data);
+    }
+    return all;
+}
+
 function runSearch(input, counter){
     
+    treeWalker(document.body);
     setVisible('nextbutton', false);
 
     var source = retrieveHtml();  //return back to the starter source code every single time
