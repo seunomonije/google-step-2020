@@ -20,6 +20,10 @@ ins {
     background-color: #d4fcbc; /*light-green*/
 }
 
+.highlight{
+    background-color: yellow;
+}
+
 input:focus{
     outline-width: 0; /*i don't want that ugly outline on any input */
 }
