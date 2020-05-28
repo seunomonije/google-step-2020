@@ -15,7 +15,6 @@
 /**
  * Adds a random greeting to the page.
  */
-
 function addRandomGreeting() {
   const greetings =
       ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!', 'Computa beast!'];
@@ -34,7 +33,7 @@ function setVisible(selector, bool) {
     el.classList.toggle('hiddenclass', bool);
 }
 
-function swapLoaderForContent(){
+function swapLoaderForContent() {
     setVisible('header', false);
     setVisible('content', false);
     setVisible('loaderid', true);
@@ -54,8 +53,6 @@ window.onload = function(){
     };
 }
 
-
-
 //*********************** SEARCH IMPLEMENTATION ***********************
 /**
   * Retreives the HTML from the source
@@ -69,7 +66,6 @@ function retrieveHtml(){
         alert("source is null");
     }
 }
-
 
 /**
   * Finds the closest tag before the provided index in the html text.
@@ -113,7 +109,7 @@ function retrieveId(string, source){
 }
 
 /**
-  * Runs the search
+  * Runs the search by getting the source HTML, getting the appropriate tag, and scrolling towards that id
   */
 function runSearch(input){
     var source = retrieveHtml();
@@ -124,7 +120,7 @@ function runSearch(input){
     var closestTag = getClosestTag(foundIndex, source); 
     var gottenId = retrieveId(closestTag, source);
 
-    if(gottenId == null){
+    if (gottenId == null){
         alert("gottenId == null");
         return;
     }
