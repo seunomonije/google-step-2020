@@ -28,12 +28,12 @@ input:focus {
 }
 
 .highlight {
+    scroll-margin: 70px;
     background-color: yellow;
     padding: 5px;
     border: 2px solid black;
     border-radius: 5px;
     font-weight: bold;
-    font-size: 18px;
     display: inline-block;
     animation-name: hi-animation;
     animation-iteration-count: 1;

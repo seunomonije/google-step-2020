@@ -44,16 +44,13 @@ function swapLoaderForContent(){
     setHidden('header', false);
     setHidden('content', false);
     setHidden('loaderid', true);
-
 }
 
 // clone the document
 var documentCopy = null; 
 
 //*********************** SEARCH BAR FUNCTIONS ***********************
-/**
-  * Swaps the loader for the content and enables search
-  */
+
 window.onload = function(){
     documentCopy = document.cloneNode(true);    //storing initial doc
     swapLoaderForContent();
@@ -61,6 +58,7 @@ window.onload = function(){
     //Runs search on enter
     document.getElementById('searchbar').onkeydown = function(e){
         if(e.keyCode == 13){
+
             //i only want single word alphanumerics to go through
             var retrievedInput = document.getElementById('searchbar').value;
             const regex = new RegExp(/^[a-z0-9]+$/i);
@@ -89,62 +87,15 @@ function shakeSearchBar(){
 
 //*********************** SEARCH IMPLEMENTATION ***********************
 
-/**
- * Gets the html and returns it in lowercase
- * WILL AMEND WITH REGEX
- */
-function retrieveHtml(){
-
-    var source = documentCopy.body.innerHTML;
-
-    if (source != null){
-        //toLocaleLowerCase() to ignore caps
-        return source.toLocaleLowerCase(); 
-    } else {
-        alert("source is null");
-    }
-}
-
-/**
- * Finds the closest tag before the provided index in html text
- */
-function getClosestTag(index, source){
-    while (source.charAt(index) != '>'){
-        if (index == 0){
-            alert("index hit 0");
-            break;
-        }
-        index--;
-    }
-
-    var endIndex = index+1; //plus 1 to account for bracket
-
-    while (source.charAt(index) != '<'){
-        index--;
-    }
-
-    var startIndex = index;
-  
-    return source.substring(startIndex, endIndex);
-}
-
-/**
- * Parses through html tag to get id
- */
-function getTags(array, source){
-    var retArr = [];
-    console.log("array" + array);
-    for (var i = 0; i < array.length; i++){
-        retArr.push(getClosestTag(array[i], source)); 
-    }
-
-    return retArr;
-}
 
 /**
  * Gets the indices of matches
  */
 function getIndicesOf(small, big) {
+
+    //no lowercase causes issues with finding the index
+    small = small.toLocaleLowerCase();
+    big = big.toLocaleLowerCase();
 
     var smallLen = small.length;
     if (smallLen == 0) {return [];}
@@ -160,182 +111,118 @@ function getIndicesOf(small, big) {
 }
 
 /**
- * Scans given tag and extracts the id string
+ * Walks the tree and finds matches,
+ * returns index array of matches.
+ * Will optimize to gather straight from tree
+ * rather than push into new arr to save space
  */
-function retrieveId(string, source){
-    var searchForId = string.search("id=\"");
-    if (searchForId == -1){
-        return "nothing";
-    }
-    const startIndex = searchForId+4;
-    var retString = string.charAt(startIndex);
-
-    for(var i = startIndex+1; string.charAt(i) != "\""; i++){
-        retString += string.charAt(i);
-    }
-
-    return retString;
-}
-
-/**
- * Get's all id's from a given tag array
- */
-function getIds(array, source){
-    var retArr = [];
-    for (var i = 0; i < array.length; i++){
-        var retriever = retrieveId(array[i], source);
-        if (retriever === "nothing"){
-            continue;
-        } else {
-            retArr.push(retriever);
-        }
-    }
-
-    return retArr;
-}
-
-/**
- * Counts the number of duplicate elements in an array
- * NOT USED
- */
-function getCounts(array){
-
-    var counts = {};
-    array.forEach(function(x) { 
-        counts[x] = (counts[x] || 0) + 1; 
-    });
-    
-    return counts;
-}
-
-/**
- * Wraps each matching element in a div in a span class
- */
-function wrapInSpan(div, wantedWord) {
-
-	var div = document.getElementById(div);
-    var text = div.innerHTML.toLocaleLowerCase();
-
-    //split spaces, commas, quotes
-    var wordArr = text.split(/[\s,"]+/);
-
-    text = [];
-    wordArr.forEach(function(el) {
-        if(el.includes(wantedWord)){    
-            el = '<span class="highlight" id="spanned">' + el + '</span>';
-        }
-        text.push(el);
-    });
-
-    text = text.join(' ');
-    div.innerHTML = text;
-}
-
-/**
- *  Reverts given div back to original source code
- */
-function clearDivAtIndex(div){
-    document.getElementById(div).innerHTML = documentCopy.getElementById(div).innerHTML; 
-}
-
-/**
- *  Removes duplicates in an array
- */
-function removeDuplicates(array){
-    newArr = [...new Set(array)];
-    return newArr;
-}
-
-/**
- * Handles physically highlighting each match and clearing matches prior
- */
-function runHighlights(ids, highlightedWord, src, index){
-    newids = removeDuplicates(ids);
-
-    //if done with all matches
-    if (index === newids.length){
-        clearDivAtIndex(newids[index-1]);
-        setHidden('nextbutton', true);
-        document.body.scrollIntoView({behavior: "smooth"}); //back to the top
-        return;
-    }
-    
-    //clear the prior div
-    if (index > 0){
-        clearDivAtIndex(newids[index-1]);
-    }
-
-    wrapInSpan(newids[index], highlightedWord);
-
-    // no support for safari or ie
-    document.getElementById(newids[index]).scrollIntoView({behavior: "smooth"}); 
-}
-
-function runSearch(input){
-    
-
-    //show the next button
-    setHidden('nextbutton', false);
-
-    var counter = 0;
-    var source = retrieveHtml();
-
-    var foundIndices = getIndicesOf(input, source);
-    if (foundIndices.length == 0){
-        setHidden('nextbutton', true);
-        shakeSearchBar();
-        return;
-    }
-
-    var tags = getTags(foundIndices, source); 
-    var ids = getIds(tags, source);
-
-    //if none of the matches have corresponding ids
-    if(ids.length == 0){
-        setHidden('nextbutton', false);
-        alert("no gotten Ids");
-        return;
-    }
-
-    //Enter searching mode
-    var el = document.getElementById("nextbutton")
-    el.addEventListener("click", function(){ 
-        if (counter == 0){
-            document.getElementById(ids[0]).scrollIntoView({behavior: "smooth"});
-        }
-        runHighlights(ids, input, documentCopy, counter);
-        counter++;
-    });
-
-    return; //success
-}
-
-/**
- * EXPERIMENTAL -- for use in walking the tree
- */
-function textNodesUnder(node){
-  var all = [];
-  for (node=node.firstChild;node;node=node.nextSibling){
-    if (node.nodeType==3) all.push(node);
-    else all = all.concat(textNodesUnder(node));
-  }
-  return all;
-}
-
-function treeWalker(node){
+function treeWalker(node, input){
     var all = [];
 
     for (node= node.firstChild; node ; node=node.nextSibling){
         if (node.nodeType==3){
             all.push(node);
         } else {
-            all = all.concat(textNodesUnder(node));
+            all = all.concat(treeWalker(node, input));
         }
     }
 
-    console.log(all);
+    //find matches
+    var indexArr = [];
     for (var i = 0; i < all.length; i++){
-        console.log(all[i].data);
+        const regex = new RegExp(input, "i");
+        if (regex.test(all[i].textContent) == true){
+            indexArr.push(all[i]);
+        }
     }
-    return all;
+
+    return indexArr;
+}
+
+/**
+ * Clears the current highlighted text nodes
+ * Will optimize to actually remove the span rather than the class
+ */
+function clear(){
+
+    var highlightedList = document.querySelectorAll('.highlight');
+
+    highlightedList.forEach(function(el) {
+        el.classList.remove('highlight');
+    });
+    
+}
+
+/**
+ * Handles clearing old nodes and end of search run,
+ * as well as calls the highlighting and scrolling fns
+ */
+function treeWalkerHelper(matches, input, index){
+
+    if (index === matches.length && index != 0){
+        clear();
+        setHidden('nextbutton', true);
+        document.body.scrollIntoView({behavior: "smooth"}); //back to the top
+        return;
+    }
+
+    if (index > 0){
+        clear();
+    }
+
+    console.log(matches[index]);
+    highlighter(matches[index], input);
+
+    var els = document.getElementsByClassName('highlight');
+    els[0].scrollIntoView({behavior: "smooth"}); 
+}
+
+/**
+ * Highlights a given text node
+ */
+function highlighter(node, input){
+
+    try {
+        var foundIndices = getIndicesOf(input, node.textContent);
+    } catch(err) {
+        console.log("indices" + foundIndices);
+    }
+
+    var stringBefore = node.textContent.substring(0, foundIndices[0]);
+    var stringAfter = node.textContent.substring(input.length+foundIndices[0]);
+    var highlightedString = node.textContent.substring(foundIndices[0], input.length+foundIndices[0]);
+    
+    var newNode = document.createElement('span');
+    newNode.setAttribute('class', 'highlight');
+    newNode.textContent = highlightedString;
+
+    node.replaceWith(stringBefore, newNode, stringAfter);
+}
+
+/**
+ * Walks the tree to find matches, displays the next button,
+ * runs the search for each match
+ */
+function runSearch(input){
+    
+    var matchingNodes = treeWalker(document.body, input);
+
+    //show the next button
+    setHidden('nextbutton', false);
+
+    if (matchingNodes.length == 0){
+        setHidden('nextbutton', true);
+        shakeSearchBar();
+        return;
+    }
+
+    var counter = 0;
+    //Enter searching mode
+    var el = document.getElementById("nextbutton");
+    el.addEventListener("click", function(){ 
+        treeWalkerHelper(matchingNodes, input, counter);
+        counter++;
+    });
+
+    return; //success
 }
