@@ -58,7 +58,7 @@ window.onload = function(){
     //Runs search on enter
     document.getElementById('searchbar').onkeydown = function(e){
         if(e.keyCode == 13){
-            
+
             //i only want single word alphanumerics to go through
             var retrievedInput = document.getElementById('searchbar').value;
             const regex = new RegExp(/^[a-z0-9]+$/i);
@@ -230,20 +230,6 @@ function wrapInSpan(div, wantedWord) {
     div.innerHTML = text;
 }
 
-/**
- *  Reverts given div back to original source code
- */
-function clearDivAtIndex(div){
-    document.getElementById(div).innerHTML = documentCopy.getElementById(div).innerHTML; 
-}
-
-/**
- *  Removes duplicates in an array
- */
-function removeDuplicates(array){
-    newArr = [...new Set(array)];
-    return newArr;
-}
 
 /**
  * Handles physically highlighting each match and clearing matches prior
@@ -270,39 +256,43 @@ function runHighlights(ids, highlightedWord, src, index){
     document.getElementById(newids[index]).scrollIntoView({behavior: "smooth"}); 
 }
 
+/**
+ *  Reverts given div back to original source code
+ */
+function clearDivAtIndex(div){
+    document.getElementById(div).innerHTML = documentCopy.getElementById(div).innerHTML; 
+}
+
+/**
+ *  Removes duplicates in an array
+ */
+function removeDuplicates(array){
+    newArr = [...new Set(array)];
+    return newArr;
+}
+
+
+
 function runSearch(input){
     
+    var matchingNodes = treeWalker(document.body, input);
 
     //show the next button
     setHidden('nextbutton', false);
 
     var counter = 0;
-    var source = retrieveHtml();
-
-    var foundIndices = getIndicesOf(input, source);
-    if (foundIndices.length == 0){
+    console.log(matchingNodes);
+    if (matchingNodes.length == 0){
         setHidden('nextbutton', true);
         shakeSearchBar();
         return;
     }
 
-    var tags = getTags(foundIndices, source); 
-    var ids = getIds(tags, source);
-
-    //if none of the matches have corresponding ids
-    if(ids.length == 0){
-        setHidden('nextbutton', false);
-        alert("no gotten Ids");
-        return;
-    }
-
     //Enter searching mode
-    var el = document.getElementById("nextbutton")
+    var el = document.getElementById("nextbutton");
+    console.log(matchingNodes);
     el.addEventListener("click", function(){ 
-        if (counter == 0){
-            document.getElementById(ids[0]).scrollIntoView({behavior: "smooth"});
-        }
-        runHighlights(ids, input, documentCopy, counter);
+        treeWalkerHelper(matchingNodes, input, counter);
         counter++;
     });
 
@@ -321,20 +311,74 @@ function textNodesUnder(node){
   return all;
 }
 
-function treeWalker(node){
+function treeWalker(node, input){
     var all = [];
 
     for (node= node.firstChild; node ; node=node.nextSibling){
         if (node.nodeType==3){
             all.push(node);
         } else {
-            all = all.concat(textNodesUnder(node));
+            all = all.concat(treeWalker(node, input));
         }
     }
 
-    console.log(all);
+    //find matches
+    var indexArr = [];
     for (var i = 0; i < all.length; i++){
-        console.log(all[i].data);
+        const regex = new RegExp(input, "i");
+        if (regex.test(all[i].textContent) == true){
+            indexArr.push(all[i]);
+        }
     }
-    return all;
+
+    return indexArr;
+}
+
+//going to modify this so that it's not writing an insane number of spans
+function clear(){
+
+    var highlightedList = document.querySelectorAll('.highlight');
+
+    highlightedList.forEach(function(el) {
+        el.classList.remove('highlight');
+    });
+    
+}
+
+function treeWalkerHelper(matches, input, index){
+
+    console.log(index);
+    if (index === matches.length && index != 0){
+        clear();
+        setHidden('nextbutton', true);
+        document.body.scrollIntoView({behavior: "smooth"}); //back to the top
+        return;
+    }
+
+    if (index > 0){
+        clear();
+    }
+
+    highlighter(matches[index], input);
+
+    var els = document.getElementsByClassName('highlight');
+    els[0].scrollIntoView({behavior: "smooth"}); 
+}
+
+function highlighter(node, input){
+
+    console.log()
+    console.log(node.textContent);
+    var foundIndices = getIndicesOf(input, node.textContent);
+    
+    var stringBefore = node.textContent.substring(0, foundIndices[0]);
+    var stringAfter = node.textContent.substring(input.length+foundIndices[0]);
+    var highlightedString = node.textContent.substring(foundIndices[0], input.length+foundIndices[0]);
+    
+    var newNode = document.createElement('span');
+    newNode.setAttribute('class', 'highlight');
+    newNode.textContent = highlightedString;
+
+    node.replaceWith(stringBefore, newNode, stringAfter);
+
 }

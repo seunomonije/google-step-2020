@@ -29,6 +29,7 @@ input:focus {
 }
 
 .highlight {
+    scroll-margin: 80px;
     background-color: yellow;
     display: inline-block;
     animation-name: hi-animation;
