@@ -44,13 +44,16 @@ function swapLoaderForContent(){
     setHidden('header', false);
     setHidden('content', false);
     setHidden('loaderid', true);
+
 }
 
 // clone the document
 var documentCopy = null; 
 
 //*********************** SEARCH BAR FUNCTIONS ***********************
-
+/**
+  * Swaps the loader for the content and enables search
+  */
 window.onload = function(){
     documentCopy = document.cloneNode(true);    //storing initial doc
     swapLoaderForContent();
@@ -58,7 +61,6 @@ window.onload = function(){
     //Runs search on enter
     document.getElementById('searchbar').onkeydown = function(e){
         if(e.keyCode == 13){
-            
             //i only want single word alphanumerics to go through
             var retrievedInput = document.getElementById('searchbar').value;
             const regex = new RegExp(/^[a-z0-9]+$/i);
@@ -103,7 +105,6 @@ function retrieveHtml(){
     }
 }
 
-
 /**
  * Finds the closest tag before the provided index in html text
  */
@@ -123,7 +124,7 @@ function getClosestTag(index, source){
     }
 
     var startIndex = index;
-
+  
     return source.substring(startIndex, endIndex);
 }
 
