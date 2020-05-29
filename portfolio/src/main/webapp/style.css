@@ -30,6 +30,11 @@ input:focus {
 
 .highlight {
     background-color: yellow;
+    padding: 5px;
+    border: 2px solid black;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 18px;
     display: inline-block;
     animation-name: hi-animation;
     animation-iteration-count: 1;
@@ -291,7 +296,6 @@ div#welcome:hover h2#computabeast {
 }
 
 #pictureTable img {
-    border: 20px solid #d3d3d3;
     border-radius: 5px;
 }
 
@@ -302,7 +306,7 @@ div#welcome:hover h2#computabeast {
 }
 
 #links-table {
-    background-color: #0F9D58; /*Google green*/
+    background-color: #34ba93; /*same green as the gif*/
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
 }
@@ -310,15 +314,34 @@ div#welcome:hover h2#computabeast {
 .part {
     display: flex;
     margin-top: 5%;
-}
-
-#firstpart {
     background-color: white;
     border: 0px solid white;
     border-radius: 20px;
 }
 
+#firstpart {
+    margin-bottom: 10%;
+}
+
+#education {
+    text-align: center;
+}
+
+.centerTable {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.centerTable td {
+    width: 50%;
+}
+#education.text-container {
+    width: 100%;
+}
+
 .text-container {
+
+    font-family: 'Open Sans', sans-serif;
     margin-right: 2%;
     margin-left: 2%;
 }
@@ -342,10 +365,27 @@ div#welcome:hover h2#computabeast {
 
 .bios {
     scroll-margin: 70px; /*to account for the header*/
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 
-                 'Trebuchet MS', sans-serif;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .dts {
     font-size: 25px;
+    margin: 10px;
+    text-decoration: none;
+}
+
+#coolgif {
+    height: 80%;
+    width: auto;
+}
+
+#rollinggif {
+    height: 80%;
+    width: auto;
+}
+
+#languages-table {
+    background-color: #00afec; /*same as gif*/
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
