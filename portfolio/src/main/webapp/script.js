@@ -15,7 +15,6 @@
 /**
  * Adds a random greeting to the page.
  */
-
 function addRandomGreeting() {
   const greetings =
       ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!', 'Computa beast!'];
@@ -29,15 +28,22 @@ function addRandomGreeting() {
 }
 
 //*********************** LOADING SCREEN ***********************
-function setVisible(selector, bool) {
+
+/**
+ * Sets elements to visible or not.
+ */
+function setHidden(selector, bool) {
     const el = document.getElementById(selector);
-    el.classList.toggle('hiddenclass', bool);
+    el.classList.toggle('hidden', bool);
 }
 
+/**
+ * Gets rid of the loading screen and displays the page
+ */
 function swapLoaderForContent(){
-    setVisible('header', false);
-    setVisible('content', false);
-    setVisible('loaderid', true);
+    setHidden('header', false);
+    setHidden('content', false);
+    setHidden('loaderid', true);
 }
 
 // clone the document
@@ -46,32 +52,61 @@ var documentCopy = null;
 //*********************** SEARCH BAR FUNCTIONS ***********************
 
 window.onload = function(){
-    documentCopy = document.cloneNode(true);    //storing for cycling
+    documentCopy = document.cloneNode(true);    //storing initial doc
     swapLoaderForContent();
+
+    //Runs search on enter
     document.getElementById('searchbar').onkeydown = function(e){
         if(e.keyCode == 13){
-            runSearch(document.getElementById('searchbar').value.toLocaleLowerCase(), 0);
+            
+            //i only want single word alphanumerics to go through
+            var retrievedInput = document.getElementById('searchbar').value;
+            const regex = new RegExp(/^[a-z0-9]+$/i);
+            if (regex.test(retrievedInput) === false){
+                console.log("nottoday");
+                shakeSearchBar();
+            } else {
+            runSearch(document.getElementById('searchbar')
+                .value.toLocaleLowerCase());
+            }
         }
     };
 }
 
+/**
+ * Code to shake the search bar
+ */
+function shakeSearchBar(){
+    const el = document.getElementById('searchbar');
+    el.preventDefault;
+    el.classList.remove('searchbarglow')
+    void el.offsetWidth;
+    el.classList.add('searchbarglow');
+}
 
 
 //*********************** SEARCH IMPLEMENTATION ***********************
 
+/**
+ * Gets the html and returns it in lowercase
+ * WILL AMEND WITH REGEX
+ */
 function retrieveHtml(){
 
     var source = documentCopy.body.innerHTML;
 
     if (source != null){
-        return source.toLocaleLowerCase();    //toLocaleLowerCase() to ignore caps
+        //toLocaleLowerCase() to ignore caps
+        return source.toLocaleLowerCase(); 
     } else {
         alert("source is null");
     }
 }
 
 
-//js is pass by value so no need for a copy
+/**
+ * Finds the closest tag before the provided index in html text
+ */
 function getClosestTag(index, source){
     while (source.charAt(index) != '>'){
         if (index == 0){
@@ -92,16 +127,22 @@ function getClosestTag(index, source){
     return source.substring(startIndex, endIndex);
 }
 
+/**
+ * Parses through html tag to get id
+ */
 function getTags(array, source){
     var retArr = [];
     console.log("array" + array);
     for (var i = 0; i < array.length; i++){
         retArr.push(getClosestTag(array[i], source)); 
     }
-    console.log(retArr);
+
     return retArr;
 }
 
+/**
+ * Gets the indices of matches
+ */
 function getIndicesOf(small, big) {
 
     var smallLen = small.length;
@@ -113,10 +154,13 @@ function getIndicesOf(small, big) {
         indices.push(index);
         startIndex = index + smallLen;
     }
-    return indices;
 
+    return indices;
 }
 
+/**
+ * Scans given tag and extracts the id string
+ */
 function retrieveId(string, source){
     var searchForId = string.search("id=\"");
     if (searchForId == -1){
@@ -132,6 +176,9 @@ function retrieveId(string, source){
     return retString;
 }
 
+/**
+ * Get's all id's from a given tag array
+ */
 function getIds(array, source){
     var retArr = [];
     for (var i = 0; i < array.length; i++){
@@ -142,11 +189,15 @@ function getIds(array, source){
             retArr.push(retriever);
         }
     }
-    console.log(retArr);
+
     return retArr;
 }
 
-function getCounts(array){  //counts the number duplicate elements in an array
+/**
+ * Counts the number of duplicate elements in an array
+ * NOT USED
+ */
+function getCounts(array){
 
     var counts = {};
     array.forEach(function(x) { 
@@ -156,6 +207,9 @@ function getCounts(array){  //counts the number duplicate elements in an array
     return counts;
 }
 
+/**
+ * Wraps each matching element in a div in a span class
+ */
 function wrapInSpan(div, wantedWord) {
 
 	var div = document.getElementById(div);
@@ -167,38 +221,45 @@ function wrapInSpan(div, wantedWord) {
     text = [];
     wordArr.forEach(function(el) {
         if(el.includes(wantedWord)){    
-            el = '<span class="highlight">' + el + '</span>';
+            el = '<span class="highlight" id="spanned">' + el + '</span>';
         }
         text.push(el);
     });
-    console.log(text);
-    
+
     text = text.join(' ');
     div.innerHTML = text;
-    console.log(div.innerHTML);
 }
 
+/**
+ *  Reverts given div back to original source code
+ */
 function clearDivAtIndex(div){
     document.getElementById(div).innerHTML = documentCopy.getElementById(div).innerHTML; 
 }
 
+/**
+ *  Removes duplicates in an array
+ */
 function removeDuplicates(array){
     newArr = [...new Set(array)];
     return newArr;
 }
 
+/**
+ * Handles physically highlighting each match and clearing matches prior
+ */
 function runHighlights(ids, highlightedWord, src, index){
-    
-    var countObject = getCounts(ids); // not needed
     newids = removeDuplicates(ids);
 
+    //if done with all matches
     if (index === newids.length){
         clearDivAtIndex(newids[index-1]);
-        setVisible('nextbutton', true);
+        setHidden('nextbutton', true);
         document.body.scrollIntoView({behavior: "smooth"}); //back to the top
         return;
     }
     
+    //clear the prior div
     if (index > 0){
         clearDivAtIndex(newids[index-1]);
     }
@@ -207,11 +268,50 @@ function runHighlights(ids, highlightedWord, src, index){
 
     // no support for safari or ie
     document.getElementById(newids[index]).scrollIntoView({behavior: "smooth"}); 
-
-
-    
 }
 
+function runSearch(input){
+    
+
+    //show the next button
+    setHidden('nextbutton', false);
+
+    var counter = 0;
+    var source = retrieveHtml();
+
+    var foundIndices = getIndicesOf(input, source);
+    if (foundIndices.length == 0){
+        setHidden('nextbutton', true);
+        shakeSearchBar();
+        return;
+    }
+
+    var tags = getTags(foundIndices, source); 
+    var ids = getIds(tags, source);
+
+    //if none of the matches have corresponding ids
+    if(ids.length == 0){
+        setHidden('nextbutton', false);
+        alert("no gotten Ids");
+        return;
+    }
+
+    //Enter searching mode
+    var el = document.getElementById("nextbutton")
+    el.addEventListener("click", function(){ 
+        if (counter == 0){
+            document.getElementById(ids[0]).scrollIntoView({behavior: "smooth"});
+        }
+        runHighlights(ids, input, documentCopy, counter);
+        counter++;
+    });
+
+    return; //success
+}
+
+/**
+ * EXPERIMENTAL -- for use in walking the tree
+ */
 function textNodesUnder(node){
   var all = [];
   for (node=node.firstChild;node;node=node.nextSibling){
@@ -238,43 +338,3 @@ function treeWalker(node){
     }
     return all;
 }
-
-function runSearch(input, counter){
-    
-    treeWalker(document.body);
-    setVisible('nextbutton', false);
-
-    var source = retrieveHtml();  //return back to the starter source code every single time
-
-    var foundIndices = getIndicesOf(input, source);
-    if (foundIndices == []){
-        alert("Invalid input");
-        return;
-    }
-
-
-    var tags = getTags(foundIndices, source); 
-    var ids = getIds(tags, source);
-
-    if(ids == []){
-        alert("no gotten Ids");
-        return;
-    }
-
-    
-    var el = document.getElementById("nextbutton")
-    counter = 0;
-    el.addEventListener("click", function(){ 
-        console.log(counter);
-        if (counter == 0){
-            document.getElementById(ids[0]).scrollIntoView({behavior: "smooth"});
-        }
-        runHighlights(ids, input, documentCopy, counter);
-        counter++;
-    });
-    
-
-    return;
-}
-
-
