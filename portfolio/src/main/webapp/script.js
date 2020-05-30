@@ -47,7 +47,7 @@ function swapLoaderForContent(){
 }
 
 // clone the document
-var documentCopy = null; 
+let documentCopy = null; 
 
 //*********************** SEARCH BAR FUNCTIONS ***********************
 
@@ -59,8 +59,8 @@ window.onload = function(){
     document.getElementById('searchbar').onkeydown = function(e){
         if(e.keyCode == 13){
 
-            //i only want single word alphanumerics to go through
-            var retrievedInput = document.getElementById('searchbar').value;
+            // i only want single word alphanumerics to go through
+            let retrievedInput = document.getElementById('searchbar').value;
             const regex = new RegExp(/^[a-z0-9]+$/i);
             if (regex.test(retrievedInput) === false){
                 console.log("nottoday");
@@ -89,18 +89,18 @@ function shakeSearchBar(){
 
 
 /**
- * Gets the indices of matches
+ * Finds all the occurences of a substring in a string
  */
-function getIndicesOf(small, big) {
+function findNeedleInHaystack(small, big) {
 
     //no lowercase causes issues with finding the index
     small = small.toLocaleLowerCase();
     big = big.toLocaleLowerCase();
 
-    var smallLen = small.length;
+    let smallLen = small.length;
     if (smallLen == 0) {return [];}
 
-    var startIndex = 0, index, indices = [];
+    let startIndex = 0, index, indices = [];
 
     while ((index = big.indexOf(small, startIndex)) > -1) {
         indices.push(index);
@@ -116,20 +116,20 @@ function getIndicesOf(small, big) {
  * Will optimize to gather straight from tree
  * rather than push into new arr to save space
  */
-function treeWalker(node, input){
-    var all = [];
+function htmlWalkerandMatcher(node, input){
+    let all = [];
 
     for (node= node.firstChild; node ; node=node.nextSibling){
-        if (node.nodeType==3){
+        if (node.nodeType==3){ //if a text node
             all.push(node);
         } else {
-            all = all.concat(treeWalker(node, input));
+            all = all.concat(htmlWalkerandMatcher(node, input));
         }
     }
 
     //find matches
-    var indexArr = [];
-    for (var i = 0; i < all.length; i++){
+    let indexArr = [];
+    for (let i = 0; i < all.length; i++){
         const regex = new RegExp(input, "i");
         if (regex.test(all[i].textContent) == true){
             indexArr.push(all[i]);
@@ -145,10 +145,10 @@ function treeWalker(node, input){
  */
 function clear(){
 
-    var highlightedList = document.querySelectorAll('.highlight');
+    let highlightedList = document.querySelectorAll('.highlight');
 
     highlightedList.forEach(function(el) {
-        el.classList.remove('highlight');
+        el.replaceWith(el.innerText);
     });
     
 }
@@ -157,7 +157,7 @@ function clear(){
  * Handles clearing old nodes and end of search run,
  * as well as calls the highlighting and scrolling fns
  */
-function treeWalkerHelper(matches, input, index){
+function highlightHandler(matches, input, index){
 
     if (index === matches.length && index != 0){
         clear();
@@ -173,7 +173,7 @@ function treeWalkerHelper(matches, input, index){
     console.log(matches[index]);
     highlighter(matches[index], input);
 
-    var els = document.getElementsByClassName('highlight');
+    let els = document.getElementsByClassName('highlight');
     els[0].scrollIntoView({behavior: "smooth"}); 
 }
 
@@ -183,16 +183,16 @@ function treeWalkerHelper(matches, input, index){
 function highlighter(node, input){
 
     try {
-        var foundIndices = getIndicesOf(input, node.textContent);
+        var foundIndices = findNeedleInHaystack(input, node.textContent);
     } catch(err) {
         console.log("indices" + foundIndices);
     }
 
-    var stringBefore = node.textContent.substring(0, foundIndices[0]);
-    var stringAfter = node.textContent.substring(input.length+foundIndices[0]);
-    var highlightedString = node.textContent.substring(foundIndices[0], input.length+foundIndices[0]);
+    let stringBefore = node.textContent.substring(0, foundIndices[0]);
+    let stringAfter = node.textContent.substring(input.length+foundIndices[0]);
+    let highlightedString = node.textContent.substring(foundIndices[0], input.length+foundIndices[0]);
     
-    var newNode = document.createElement('span');
+    const newNode = document.createElement('span');
     newNode.setAttribute('class', 'highlight');
     newNode.textContent = highlightedString;
 
@@ -205,7 +205,7 @@ function highlighter(node, input){
  */
 function runSearch(input){
     
-    var matchingNodes = treeWalker(document.body, input);
+    const matchingNodes = htmlWalkerandMatcher(document.body, input);
 
     //show the next button
     setHidden('nextbutton', false);
@@ -216,12 +216,12 @@ function runSearch(input){
         return;
     }
 
-    var counter = 0;
+    let match_index = 0;
     //Enter searching mode
-    var el = document.getElementById("nextbutton");
+    const el = document.getElementById("nextbutton");
     el.addEventListener("click", function(){ 
-        treeWalkerHelper(matchingNodes, input, counter);
-        counter++;
+        highlightHandler(matchingNodes, input, match_index);
+        match_index++;
     });
 
     return; //success
