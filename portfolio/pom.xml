@@ -35,7 +35,8 @@
         <version>2.2.0</version>
         <configuration>
           <!-- TODO: set project ID. -->
-          <deploy.projectId>google.com:seunomonije-step-2020</deploy.projectId>
+          <deploy.projectId>seunomonije-step-2020</deploy.projectId>
+          <!-- https://seunomonije-step-2020.uc.r.appspot.com -->
           <deploy.version>1</deploy.version>
         </configuration>
       </plugin>

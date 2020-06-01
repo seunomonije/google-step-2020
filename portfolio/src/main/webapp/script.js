@@ -65,12 +65,10 @@ window.onload = function(){
     //Runs search on enter
     document.getElementById('searchbar').onkeydown = function(e){
         if(e.keyCode == 13){
-
             // i only want single word alphanumerics to go through
             retrievedInput = document.getElementById('searchbar').value;
             const regex = new RegExp(/^[a-z0-9]+$/i);
             if (regex.test(retrievedInput) === false){
-                console.log("nottoday");
                 shakeSearchBar();
             } else {
                 searchSetup();
@@ -87,7 +85,8 @@ function searchHandler(){
 }
 
 /**
- * Code to shake the search bar
+ * Code to shake the search bar and make it glow
+ * Calls a bunch of css transforms
  */
 function shakeSearchBar(){
     const el = document.getElementById('searchbar');
@@ -105,13 +104,12 @@ function shakeSearchBar(){
  * Finds all the occurences of a substring in a string
  */
 function findNeedleInHaystack(small, big) {
-
     //no lowercase causes issues with finding the index
     small = small.toLocaleLowerCase();
     big = big.toLocaleLowerCase();
 
     let smallLen = small.length;
-    if (smallLen == 0) {return [];}
+    if (smallLen === 0) return [];
 
     let startIndex = 0, index, indices = [];
 
@@ -151,7 +149,6 @@ function htmlWalkerandMatcher(node, input){
  * Will optimize to actually remove the span rather than the class
  */
 function clear(){
-
     let highlightedList = document.querySelectorAll('.highlight');
 
     highlightedList.forEach(function(el) {
@@ -165,7 +162,6 @@ function clear(){
  * as well as calls the highlighting and scrolling fns
  */
 function highlightHandler(matches, input, index){
-
     if (index === matches.length && index != 0){
         clear();
         setHidden('nextbutton', true);
@@ -197,7 +193,6 @@ function highlightHandler(matches, input, index){
  * Highlights a given text node
  */
 function highlighter(node, input){
-
     const nodeText = node.textContent;
 
     let foundIndices = findNeedleInHaystack(input, nodeText);
@@ -223,15 +218,13 @@ function highlighter(node, input){
 
     //node.replaceWith(...fragments);
     node.replaceWith(stringBefore, newNode, stringAfter);
-
 }
 
 /**
  * Sets the stage for the actual search to take place,
  * handles gathering data and checks criteria are met
  */
-function searchSetup(input){
-    
+function searchSetup(input){ 
     matchingNodes = htmlWalkerandMatcher(document.body, retrievedInput);
 
     //show the next button
