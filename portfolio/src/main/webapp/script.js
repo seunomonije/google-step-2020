@@ -184,7 +184,8 @@ function highlightHandler(matches, input, index){
 
     //highlight and scroll to every element
     highlighter(matches[index], input);
-
+    
+    console.log(matches[index]);
     let els = document.getElementsByClassName('highlight');
     els[0].scrollIntoView({behavior: "smooth"}); 
 
@@ -210,11 +211,19 @@ function highlighter(node, input){
     let stringAfter = nodeText.substring(input.length+foundIndices[0]);
     let highlightedString = nodeText.substring(foundIndices[0], input.length+foundIndices[0]);
     
+    let fragments = nodeText.split(highlightedString);
+
     const newNode = document.createElement('span');
     newNode.setAttribute('class', 'highlight');
     newNode.textContent = highlightedString;
 
+    for (let i = 1; i < fragments.length; i+=2){
+        fragments.splice(i, 0, newNode);
+    }
+
+    //node.replaceWith(...fragments);
     node.replaceWith(stringBefore, newNode, stringAfter);
+
 }
 
 /**
