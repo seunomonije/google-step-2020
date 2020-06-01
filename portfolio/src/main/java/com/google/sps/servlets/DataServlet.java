@@ -46,7 +46,6 @@ public class DataServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {  
-
         // Send a query for the comments, latest first
         Query query = new Query("comments").addSort("timestamp", SortDirection.DESCENDING);
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -68,18 +67,12 @@ public class DataServlet extends HttpServlet {
         response.getWriter().println(json);
     }
 
-    private String convertToJsonUsingGson(ArrayList arr) {
-        Gson gson = new Gson();
-        String json = gson.toJson(arr);
-        return json;
-    }
-
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException { 
         String input = getParameter(request, "text-input", "");
         long timestamp = System.currentTimeMillis();
 
-        messages.add(input);    // adds to array
+        messages.add(input); //adds to array
 
         Entity commentEntity = new Entity("Comment");
         commentEntity.setProperty("text", input);
@@ -93,8 +86,8 @@ public class DataServlet extends HttpServlet {
 
     /**
      * @return the request parameter, or the default value if the parameter
-     *         was not specified by the client
-    */
+     * was not specified by the client
+     */
     private String getParameter(HttpServletRequest request, String name, String defaultValue) {
         String value = request.getParameter(name);
         if (value == null) {
@@ -102,5 +95,12 @@ public class DataServlet extends HttpServlet {
         }
             return value;
     }
+
+    private String convertToJsonUsingGson(ArrayList arr) {
+        Gson gson = new Gson();
+        String json = gson.toJson(arr);
+        return json;
+    }
+
 }
 
