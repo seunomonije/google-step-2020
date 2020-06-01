@@ -31,6 +31,12 @@
 
     <div class = "hidden" id="content">
         
+        <form action="/data" method="POST">
+            <p>Enter a comment</p>
+            <textarea name="text-input">Enter a comment here</textarea>
+            <input type="submit" />
+        </form>
+
         <button onClick="getFromServer()">Get from server</button>
         <div id="form-container"></div>
 
