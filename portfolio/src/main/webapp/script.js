@@ -242,8 +242,9 @@ function searchSetup(input){
 
 
 //*********************** SERVER-SIDE ***********************
-async function getFromServer(){
+async function getFromServer() {
     const response = await fetch('/data');
     const value = await response.text();
+    console.log(value);
     document.getElementById("form-container").innerText = value;
 }
