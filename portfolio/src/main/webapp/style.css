@@ -1,7 +1,7 @@
 /*************** globals ***************/
 
 html {
-    background-color: #f0f0f0;
+    background-color: #f0f0f0; /*super light gray */
 }
 
 body {
@@ -28,7 +28,7 @@ input:focus {
 }
 
 .highlight {
-    scroll-margin: 70px;
+    scroll-margin: 130px;
     background-color: yellow;
     padding: 5px;
     border: 2px solid black;

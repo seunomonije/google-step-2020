@@ -46,7 +46,7 @@ function swapLoaderForContent(){
     setHidden('loaderid', true);
 }
 
-//env variables
+// env variables
 let listenNext = null;
 let retrievedInput = null;
 let match_index = 0;
@@ -55,9 +55,9 @@ let matchingNodes = null;
 //*********************** SEARCH BAR FUNCTIONS ***********************
 
 window.onload = function(){
-    swapLoaderForContent(); //displays page after loaded
+    swapLoaderForContent(); // displays page after loaded
 
-    //Next button event listener, always active
+    // Next button event listener, always active
     listenNext = document.getElementById("nextbutton");
     listenNext.addEventListener("click", searchHandler);
 
@@ -104,7 +104,7 @@ function shakeSearchBar(){
  * Finds all the occurences of a substring in a string
  */
 function findNeedleInHaystack(small, big) {
-    //no lowercase causes issues with finding the index
+    // no lowercase causes issues with finding the index
     small = small.toLocaleLowerCase();
     big = big.toLocaleLowerCase();
 
@@ -165,8 +165,8 @@ function highlightHandler(matches, input, index){
     if (index === matches.length && index != 0){
         clear();
         setHidden('nextbutton', true);
-        match_index = 0; //resetting the index
-        document.body.scrollIntoView({behavior: "smooth"}); //back to the top
+        match_index = 0; // resetting the index
+        document.body.scrollIntoView({behavior: "smooth"}); // back to the top
         return;
     }
 
@@ -178,14 +178,15 @@ function highlightHandler(matches, input, index){
     console.log(matches);
     console.log(matches[index]);
 
-    //highlight and scroll to every element
+    // highlight and scroll to every element
     highlighter(matches[index], input);
     
     console.log(matches[index]);
+
     let els = document.getElementsByClassName('highlight');
     els[0].scrollIntoView({behavior: "smooth"}); 
 
-    match_index++; //go onto the next value
+    match_index++; // go onto the next value
 }
 
 
