@@ -57,7 +57,6 @@ public class DataServlet extends HttpServlet {
             long timestamp = (long)entity.getProperty("timestamp");
 
             messages.add(message);
-
         }
 
         String json = convertToJsonUsingGson(messages);
