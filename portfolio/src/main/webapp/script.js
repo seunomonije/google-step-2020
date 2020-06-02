@@ -221,6 +221,7 @@ function highlighter(node, input){
         return;
     }
 
+    let highlightedString = node.textContent.substring(foundIndices[0], input.length+foundIndices[0]);
     let fragments = nodeText.split(highlightedString);
 
     const newNode = document.createElement('span');
