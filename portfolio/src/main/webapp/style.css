@@ -337,7 +337,7 @@ div#welcome:hover h2#computabeast {
 }
 
 .text-container {
-
+    padding: 20px;
     font-family: 'Open Sans', sans-serif;
     margin-right: 2%;
     margin-left: 2%;
@@ -385,4 +385,10 @@ div#welcome:hover h2#computabeast {
     background-color: #00afec; /*same as gif*/
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
+}
+
+#disclaimer {
+    margin-bottom: 30px; 
+    color: gray; 
+    font-size: 10px;
 }

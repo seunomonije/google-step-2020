@@ -31,6 +31,8 @@ function addRandomGreeting() {
 
 /**
  * Sets elements to visible or not.
+ * @param {string} id - The id of the HTML element.
+ * @param {bool} bool - true to hide, false to show
  */
 function setHidden(selector, bool) {
     const el = document.getElementById(selector);
@@ -71,7 +73,7 @@ window.onload = function(){
             if (regex.test(retrievedInput) === false){
                 shakeSearchBar();
             } else {
-                searchSetup();
+                search(retrievedInput);
             }
         }
     };
@@ -91,8 +93,8 @@ function searchHandler(){
 function shakeSearchBar(){
     const el = document.getElementById('searchbar');
     el.preventDefault;
-    el.classList.remove('searchbarglow')
-    void el.offsetWidth;
+    el.classList.remove('searchbarglow');
+    void el.offsetWidth; // allows time for the class to be added'
     el.classList.add('searchbarglow');
 }
 
@@ -102,20 +104,24 @@ function shakeSearchBar(){
 
 /**
  * Finds all the occurences of a substring in a string
+ * @param {string} substr - The substring to search for.
+ * @param {string} str - The larger string to be combed through.
  */
-function findNeedleInHaystack(small, big) {
+function findSubstringIndices(substr, str) {
     // no lowercase causes issues with finding the index
-    small = small.toLocaleLowerCase();
-    big = big.toLocaleLowerCase();
+    substr = substr.toLocaleLowerCase();
+    str = str.toLocaleLowerCase();
 
-    let smallLen = small.length;
-    if (smallLen === 0) return [];
+    const substrLen = substr.length;
+    if (substrLen === 0) return [];
 
-    let startIndex = 0, index, indices = [];
+    let startIndex = 0;
+    let index = 0;
+    const indices = [];
 
-    while ((index = big.indexOf(small, startIndex)) > -1) {
+    while ((index = str.indexOf(substr, startIndex)) > -1) {
         indices.push(index);
-        startIndex = index + smallLen;
+        startIndex = index + substrLen;
     }
 
     return indices;
@@ -126,22 +132,37 @@ function findNeedleInHaystack(small, big) {
  * returns index array of matches.
  * Will optimize to gather straight from tree
  * rather than push into new arr to save space
+ * @param {object} node - The starting point of the tree.
+ * @param {string} input - The string to be match.
  */
 function htmlWalkerandMatcher(node, input){
-    let all = [];
+    let matches = []; 
 
-    for (node= node.firstChild; node; node=node.nextSibling){
-        if (node.nodeType==3){ //if a text node
+    let all = [];   // queue
+    all.push(node);
+
+    while(all.length !== 0){
+        let cur = all.shift();
+
+        if (cur.nodeType==3){ // Locates text nodes. Text nodes have no child nodes. 
             const regex = new RegExp(input, "i");
-            if (regex.test(node.textContent) == true){
-                all.push(node);
+            if (regex.test(cur.textContent) == true){
+                matches.push(cur);
             }
-        } else {
-            all = all.concat(htmlWalkerandMatcher(node, input));
         }
+
+        if (!cur) continue;
+        if (!cur.childNodes) continue;
+
+        if (cur.childNodes.length > 0){
+            for (let i = 0; i < cur.childNodes.length; i++){
+                all.push(cur.childNodes[i]);
+            }
+        }
+
     }
 
-    return all;
+    return matches;
 }
 
 /**
@@ -154,12 +175,14 @@ function clear(){
     highlightedList.forEach(function(el) {
         el.replaceWith(el.innerText);
     });
-    
 }
 
 /**
  * Handles clearing old nodes and end of search run,
  * as well as calls the highlighting and scrolling fns
+ * @param {object} matches - Array of matching nodes in DOM tree.
+ * @param {string} input - Input retrieved from search.
+ * @param {number} index - Points to the node in the array we want to highlight.
  */
 function highlightHandler(matches, input, index){
     if (index === matches.length && index != 0){
@@ -174,15 +197,9 @@ function highlightHandler(matches, input, index){
         clear();
     }
     
-    console.log(index);
-    console.log(matches);
-    console.log(matches[index]);
-
     // highlight and scroll to every element
     highlighter(matches[index], input);
     
-    console.log(matches[index]);
-
     let els = document.getElementsByClassName('highlight');
     els[0].scrollIntoView({behavior: "smooth"}); 
 
@@ -192,40 +209,41 @@ function highlightHandler(matches, input, index){
 
 /**
  * Highlights a given text node
+ * @param {object} node - The node in the tree I'm highlighting.
+ * @param {string} input - The string from the searchbar, used to find matches in node.
  */
 function highlighter(node, input){
     const nodeText = node.textContent;
 
-    let foundIndices = findNeedleInHaystack(input, nodeText);
+    let foundIndices = findSubstringIndices(input, nodeText);
 
-    console.log(foundIndices);
     if (foundIndices == [] || foundIndices == null){
-        throw "error with found indices";
+        return;
     }
 
-    let stringBefore = nodeText.substring(0, foundIndices[0]);
-    let stringAfter = nodeText.substring(input.length+foundIndices[0]);
-    let highlightedString = nodeText.substring(foundIndices[0], input.length+foundIndices[0]);
-    
     let fragments = nodeText.split(highlightedString);
 
     const newNode = document.createElement('span');
     newNode.setAttribute('class', 'highlight');
     newNode.textContent = highlightedString;
 
-    for (let i = 1; i < fragments.length; i+=2){
-        fragments.splice(i, 0, newNode);
+    let newArray = [];
+    for (let i = 0; i < fragments.length; i++){
+        newArray.push(fragments[i]);
+        if (i != fragments.length-1){
+            newArray.push(newNode);
+        }
     }
 
-    //node.replaceWith(...fragments);
-    node.replaceWith(stringBefore, newNode, stringAfter);
+    node.replaceWith(...newArray);
 }
 
 /**
  * Sets the stage for the actual search to take place,
  * handles gathering data and checks criteria are met
+ * @param {string} retrievedInput - The input in the search bar.
  */
-function searchSetup(input){ 
+function search(retrievedInput){ 
     matchingNodes = htmlWalkerandMatcher(document.body, retrievedInput);
 
     //show the next button
