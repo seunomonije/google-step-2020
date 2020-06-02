@@ -47,11 +47,12 @@ public class DataServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {  
         // Send a query for the comments, latest first
-        Query query = new Query("comments").addSort("timestamp", SortDirection.DESCENDING);
+        Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         PreparedQuery results = datastore.prepare(query);
 
         for (Entity entity: results.asIterable()) {
+            // I'm gathering all the data now but not using it for the walkthru
             long id = entity.getKey().getId();
             String message = (String)entity.getProperty("text");
             long timestamp = (long)entity.getProperty("timestamp");
