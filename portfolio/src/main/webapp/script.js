@@ -138,7 +138,7 @@ function findSubstringIndices(substr, str) {
 function htmlWalkerandMatcher(node, input){
     let matches = []; 
 
-    let all = [];   // queue
+    let all = []; // queue
     all.push(node);
 
     while(all.length !== 0){
@@ -228,15 +228,15 @@ function highlighter(node, input){
     newNode.setAttribute('class', 'highlight');
     newNode.textContent = highlightedString;
 
-    let newArray = [];
+    let rejoinedNode = [];
     for (let i = 0; i < fragments.length; i++){
-        newArray.push(fragments[i]);
+        rejoinedNode.push(fragments[i]);
         if (i != fragments.length-1){
-            newArray.push(newNode);
+            rejoinedNode.push(newNode);
         }
     }
 
-    node.replaceWith(...newArray);
+    node.replaceWith(...rejoinedNode);
 }
 
 /**
