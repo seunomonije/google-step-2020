@@ -12,6 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+//*********************** ENVIRONMENT VARIABLES ***********************
+let listenNext = null;
+let retrievedInput = null;
+let match_index = 0;
+let matchingNodes = null;
+
+//*********************** RANDOM GREETINGS ***********************
+
 /**
  * Adds a random greeting to the page.
  */
@@ -48,12 +56,6 @@ function swapLoaderForContent(){
     setHidden('loaderid', true);
 }
 
-// env variables
-let listenNext = null;
-let retrievedInput = null;
-let match_index = 0;
-let matchingNodes = null;
-
 //*********************** SEARCH BAR FUNCTIONS ***********************
 
 window.onload = function(){
@@ -63,10 +65,9 @@ window.onload = function(){
     listenNext = document.getElementById("nextbutton");
     listenNext.addEventListener("click", searchHandler);
 
-
     //Runs search on enter
     document.getElementById('searchbar').onkeydown = function(e){
-        if(e.keyCode == 13){
+        if(e.key == "Enter"){
             // i only want single word alphanumerics to go through
             retrievedInput = document.getElementById('searchbar').value;
             const regex = new RegExp(/^[a-z0-9]+$/i);
@@ -100,7 +101,6 @@ function shakeSearchBar(){
 
 
 //*********************** SEARCH IMPLEMENTATION ***********************
-
 
 /**
  * Finds all the occurences of a substring in a string
@@ -144,10 +144,12 @@ function htmlWalkerandMatcher(node, input){
     while(all.length !== 0){
         let cur = all.shift();
 
-        if (cur.nodeType==3){ // Locates text nodes. Text nodes have no child nodes. 
+        // Locates text nodes. Text nodes have no child nodes. 
+        if (cur.nodeType==3){
             const regex = new RegExp(input, "i");
             if (regex.test(cur.textContent) == true){
                 matches.push(cur);
+                continue;
             }
         }
 
@@ -169,7 +171,7 @@ function htmlWalkerandMatcher(node, input){
  * Clears the current highlighted text nodes
  * Will optimize to actually remove the span rather than the class
  */
-function clear(){
+function clearHighlightedMatches(){
     let highlightedList = document.querySelectorAll('.highlight');
 
     highlightedList.forEach(function(el) {
@@ -186,7 +188,7 @@ function clear(){
  */
 function highlightHandler(matches, input, index){
     if (index === matches.length && index != 0){
-        clear();
+        clearHighlightedMatches();
         setHidden('nextbutton', true);
         match_index = 0; // resetting the index
         document.body.scrollIntoView({behavior: "smooth"}); // back to the top
@@ -194,7 +196,7 @@ function highlightHandler(matches, input, index){
     }
 
     if (index > 0){
-        clear();
+        clearHighlightedMatches();
     }
     
     // highlight and scroll to every element
@@ -205,7 +207,6 @@ function highlightHandler(matches, input, index){
 
     match_index++; // go onto the next value
 }
-
 
 /**
  * Highlights a given text node
@@ -221,7 +222,9 @@ function highlighter(node, input){
         return;
     }
 
-    let highlightedString = node.textContent.substring(foundIndices[0], input.length+foundIndices[0]);
+    let highlightedString = node.textContent
+                            .substring(foundIndices[0], input.length+foundIndices[0]);
+
     let fragments = nodeText.split(highlightedString);
 
     const newNode = document.createElement('span');

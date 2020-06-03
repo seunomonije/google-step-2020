@@ -392,3 +392,8 @@ div#welcome:hover h2#computabeast {
     color: gray; 
     font-size: 10px;
 }
+
+#sigstyle {
+    height: 50px; 
+    width: auto;
+}
