@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 package com.google.sps.servlets;
 import com.google.gson.Gson;
 
@@ -32,12 +31,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.util.ArrayList;
 
-
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-    private ArrayList<String> messages;
+    private ArrayList<Object> messages;
 
     @Override
     public void init(){
@@ -45,18 +43,21 @@ public class DataServlet extends HttpServlet {
     }
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {  
+    public void doGet(HttpServletRequest request, HttpServletResponse response) 
+        throws IOException {  
+
         // Send a query for the comments, latest first
-        Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+        Query query = new Query("Comment")
+                                .addSort("timestamp", SortDirection.DESCENDING);
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         PreparedQuery results = datastore.prepare(query);
 
         for (Entity entity: results.asIterable()) {
-            // I'm gathering all the data now but not using it for the walkthru
             long id = entity.getKey().getId();
             String message = (String)entity.getProperty("text");
             long timestamp = (long)entity.getProperty("timestamp");
 
+            CommentBlock comment = new CommentBlock(id, message, timestamp);
             messages.add(message);
         }
 
@@ -68,11 +69,13 @@ public class DataServlet extends HttpServlet {
     }
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException { 
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws IOException { 
+
         String input = getParameter(request, "text-input", "");
         long timestamp = System.currentTimeMillis();
 
-        messages.add(input); //adds to array
+        messages.add(input);
 
         Entity commentEntity = new Entity("Comment");
         commentEntity.setProperty("text", input);
@@ -93,7 +96,7 @@ public class DataServlet extends HttpServlet {
         if (value == null) {
             return defaultValue;
         }
-            return value;
+        return value;
     }
 
     private String convertToJsonUsingGson(ArrayList arr) {
@@ -101,6 +104,17 @@ public class DataServlet extends HttpServlet {
         String json = gson.toJson(arr);
         return json;
     }
-
 }
 
+class CommentBlock {
+    // Public because I want to access independently in future
+    public long id;
+    public String message;
+    public long timestamp;
+
+    public CommentBlock(long id, String message, long timestamp) {
+        this.id = id;
+        this.message = message;
+        this.timestamp = timestamp;
+    }
+}
