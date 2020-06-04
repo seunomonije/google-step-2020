@@ -61,7 +61,7 @@ input:focus {
 	animation-timing-function: ease-in;
     /* accounting for page loading time,
      if it takes more than 4 seconds to load no point in fading in anyways */
-	animation-duration: 4s; 
+    animation-duration: 4s; 
 }
 
 @keyframes fadeInOpacity {
@@ -97,8 +97,6 @@ input:focus {
     border-radius: 5px;
     background-color: #d3d3d3; /*light-gray lol*/
     color: black;
-
-
 }
 
 .searchbarglow {
