@@ -213,7 +213,6 @@ function highlightHandler(matches, input, index){
  */
 function highlighter(node, input){
     const nodeText = node.textContent;
-    let index = 0;
 
     let foundIndices = findSubstringIndices(input, nodeText);
 
@@ -227,12 +226,10 @@ function highlighter(node, input){
     let rejoinedNode = [];
     for (let i = 0; i < fragments.length-1; i++){
         rejoinedNode.push(fragments[i]);
-        rejoinedNode.push(createNodeFromIndexArr(index, input, foundIndices, node));
-        index++;
+        rejoinedNode.push(createNodeFromIndexArr(i, input, foundIndices, node));
     }
     rejoinedNode.push(fragments[fragments.length-1]);
 
-    console.log(rejoinedNode);
     node.replaceWith(...rejoinedNode);
 }
 
@@ -248,8 +245,8 @@ function createNodeFromIndexArr(index, input, foundIndices, node){
         throw "Error in implementation, should never get here";
     }
 
-    let highlightedString = node.textContent
-                            .substring(foundIndices[index], input.length+foundIndices[index]);
+    let highlightedString = node.textContent.substring(
+        foundIndices[index], input.length+foundIndices[index]);
     const newNode = document.createElement('span');
     newNode.setAttribute('class', 'highlight');
     newNode.textContent = highlightedString;
