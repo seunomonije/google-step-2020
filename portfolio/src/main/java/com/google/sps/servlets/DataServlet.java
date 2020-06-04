@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+/** Servlet that handles comments on the page. */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
@@ -64,7 +64,6 @@ public class DataServlet extends HttpServlet {
     response.setContentType("application/json;");
     response.getWriter().println(json);
 
-    // Clear the messages array
     messages.clear(); // (O(n))
   }
 
@@ -99,6 +98,7 @@ public class DataServlet extends HttpServlet {
     return value;
   }
 
+  /** @param arr the array that will be converted to json */
   private String convertToJsonUsingGson(ArrayList arr) {
     Gson gson = new Gson();
     String json = gson.toJson(arr);
@@ -106,12 +106,20 @@ public class DataServlet extends HttpServlet {
   }
 }
 
+/** Class which groups together each comment. */
 class CommentBlock {
-  // Public because I want to access independently in future
+
   public long id;
   public String message;
   public long timestamp;
 
+  /**
+   * Class constructor.
+   *
+   * @param id the id of the post provided by datastore
+   * @param message the message content
+   * @param timestamp the time of the post, used for sorting
+   */
   public CommentBlock(long id, String message, long timestamp) {
     this.id = id;
     this.message = message;
