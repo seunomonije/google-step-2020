@@ -39,12 +39,12 @@
                 How many comments do you want to view? (between 1 and 5):
             </label>
             <input type="number" id="quantity" 
-                name="quantity" min="1" max="5" />
+                   name="quantity" min="1" max="5" />
             <br />
             <input type="submit" />
         </form>
 
-        <button onClick="getFromServer()">Get from server</button>
+        <button onClick="getFromServer(document.getElementById('quantity').value)">Get from server</button>
         <button onClick="deleteAndFetchEmpty()">Delete all Comments</button>
         <div id="form-container"></div>
 

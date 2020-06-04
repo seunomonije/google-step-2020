@@ -34,7 +34,6 @@ import javax.servlet.http.HttpServletResponse;
 public class DataServlet extends HttpServlet {
 
   private ArrayList<Object> messages;
-  private int fetchLimit = 5; // fetch 5 by default
 
   @Override
   public void init() {
@@ -43,6 +42,11 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+    int fetchLimit;
+
+    // Grab how many comments we want to load, if fails default to 20
+    fetchLimit = Integer.parseInt(getParameter(request, "quantity", "20"));
 
     // Send a query for the comments, latest first
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
@@ -64,7 +68,7 @@ public class DataServlet extends HttpServlet {
     response.setContentType("application/json;");
     response.getWriter().println(json);
 
-    messages.clear(); // (O(n))
+    messages.clear();
   }
 
   @Override
@@ -72,9 +76,6 @@ public class DataServlet extends HttpServlet {
 
     String input = getParameter(request, "text-input", "");
     long timestamp = System.currentTimeMillis();
-
-    // Grab how many comments we want to load
-    fetchLimit = Integer.parseInt(getParameter(request, "quantity", "5"));
 
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("text", input);
