@@ -102,8 +102,8 @@ input:focus {
 }
 
 .searchbarglow {
-    animation: invalidSearch 1s ease-in-out 0s alternate 1,
-             shake 0.5s;
+    animation: invalidSearch 2s ease-in-out 0s alternate 1,
+             shake 0.6s;
 }
 
 @keyframes invalidSearch {
@@ -111,7 +111,7 @@ input:focus {
         background-color: #d3d3d3 /*light-gray*/
     }
   
-    50% {
+    30% {
         background-color: #db3236; /* Google red */
     }
 

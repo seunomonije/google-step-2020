@@ -93,10 +93,8 @@ function searchHandler(){
  */
 function shakeSearchBar(){
     const el = document.getElementById('searchbar');
-    el.preventDefault;
-    el.classList.remove('searchbarglow');
-    void el.offsetWidth; // allows time for the class to be added'
     el.classList.add('searchbarglow');
+    el.onanimationend = () => { el.classList.remove('searchbarglow') };
 }
 
 
@@ -132,21 +130,21 @@ function findSubstringIndices(substr, str) {
  * returns index array of matches.
  * Will optimize to gather straight from tree
  * rather than push into new arr to save space
- * @param {object} node - The starting point of the tree.
- * @param {string} input - The string to be match.
+ * @param {object} root - The starting point of the tree.
+ * @param {string} text - The string to be match.
  */
-function htmlWalkerandMatcher(node, input){
+function findTextNodesWithText(root, text){
     let matches = []; 
 
     let all = []; // queue
-    all.push(node);
+    all.push(root);
 
     while(all.length !== 0){
         let cur = all.shift();
 
         // Locates text nodes. Text nodes have no child nodes. 
         if (cur.nodeType==3){
-            const regex = new RegExp(input, "i");
+            const regex = new RegExp(text, "i");
             if (regex.test(cur.textContent) == true){
                 matches.push(cur);
                 continue;
@@ -215,6 +213,7 @@ function highlightHandler(matches, input, index){
  */
 function highlighter(node, input){
     const nodeText = node.textContent;
+    let index = 0;
 
     let foundIndices = findSubstringIndices(input, nodeText);
 
@@ -222,24 +221,40 @@ function highlighter(node, input){
         return;
     }
 
+    let regex = new RegExp(input, "i");
+    let fragments = nodeText.split(regex);
+
+    let rejoinedNode = [];
+    for (let i = 0; i < fragments.length-1; i++){
+        rejoinedNode.push(fragments[i]);
+        rejoinedNode.push(createNodeFromIndexArr(index, input, foundIndices, node));
+        index++;
+    }
+    rejoinedNode.push(fragments[fragments.length-1]);
+
+    console.log(rejoinedNode);
+    node.replaceWith(...rejoinedNode);
+}
+
+/**
+ * Creates a span-wrapped node from a given array of indexes
+ * @param {number} index - The index of the array of indices of matches.
+ * @param {string} input - String from searchbar, length is used to grab substring.
+ * @param {object} foundIndices - Indices of matching substrings in text node.
+ * @param {object} node - The text node itself.
+ */
+function createNodeFromIndexArr(index, input, foundIndices, node){
+    if (index > foundIndices.length-1){
+        throw "Error in implementation, should never get here";
+    }
+
     let highlightedString = node.textContent
-                            .substring(foundIndices[0], input.length+foundIndices[0]);
-
-    let fragments = nodeText.split(highlightedString);
-
+                            .substring(foundIndices[index], input.length+foundIndices[index]);
     const newNode = document.createElement('span');
     newNode.setAttribute('class', 'highlight');
     newNode.textContent = highlightedString;
 
-    let rejoinedNode = [];
-    for (let i = 0; i < fragments.length; i++){
-        rejoinedNode.push(fragments[i]);
-        if (i != fragments.length-1){
-            rejoinedNode.push(newNode);
-        }
-    }
-
-    node.replaceWith(...rejoinedNode);
+    return newNode;
 }
 
 /**
@@ -248,7 +263,7 @@ function highlighter(node, input){
  * @param {string} retrievedInput - The input in the search bar.
  */
 function search(retrievedInput){ 
-    matchingNodes = htmlWalkerandMatcher(document.body, retrievedInput);
+    matchingNodes = findTextNodesWithText(document.body, retrievedInput);
 
     //show the next button
     setHidden('nextbutton', false);
