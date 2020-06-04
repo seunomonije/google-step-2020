@@ -27,6 +27,14 @@ function addRandomGreeting() {
   greetingContainer.innerText = greeting;
 }
 
+//*********************** PAGE HANDLING ***********************
+/**
+ * Displays the right sidebar
+ */
+
+function triggerSidebar(){
+    document.getElementById("sidebar").style.width = "400px";
+}
 //*********************** LOADING SCREEN ***********************
 
 /**

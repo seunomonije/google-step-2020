@@ -25,28 +25,31 @@
             placeholder="Search my page! Keywords only (ie. football, app)." />
         <input class="headerels hidden" id="nextbutton" type="button" value="next" />
 
+        <button style="right: 0;" onclick="triggerSidebar()"> Comments </button>
     </div>
 
     <div id="contentspacer"></div>
 
     <div class = "hidden" id="content">
-        
-        <form action="/data" method="POST">
-            <p>Enter a comment</p>
-            <textarea name="text-input">Enter a comment here</textarea>
 
-            <label for="quantity">
-                How many comments do you want to view? (between 1 and 5):
-            </label>
-            <input type="number" id="quantity" 
-                name="quantity" min="1" max="5" />
-            <br />
-            <input type="submit" />
-        </form>
+        <div class="sidebar" id="sidebar">
+            <form action="/data" method="POST">
+                <p>Enter a comment</p>
+                <textarea name="text-input">Enter a comment here</textarea>
 
-        <button onClick="getFromServer()">Get from server</button>
-        <button onClick="deleteAndFetchEmpty()">Delete all Comments</button>
-        <div id="form-container"></div>
+                <label for="quantity">
+                    How many comments do you want to view? (between 1 and 5):
+                </label>
+                <input type="number" id="quantity" 
+                    name="quantity" min="1" max="5" />
+                <br />
+                <input type="submit" />
+            </form>
+
+            <button onClick="getFromServer()">Get from server</button>
+            <button onClick="deleteAndFetchEmpty()">Delete all Comments</button>
+            <div id="form-container"></div>
+        </div>
 
         <div id="welcome-wrapper">
             <div id="welcome" class="fade-in">
