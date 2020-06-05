@@ -44,7 +44,7 @@ public class DataServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
     int fetchLimit;
-
+    
     // Grab how many comments we want to load, if fails default to 20
     fetchLimit = Integer.parseInt(getParameter(request, "quantity", "20"));
 
@@ -61,7 +61,7 @@ public class DataServlet extends HttpServlet {
       CommentBlock comment = new CommentBlock(id, message, timestamp);
       messages.add(message);
     }
-
+      
     String json = convertToJsonUsingGson(messages);
 
     // Send the JSON as the response
