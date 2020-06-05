@@ -276,7 +276,8 @@ function search(retrievedInput){
 
 
 //*********************** SERVER-SIDE ***********************
-async function getFromServer(quantity) {
+async function getFromServer() {
+    const quantity = document.getElementById('quantity').value;
     const response = await fetch(`/data?quantity=${quantity}`);
     const value = await response.text();
     document.getElementById("form-container").innerText = value;
