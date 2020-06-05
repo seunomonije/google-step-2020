@@ -23,8 +23,9 @@
             placeholder="Search my page! Keywords only (ie. football, app)." />
         <input class="headerels hidden" id="nextbutton" type="button" value="next" />
 
-        <button onclick="toggleSidebar()" 
-                id="commentbutton">Show comments!</button>
+        <button onclick="toggleSidebar()" id="commentbutton">
+            Show comments!
+        </button>
     </div>
 
     <div id="contentspacer"></div>
@@ -45,7 +46,7 @@
                               placeholder="Enter your comments here! Press Enter to submit... (150 chars max)" 
                               oninput="checkForInvalidInputs()" required></textarea>
                     <br />
-                    <input type="submit" style="display: none" />
+                    <input type="submit" class="hidden" />
                 </form>
             </div>
 
