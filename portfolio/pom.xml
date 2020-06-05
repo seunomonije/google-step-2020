@@ -54,6 +54,19 @@
           <deploy.version>1</deploy.version>
         </configuration>
       </plugin>
+      <!-- helps me with my Java styling -->
+      <plugin>
+        <groupId>com.coveo</groupId>
+        <artifactId>fmt-maven-plugin</artifactId>
+        <version>2.10</version>
+        <executions>
+            <execution>
+                <goals>
+                    <goal>check</goal>
+                </goals>
+            </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 </project>
