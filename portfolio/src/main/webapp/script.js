@@ -31,10 +31,50 @@ function addRandomGreeting() {
 /**
  * Displays the right sidebar
  */
-
-function triggerSidebar(){
-    document.getElementById("sidebar").style.width = "400px";
+let isSidebarOpen = false;
+function toggleSidebar(){
+    let button = document.getElementById("commentbutton");
+    let el = document.getElementById("sidebar");
+    (isSidebarOpen) ? closeSidebar(el, button) : openSidebar(el, button);
+    isSidebarOpen = !isSidebarOpen;
 }
+
+function openSidebar(el, button){
+    el.style.width = "0px";
+    button.innerText = "Show comments!";
+    button.classList.remove('closeButton');
+}
+
+function closeSidebar(el, button){
+    el.style.width = "550px";
+    button.innerText = "Close";
+    button.classList.add('closeButton');
+}
+
+//*********************** SIDEBAR HANDLING ***********************
+function checkASCII(){
+    const header = document.getElementById('name-input');
+    const body = document.getElementById('text-input');
+    body.onkeydown = function(e){
+        if (e.key == "Enter"){
+            const headerInput = header.value;
+            const bodyInput = body.value;
+            if (bodyInput.length > 100 || bodyInput.length === 0) {
+                e.preventDefault(); //stops the enter from happening
+                body.classList.add('glow');
+                body.onanimationend = () => { body.classList.remove('glow') };
+            } else if (headerInput.length === 0 || headerInput.length > 25){
+                e.preventDefault();
+                header.classList.add('glow');
+                header.onanimationend = () => { header.classList.remove('glow') };
+            } else {
+                document.commentForm.submit();
+            }
+
+        }
+    }
+}
+
 //*********************** LOADING SCREEN ***********************
 
 /**
@@ -83,6 +123,9 @@ window.onload = function(){
             }
         }
     };
+
+    //Retrieve comments and fill into sidebar
+    getCommentsFromServer();
 }
 
 /**
@@ -250,10 +293,11 @@ function searchSetup(input){
 
 
 //*********************** SERVER-SIDE ***********************
-async function getFromServer() {
+async function getCommentsFromServer() {
     const response = await fetch('/data');
-    const value = await response.text();
-    document.getElementById("form-container").innerText = value;
+    const value = await response.json();
+    populateComments(value);
+    //document.getElementById("form-container").innerText = value;
 }
 
 async function deleteAndFetchEmpty() {
@@ -266,4 +310,52 @@ async function deleteAndFetchEmpty() {
     const grabResponse = await fetch('/data');
     const value = await grabResponse.text();
     document.getElementById("form-container").innerText = value;
+}
+
+//*********************** JSON CONVERSION ***********************
+
+function populateComments(jsonArray){
+    for (var i = 0; i < jsonArray.length; i++) {
+        createCommentElement(jsonArray[i]);
+    }
+}
+
+function createCommentElement(object){
+    const newComment = document.createElement('div');
+    newComment.setAttribute('class', 'comments');
+
+    const newCommentHeader = document.createElement('div');
+    newCommentHeader.setAttribute('class', 'comment-header');
+
+    const newCommentName = document.createElement('p');
+    newCommentName.setAttribute('class', 'comment-header-els');
+    newCommentName.textContent = object.name;
+
+    const newSeparator = document.createElement('p');
+    newSeparator.setAttribute('class', 'comment-header-els');
+    newSeparator.textContent = "|";
+
+    const newCommentDate = document.createElement('p');
+    newCommentDate.setAttribute('class', 'comment-header-els comment-ts');
+    var s = new Date(object.timestamp).toLocaleDateString("en-US");
+    newCommentDate.textContent = s;
+
+    const newCommentBody = document.createElement('div');
+    newCommentBody.setAttribute('class', 'comment-body');
+
+    const newCommentBodyEl = document.createElement('p');
+    newCommentBodyEl.setAttribute('class', 'comment-body-el');
+    newCommentBodyEl.textContent = object.message;
+
+    newCommentHeader.appendChild(newCommentName);
+    newCommentHeader.appendChild(newSeparator);
+    newCommentHeader.appendChild(newCommentDate);
+
+    newCommentBody.appendChild(newCommentBodyEl);
+
+    newComment.appendChild(newCommentHeader);
+    newComment.appendChild(newCommentBody);
+
+    document.getElementById('form-container').appendChild(newComment);
+
 }

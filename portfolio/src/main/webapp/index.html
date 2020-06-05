@@ -17,7 +17,6 @@
     <div class="loader" id="loaderid"></div>
 
     <div class="hidden" id="header"> 
-        <div id="header-spacer"></div>
         <img class="headerels headerimages" src = "images/google.png"/>
         <p class="headerels">STEP Portfolio</p>
       
@@ -25,7 +24,8 @@
             placeholder="Search my page! Keywords only (ie. football, app)." />
         <input class="headerels hidden" id="nextbutton" type="button" value="next" />
 
-        <button style="right: 0;" onclick="triggerSidebar()"> Comments </button>
+        <button onclick="toggleSidebar()" 
+                id="commentbutton">Show comments!</button>
     </div>
 
     <div id="contentspacer"></div>
@@ -33,26 +33,38 @@
     <div class = "hidden" id="content">
 
         <div class="sidebar" id="sidebar">
-            <form action="/data" method="POST">
-                <p>Enter a comment</p>
-                <textarea name="text-input">Enter a comment here</textarea>
+            <p id="headerComment">What do you think?</p>
+            <div id="commentForm">
+                <form action="/data" method="POST" name="commentForm">
+                    <input type="text" name="name-input" id="name-input" placeholder="Name (25 chars max)"
+                        class="commentinputs" required pattern="[\x00-\x7F]+"
+                        autocomplete="off">
+                    <br />
+                    <textarea name="text-input" id="text-input" class="commentinputs"
+                              placeholder="Enter your comments here! (150 chars max) Press Enter to submit..." 
+                              onkeydown="checkASCII()"required></textarea>
+                    <br />
+                    <input type="submit" style="display: none" />
+                </form>
+            </div>
 
-                <label for="quantity">
-                    How many comments do you want to view? (between 1 and 5):
-                </label>
-                <input type="number" id="quantity" 
-                    name="quantity" min="1" max="5" />
-                <br />
-                <input type="submit" />
-            </form>
-
-            <button onClick="getFromServer()">Get from server</button>
-            <button onClick="deleteAndFetchEmpty()">Delete all Comments</button>
-            <div id="form-container"></div>
+            <p id="form-welcomer">Here's what others have to say</p>
+            <div id="form-container">
+                <div class="comments">
+                    <div class="comment-header">
+                        <p class="comment-header-els">Seun Omonije</p>
+                        <p class="comment-header-els">|</p>
+                        <span class="comment-header-els comment-ts">10/06/1999</span>
+                    </div>
+                    <div class="comment-body">
+                        <p class="comment-body-el">This is the comment body. It is longer than the name and timestamp will be, so i need to account for that</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div id="welcome-wrapper">
-            <div id="welcome" class="fade-in">
+            <div id="welcome">
                 <h1 class="bios opener" id="opener1">Oluseun Omonije</h1>
                 <h1 class="bios opener" id="opener2"><del>Oluseun</del> <ins>Seun</ins> Omonije</h1>
                 <h2 class="bios opener" id="computabeast"> AKA: THE computabeast </h2>

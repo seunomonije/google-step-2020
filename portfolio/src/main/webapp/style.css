@@ -23,6 +23,12 @@ ins {
 input:focus {
     outline-width: 0; /*i don't want that ugly outline on any input */
 }
+
+textarea:focus {
+    outline-width: 0; /*i don't want that ugly outline on any input */
+}
+
+
 .hidden {
     visibility: hidden;
 }
@@ -85,7 +91,9 @@ input:focus {
     width: 100%;
     background-color: white;
     border-bottom: 1px solid #d3d3d3;
-}
+    padding: 0 20px;
+    box-sizing: border-box;
+    }
 
 #searchbar {
     margin-left: 80px;
@@ -104,6 +112,10 @@ input:focus {
 .searchbarglow {
     animation: invalidSearch 1s ease-in-out 0s alternate 1,
              shake 0.5s;
+}
+
+.glow {
+    animation: invalidSearch 2s ease-in-out 0s alternate 1;
 }
 
 @keyframes invalidSearch {
@@ -389,18 +401,165 @@ div#welcome:hover h2#computabeast {
 
 .sidebar {
     margin-top: 60px; /*acct for header*/
-    height: 100%;
+    top:0;
+    bottom:0;
+    right: 0;
     width: 0;
+    padding-top: 10px;
+
+    overflow-x: hidden;
+    overflow-y:scroll;
+    
     position: fixed;
     z-index: 1;
-    top: 0;
-    right: 0;
+    
     /*white half transparent*/
-    background: rgba(255, 255, 255, 0.9); 
+    background: rgba(255, 255, 255, 0.8); 
     border-left: 1px solid #d3d3d3;
     border-top: 1px solid #d3d3d3;
-    overflow-x: hidden;
-    padding-top: 60px;
-    transition: 0.5s;
+    backdrop-filter: blur(12px); /*low browser support*/
 
+    transition: 0.5s;
+}
+
+#commentForm {
+    width: 80%;
+    margin: 0 auto;
+}
+#commentbutton {
+    margin: auto;
+    margin-right: 0;
+    border: 0px;
+    height: 40px;
+    padding: 5px 10px;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #34ba93; /*same green as the gif*/
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    
+    border-radius: 5px;
+
+    transition: background 1s;
+    outline: none;
+}
+
+#commentbutton.closeButton {
+    background-color: #db3236; /* Google red */
+    color: white;
+}
+
+.commentinputs {
+    width: 100%;
+    padding: 5px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+#name-input {
+    font-size: 18px;
+    color: white;
+    background-color: #4885ed; /*Google blue*/
+    border: 1px solid #4885ed;
+    border-bottom: none;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+#name-input::placeholder {
+    color: white;
+}
+
+#text-input {
+    font-size: 15px;
+    text-align: left;
+    height: 50px;
+    resize: none;
+    background-color: #d3d3d3; /*light-gray*/
+    border: 1px solid #d3d3d3; 
+    border-radius: 0 0 5px 5px;
+}
+
+#headerComment {
+    padding: 3px;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+#form-welcomer {
+    font-size: 20px;
+    font-weight: bold;
+    text-align:center;
+    padding: 3px;
+    font-family: 'Montserrat', sans-serif;
+}
+#form-container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.comments {
+    width: 100%;
+    margin-bottom: 35px;
+}
+
+.comment-header {
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+    margin-top: 5px;
+    background-color: #db3236; /*Google red*/
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border: 1px solid #db3236;
+    color: white;
+    font-size: 18px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.comments:nth-child(4n+1) .comment-header{
+    background-color: #f4c20d; /* Google yellow */
+    border: 1px solid #f4c20d;
+    color: black;
+}
+
+.comments:nth-child(4n+2) .comment-header{
+    background-color: #3cba54; /* Google green */
+    border: 1px solid #3cba54;
+    color: white;
+}
+
+.comments:nth-child(4n+3) .comment-header{
+    background-color: #4885ed; /* Google blue */
+    border: 1px solid #4885ed;
+    color: white;
+}
+
+.comment-header-els {
+    margin-top: 0px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 0px;
+}
+
+.comment-header-els.comment-ts {
+    padding-top: 3px;
+    font-size: 10px;
+}
+.comment-body {
+    background-color: #d3d3d3; /*dirty-white*/
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border: 1px solid #d3d3d3;  
+}
+.comment-body-el {
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    margin-top: 2px;
+
+    padding: 5px;
+    font-size: 15px;
+    font-family: 'Montserrat', sans-serif;
 }

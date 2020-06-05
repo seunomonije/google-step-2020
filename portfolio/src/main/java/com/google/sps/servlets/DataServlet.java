@@ -34,7 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 public class DataServlet extends HttpServlet {
 
   private ArrayList<Object> messages;
-  private int fetchLimit = 5; // fetch 5 by default
+  private int fetchLimit = 10; // fetch 5 by default
 
   @Override
   public void init() {
@@ -51,11 +51,12 @@ public class DataServlet extends HttpServlet {
 
     for (Entity entity : results.asIterable(FetchOptions.Builder.withLimit(fetchLimit))) {
       long id = entity.getKey().getId();
+      String name = (String) entity.getProperty("name");
       String message = (String) entity.getProperty("text");
       long timestamp = (long) entity.getProperty("timestamp");
 
-      CommentBlock comment = new CommentBlock(id, message, timestamp);
-      messages.add(message);
+      CommentBlock comment = new CommentBlock(id, name, message, timestamp);
+      messages.add(comment);
     }
 
     String json = convertToJsonUsingGson(messages);
@@ -70,14 +71,13 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-    String input = getParameter(request, "text-input", "");
+    String name_input = getParameter(request, "name-input", "");
+    String text_input = getParameter(request, "text-input", "");
     long timestamp = System.currentTimeMillis();
 
-    // Grab how many comments we want to load
-    fetchLimit = Integer.parseInt(getParameter(request, "quantity", "5"));
-
     Entity commentEntity = new Entity("Comment");
-    commentEntity.setProperty("text", input);
+    commentEntity.setProperty("name", name_input);
+    commentEntity.setProperty("text", text_input);
     commentEntity.setProperty("timestamp", timestamp);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -110,6 +110,7 @@ public class DataServlet extends HttpServlet {
 class CommentBlock {
 
   public long id;
+  public String name;
   public String message;
   public long timestamp;
 
@@ -117,11 +118,13 @@ class CommentBlock {
    * Class constructor.
    *
    * @param id the id of the post provided by datastore
+   * @param name the name of the commenter
    * @param message the message content
    * @param timestamp the time of the post, used for sorting
    */
-  public CommentBlock(long id, String message, long timestamp) {
+  public CommentBlock(long id, String name, String message, long timestamp) {
     this.id = id;
+    this.name = name;
     this.message = message;
     this.timestamp = timestamp;
   }
