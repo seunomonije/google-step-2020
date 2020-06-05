@@ -242,8 +242,20 @@ function searchSetup(input){
 
 
 //*********************** SERVER-SIDE ***********************
-async function getFromServer() {
-    const response = await fetch('/data');
+async function getFromServer(quantity) {
+    const response = await fetch(`/data?quantity=${quantity}`);
     const value = await response.text();
+    document.getElementById("form-container").innerText = value;
+}
+
+async function deleteAndFetchEmpty() {
+    // Delete data
+    var init = {method: 'POST'};
+    const deleteRequest = new Request('/delete-data', init);
+    const deleteResponse = await fetch(deleteRequest);
+
+    // Fetch empty db
+    const grabResponse = await fetch('/data');
+    const value = await grabResponse.text();
     document.getElementById("form-container").innerText = value;
 }
