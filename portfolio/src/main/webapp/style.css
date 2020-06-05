@@ -1,7 +1,7 @@
 /*************** globals ***************/
 
 html {
-    background-color: #f5f5f5; /*super-light-gray*/
+    background-color: #f0f0f0; /*super light gray */
 }
 
 body {
@@ -20,10 +20,6 @@ ins {
     background-color: #d4fcbc; /*light-green*/
 }
 
-.highlight {
-    background-color: yellow;
-}
-
 input:focus {
     outline-width: 0; /*i don't want that ugly outline on any input */
 }
@@ -31,12 +27,40 @@ input:focus {
     visibility: hidden;
 }
 
+.highlight {
+    scroll-margin: 130px;
+    background-color: yellow;
+    padding: 5px;
+    border: 2px solid black;
+    border-radius: 5px;
+    font-weight: bold;
+    display: inline-block;
+    animation-name: hi-animation;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in-out;
+    animation-duration: 2s;
+}
+
+@keyframes hi-animation {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.5);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
 .fade-in {
 	opacity: 1;
 	animation-name: fadeInOpacity;
 	animation-iteration-count: 1;
 	animation-timing-function: ease-in;
-	/* accounting for page loading time, if it takes more than 4 seconds to load no point in fading in anyways */
+    /* accounting for page loading time,
+     if it takes more than 4 seconds to load no point in fading in anyways */
     animation-duration: 4s; 
 }
 
@@ -75,6 +99,39 @@ input:focus {
     color: black;
 }
 
+.searchbarglow {
+    animation: invalidSearch 2s ease-in-out 0s alternate 1,
+             shake 0.6s;
+}
+
+@keyframes invalidSearch {
+    0% {
+        background-color: #d3d3d3 /*light-gray*/
+    }
+  
+    30% {
+        background-color: #db3236; /* Google red */
+    }
+
+    100% {
+        background-color: #d3d3d3 /*light-gray*/
+    }
+}
+
+/* taken from the internet */
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
 
 #header-spacer {
     width: 5%;
@@ -94,6 +151,19 @@ input:focus {
 .headerimages {
     height: 45px;
     width: auto;
+}
+
+#nextbutton {
+    margin-left: 20px;
+    width: 80px;
+    background-color: #4885ed; /* Google blue */
+    border: 1px solid #4885ed;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    text-align:center; 
+    padding: 2px;
 }
 
 /*************** loader ***************/
@@ -118,7 +188,8 @@ input:focus {
 /*************** content ***************/
 
 #contentspacer {
-    height: 61px; /*61 to account for the 1px border on the 60px header*/
+    /*61 to account for the 1px border on the 60px header*/
+    height: 61px; 
 }
 
 #horizontal-spacer {
@@ -126,13 +197,18 @@ input:focus {
 }
 
 #welcome-wrapper {
+    margin-top: 5%;
     text-align:center;
     display: inline-block;
     width: 100%;
+    border-radius: 20px;
+    background-color:rgba(66,133,244, 0.8); /*80% faded Google blue*/
 }
+
 #welcome {
-    margin-top: 15%;
-    margin-bottom: 30%;
+    margin-top: 10%;
+    margin-bottom: 10%;
+    color:#000000; /*black*/
 }
 
 .websiteicons {
@@ -140,6 +216,7 @@ input:focus {
     width: auto;
     padding: 10px;
 }
+
 #openertable {
     display: inline-block;
 }
@@ -148,15 +225,26 @@ input:focus {
 #opener1 {
     font-size: 60px;
 }
+
 #opener2 {
     margin:auto;
     font-size: 60px;
     display: none;
 }
+#opener3 {
+    margin-left: 5%;
+    margin-right: 5%;
+    font-size: 20px;
+}
+
+#opener4 {
+    font-size: 18px;
+}
 
 div#welcome h1#opener1 {
     display: block;
 }
+
 div#welcome:hover h1#opener1 {
     display: none;
 }
@@ -196,18 +284,59 @@ div#welcome:hover h2#computabeast {
 
 #pictureTable {
     flex: 1;
+    background-color: #db3236; /* Google red */
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+#pictureTable img {
+    border-radius: 5px;
 }
 
 .tabler {
-    margin-top: 30px; /*had to do this bc margin-top wasn't working in #picturetable*/
+    /*had to do this bc margin-top wasn't working in #picturetable*/
+    margin-top: 30px; 
+    padding: 20px;
+}
+
+#links-table {
+    background-color: #34ba93; /*same green as the gif*/
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
 }
 
 .part {
     display: flex;
     margin-top: 5%;
+    background-color: white;
+    border: 0px solid white;
+    border-radius: 20px;
+}
+
+#firstpart {
+    margin-bottom: 10%;
+}
+
+#education {
+    text-align: center;
+}
+
+.centerTable {
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.centerTable td {
+    width: 50%;
+}
+#education.text-container {
+    width: 100%;
 }
 
 .text-container {
+    padding: 20px;
+    font-family: 'Open Sans', sans-serif;
     margin-right: 2%;
     margin-left: 2%;
 }
@@ -215,8 +344,9 @@ div#welcome:hover h2#computabeast {
 .tablepics {
     height: 20%; 
     width: auto;
-     /* lazy -- will add other browsers later */
-    transition: 1s ease-in-out;
+
+    /* lazy -- will add other browsers later */
+    transition: 1s ease-in-out; 
 }
 
 .tablepics.rightpics:hover {
@@ -225,14 +355,43 @@ div#welcome:hover h2#computabeast {
 }
 .tablepics.leftpics:hover {
     /* lazy -- will add other browsers later */
-    transform: translate(15em, 0) scale(2); 
+    transform: translate(15em, 0) scale(2);
 }
 
 .bios {
     scroll-margin: 70px; /*to account for the header*/
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .dts {
     font-size: 25px;
+    margin: 10px;
+    text-decoration: none;
+}
+
+#coolgif {
+    height: 80%;
+    width: auto;
+}
+
+#rollinggif {
+    height: 80%;
+    width: auto;
+}
+
+#languages-table {
+    background-color: #00afec; /*same as gif*/
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+#disclaimer {
+    margin-bottom: 30px; 
+    color: gray; 
+    font-size: 10px;
+}
+
+#sigstyle {
+    height: 50px; 
+    width: auto;
 }

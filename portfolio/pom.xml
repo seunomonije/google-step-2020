@@ -23,6 +23,20 @@
       <version>4.0.1</version>
       <scope>provided</scope>
     </dependency>
+
+    <!-- Gson dependency -->
+    <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>2.8.6</version>
+    </dependency>
+
+    <!-- App Engine dependency for Datastore-->
+    <dependency>
+        <groupId>com.google.appengine</groupId>
+        <artifactId>appengine-api-1.0-sdk</artifactId>
+        <version>1.9.59</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -35,9 +49,23 @@
         <version>2.2.0</version>
         <configuration>
           <!-- TODO: set project ID. -->
-          <deploy.projectId>YOUR_PROJECT_ID_HERE</deploy.projectId>
+          <deploy.projectId>seunomonije-step-2020</deploy.projectId>
+          <!-- https://seunomonije-step-2020.uc.r.appspot.com -->
           <deploy.version>1</deploy.version>
         </configuration>
+      </plugin>
+      <!-- helps me with my Java styling -->
+      <plugin>
+        <groupId>com.coveo</groupId>
+        <artifactId>fmt-maven-plugin</artifactId>
+        <version>2.10</version>
+        <executions>
+            <execution>
+                <goals>
+                    <goal>check</goal>
+                </goals>
+            </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
