@@ -43,7 +43,11 @@ let isSidebarOpen = false;
 function toggleSidebar(){
     let button = document.getElementById("commentbutton");
     let el = document.getElementById("sidebar");
-    (isSidebarOpen) ? closeSidebar(el, button) : openSidebar(el, button);
+    if (isSidebarOpen == true){
+        closeSidebar(el, button);
+    } else {
+        openSidebar(el, button);
+    }
     isSidebarOpen = !isSidebarOpen;
 }
 

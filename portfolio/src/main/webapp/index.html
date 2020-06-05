@@ -43,7 +43,7 @@
                     <!-- this textarea needs to be formatted like this b/c of the placeholder -->
                     <textarea name="text-input" id="text-input" class="commentinputs"
                               placeholder="Enter your comments here! Press Enter to submit... (150 chars max)" 
-                              onkeydown="checkForInvalidInputs()"required></textarea>
+                              oninput="checkForInvalidInputs()" required></textarea>
                     <br />
                     <input type="submit" style="display: none" />
                 </form>
