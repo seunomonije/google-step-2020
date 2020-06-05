@@ -40,7 +40,7 @@ function addRandomGreeting() {
  * Displays the right sidebar
  */
 let isSidebarOpen = false;
-function toggleSidebar(){
+function toggleSidebar() {
     let button = document.getElementById("commentbutton");
     let el = document.getElementById("sidebar");
     (isSidebarOpen) ? closeSidebar(el, button) : openSidebar(el, button);
@@ -52,7 +52,7 @@ function toggleSidebar(){
  * @param {object} el - Sidebar DOM element.
  * @param {object} button - Comment header button DOM element.
  */
-function openSidebar(el, button){
+function openSidebar(el, button) {
     el.style.width = "0px";
     button.innerText = "Show comments!";
     button.classList.remove('closeButton');
@@ -63,7 +63,7 @@ function openSidebar(el, button){
  * @param {object} el - Sidebar DOM element.
  * @param {object} button - Comment header button DOM element.
  */
-function closeSidebar(el, button){
+function closeSidebar(el, button) {
     el.style.width = "550px";
     button.innerText = "Close";
     button.classList.add('closeButton');
@@ -73,18 +73,17 @@ function closeSidebar(el, button){
 /**
  * Listener to check for invalid inputs in the comment fields
  */
-function checkForInvalidInputs(){
+function checkForInvalidInputs() {
     const header = document.getElementById('name-input');
     const body = document.getElementById('text-input');
-    body.onkeydown = function(e){
-        if (e.key == "Enter"){
-
-            e.preventDefault(); //stops the enter from happening
+    body.onkeydown = function(e) {
+        if (e.key == "Enter") {
+            e.preventDefault(); // stops the enter from happening
 
             const headerInput = header.value;
             const bodyInput = body.value;
             
-            let checker = checkInvalids(headerInput, bodyInput, header, body);
+            let checker = validateComment(headerInput, bodyInput, header, body);
             if (checker === 0) {
                 document.commentForm.submit();
             }
@@ -99,33 +98,33 @@ function checkForInvalidInputs(){
  * @param {object} header - DOM element of the comment header input.
  * @param {object} body - DOM element of the comment body input.
  */
-function checkInvalids(headerInput, bodyInput, header, body){
-    if (headerInput.toLocaleLowerCase().includes("seun")){
+function validateComment(headerInput, bodyInput, header, body) {
+    if (headerInput.toLocaleLowerCase().includes("seun")) {
         triggerElementGlow(header);
         return -1;
     }
 
-    if (headerInput.toLocaleLowerCase().includes("computabeast")){
+    if (headerInput.toLocaleLowerCase().includes("computabeast")) {
         triggerElementGlow(header);
         return -1;
     }
 
-    if (headerInput.length === 0){
+    if (headerInput.length === 0) {
         triggerElementGlow(header);
         return -1;
     }
 
-    if (headerInput.length > 25){
+    if (headerInput.length > 25) {
         triggerElementGlow(header);
         return -1;
     }
 
-    if (bodyInput.length > 100){
+    if (bodyInput.length > 100) {
         triggerElementGlow(body);
         return -1;
     }
 
-    if (bodyInput.length === 0){
+    if (bodyInput.length === 0) {
         triggerElementGlow(body);
         return -1;
     }
@@ -137,7 +136,7 @@ function checkInvalids(headerInput, bodyInput, header, body){
  * Triggers the element to glow 
  * @param {object} el - DOM element of any type.
  */
-function triggerElementGlow(el){
+function triggerElementGlow(el) {
     el.classList.add('glow');
     el.onanimationend = () => { el.classList.remove('glow') };
 }
@@ -157,7 +156,7 @@ function setHidden(selector, bool) {
 /**
  * Gets rid of the loading screen and displays the page
  */
-function swapLoaderForContent(){
+function swapLoaderForContent() {
     setHidden('header', false);
     setHidden('content', false);
     setHidden('loaderid', true);
@@ -165,7 +164,7 @@ function swapLoaderForContent(){
 
 //*********************** SEARCH BAR FUNCTIONS ***********************
 
-window.onload = function(){
+window.onload = function() {
     swapLoaderForContent(); // displays page after loaded
 
     // Next button event listener, always active
@@ -173,12 +172,12 @@ window.onload = function(){
     listenNext.addEventListener("click", searchHandler);
 
     //Runs search on enter
-    document.getElementById('searchbar').onkeydown = function(e){
-        if(e.key == "Enter"){
+    document.getElementById('searchbar').onkeydown = function(e) {
+        if(e.key == "Enter") {
             // i only want single word alphanumerics to go through
             retrievedInput = document.getElementById('searchbar').value;
             const regex = new RegExp(/^[a-z0-9]+$/i);
-            if (regex.test(retrievedInput) === false){
+            if (regex.test(retrievedInput) === false) {
                 shakeSearchBar();
             } else {
                 search(retrievedInput);
@@ -186,7 +185,7 @@ window.onload = function(){
         }
     };
 
-    //Retrieve comments and fill into sidebar
+    // Retrieve comments and fill into sidebar
     sidebarScrollChecker();
     getCommentsFromServer();
 }
@@ -194,7 +193,7 @@ window.onload = function(){
 /**
  * Handler function for the event listener
  */
-function searchHandler(){
+function searchHandler() {
     highlightHandler(matchingNodes, retrievedInput, match_index);
 }
 
@@ -202,7 +201,7 @@ function searchHandler(){
  * Code to shake the search bar and make it glow
  * Calls a bunch of css transforms
  */
-function shakeSearchBar(){
+function shakeSearchBar() {
     const el = document.getElementById('searchbar');
     el.classList.add('searchbarglow');
     el.onanimationend = () => { el.classList.remove('searchbarglow') };
@@ -243,19 +242,19 @@ function findSubstringIndices(substr, str) {
  * @param {object} root - The starting point of the tree.
  * @param {string} text - The string to be match.
  */
-function findTextNodesWithText(root, text){
+function findTextNodesWithText(root, text) {
     let matches = []; 
 
     let all = []; // queue
     all.push(root);
 
-    while(all.length !== 0){
+    while (all.length !== 0) {
         let cur = all.shift();
 
         // Locates text nodes. Text nodes have no child nodes. 
-        if (cur.nodeType==3){
+        if (cur.nodeType==3) {
             const regex = new RegExp(text, "i");
-            if (regex.test(cur.textContent) == true){
+            if (regex.test(cur.textContent) == true) {
                 matches.push(cur);
                 continue;
             }
@@ -264,8 +263,8 @@ function findTextNodesWithText(root, text){
         if (!cur) continue;
         if (!cur.childNodes) continue;
 
-        if (cur.childNodes.length > 0){
-            for (let i = 0; i < cur.childNodes.length; i++){
+        if (cur.childNodes.length > 0) {
+            for (let i = 0; i < cur.childNodes.length; i++) {
                 all.push(cur.childNodes[i]);
             }
         }
@@ -279,7 +278,7 @@ function findTextNodesWithText(root, text){
  * Clears the current highlighted text nodes
  * Will optimize to actually remove the span rather than the class
  */
-function clearHighlightedMatches(){
+function clearHighlightedMatches() {
     let highlightedList = document.querySelectorAll('.highlight');
 
     highlightedList.forEach(function(el) {
@@ -294,8 +293,8 @@ function clearHighlightedMatches(){
  * @param {string} input - Input retrieved from search.
  * @param {number} index - Points to the node in the array we want to highlight.
  */
-function highlightHandler(matches, input, index){
-    if (index === matches.length && index != 0){
+function highlightHandler(matches, input, index) {
+    if (index === matches.length && index != 0) {
         clearHighlightedMatches();
         setHidden('nextbutton', true);
         match_index = 0; // resetting the index
@@ -303,7 +302,7 @@ function highlightHandler(matches, input, index){
         return;
     }
 
-    if (index > 0){
+    if (index > 0) {
         clearHighlightedMatches();
     }
     
@@ -321,12 +320,12 @@ function highlightHandler(matches, input, index){
  * @param {object} node - The node in the tree I'm highlighting.
  * @param {string} input - The string from the searchbar, used to find matches in node.
  */
-function highlighter(node, input){
+function highlighter(node, input) {
     const nodeText = node.textContent;
 
     let foundIndices = findSubstringIndices(input, nodeText);
 
-    if (foundIndices == [] || foundIndices == null){
+    if (foundIndices == [] || foundIndices == null) {
         return;
     }
 
@@ -334,7 +333,7 @@ function highlighter(node, input){
     let fragments = nodeText.split(regex);
 
     let rejoinedNode = [];
-    for (let i = 0; i < fragments.length-1; i++){
+    for (let i = 0; i < fragments.length-1; i++) {
         rejoinedNode.push(fragments[i]);
         rejoinedNode.push(createNodeFromIndexArr(i, input, foundIndices, node));
     }
@@ -350,8 +349,8 @@ function highlighter(node, input){
  * @param {object} foundIndices - Indices of matching substrings in text node.
  * @param {object} node - The text node itself.
  */
-function createNodeFromIndexArr(index, input, foundIndices, node){
-    if (index > foundIndices.length-1){
+function createNodeFromIndexArr(index, input, foundIndices, node) {
+    if (index > foundIndices.length-1) {
         throw "Error in implementation, should never get here";
     }
 
@@ -369,13 +368,13 @@ function createNodeFromIndexArr(index, input, foundIndices, node){
  * handles gathering data and checks criteria are met
  * @param {string} retrievedInput - The input in the search bar.
  */
-function search(retrievedInput){ 
+function search(retrievedInput) { 
     matchingNodes = findTextNodesWithText(document.body, retrievedInput);
 
     //show the next button
     setHidden('nextbutton', false);
 
-    if (matchingNodes.length == 0){
+    if (matchingNodes.length == 0) {
         setHidden('nextbutton', true);
         shakeSearchBar();
         return;
@@ -420,7 +419,7 @@ async function deleteAndFetchEmpty() {
  * @param {object} jsonArray - JSON array passed in to get information.
  * @param {number} num - number of comment elements to be created
  */
-function populateComments(jsonArray, num){
+function populateComments(jsonArray, num) {
     for (var i = 0; i < num; i++) {
         let value = jsonArray.shift();
         createCommentElement(value);
@@ -432,7 +431,7 @@ function populateComments(jsonArray, num){
  * Creates a comment element from values in the JSON object
  * @param {object} object - Creates a DOM comment element from JSON object.
  */
-function createCommentElement(object){
+function createCommentElement(object) {
     const newComment = document.createElement('div');
     newComment.setAttribute('class', 'comments');
 
@@ -476,11 +475,11 @@ function createCommentElement(object){
  * Listens if a user approaches the bottom of the sidebar and
  * triggers more pages to be shown
  */ 
-function sidebarScrollChecker(){
+function sidebarScrollChecker() {
     let sidebarEl = document.getElementById("sidebar");
     sidebarEl.addEventListener('scroll', function() {
         let location = sidebarEl.scrollTop + sidebarEl.clientHeight;
-        if (location + 135 >= sidebarEl.scrollHeight){
+        if (location + 135 >= sidebarEl.scrollHeight) {
             populateComments(jsonArray, numEls);
         }
     });
