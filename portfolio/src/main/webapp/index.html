@@ -36,13 +36,15 @@
             <p id="headerComment">What do you think?</p>
             <div id="commentForm">
                 <form action="/data" method="POST" name="commentForm">
-                    <input type="text" name="name-input" id="name-input" placeholder="Name (25 chars max)"
-                        class="commentinputs" required pattern="[\x00-\x7F]+"
-                        autocomplete="off">
+                    <input type="text" name="name-input" id="name-input" 
+                           placeholder="Name (25 chars max)"
+                           class="commentinputs" required pattern="[\x00-\x7F]+"
+                           autocomplete="off">
                     <br />
+                    <!-- this textarea needs to be formatted like this b/c of the placeholder -->
                     <textarea name="text-input" id="text-input" class="commentinputs"
-                              placeholder="Enter your comments here! (150 chars max) Press Enter to submit..." 
-                              onkeydown="checkASCII()"required></textarea>
+                              placeholder="Enter your comments here! Press Enter to submit... (150 chars max)" 
+                              onkeydown="checkForInvalidInputs()"required></textarea>
                     <br />
                     <input type="submit" style="display: none" />
                 </form>
@@ -52,12 +54,14 @@
             <div id="form-container">
                 <div class="comments">
                     <div class="comment-header">
-                        <p class="comment-header-els">Seun Omonije</p>
+                        <p class="comment-header-els">Seun</p>
                         <p class="comment-header-els">|</p>
-                        <span class="comment-header-els comment-ts">10/06/1999</span>
+                        <span class="comment-header-els comment-ts">1999</span>
                     </div>
                     <div class="comment-body">
-                        <p class="comment-body-el">This is the comment body. It is longer than the name and timestamp will be, so i need to account for that</p>
+                        <p class="comment-body-el">
+                            This is the official first comment. #computabeast
+                        </p>
                     </div>
                 </div>
             </div>
@@ -66,7 +70,9 @@
         <div id="welcome-wrapper">
             <div id="welcome">
                 <h1 class="bios opener" id="opener1">Oluseun Omonije</h1>
-                <h1 class="bios opener" id="opener2"><del>Oluseun</del> <ins>Seun</ins> Omonije</h1>
+                <h1 class="bios opener" id="opener2">
+                    <del>Oluseun</del> <ins>Seun</ins> Omonije
+                </h1>
                 <h2 class="bios opener" id="computabeast"> AKA: THE computabeast </h2>
 
                 <p class="bios opener" id="opener3"> 

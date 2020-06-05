@@ -52,27 +52,63 @@ function closeSidebar(el, button){
 }
 
 //*********************** SIDEBAR HANDLING ***********************
-function checkASCII(){
+function checkForInvalidInputs(){
     const header = document.getElementById('name-input');
     const body = document.getElementById('text-input');
     body.onkeydown = function(e){
         if (e.key == "Enter"){
+
+            e.preventDefault(); //stops the enter from happening
+
             const headerInput = header.value;
             const bodyInput = body.value;
-            if (bodyInput.length > 100 || bodyInput.length === 0) {
-                e.preventDefault(); //stops the enter from happening
-                body.classList.add('glow');
-                body.onanimationend = () => { body.classList.remove('glow') };
-            } else if (headerInput.length === 0 || headerInput.length > 25){
-                e.preventDefault();
-                header.classList.add('glow');
-                header.onanimationend = () => { header.classList.remove('glow') };
-            } else {
+            
+            let checker = checkInvalids(headerInput, bodyInput, header, body);
+            if (checker === 0) {
                 document.commentForm.submit();
             }
-
         }
     }
+}
+
+function checkInvalids(headerInput, bodyInput, header, body){
+
+    if (headerInput.toLocaleLowerCase().includes("seun")){
+        triggerElementGlow(header);
+        return -1;
+    }
+
+    if (headerInput.toLocaleLowerCase().includes("computabeast")){
+        triggerElementGlow(header);
+        return -1;
+    }
+
+    if (headerInput.length === 0){
+        triggerElementGlow(header);
+        return -1;
+    }
+
+    if (headerInput.length > 25){
+        triggerElementGlow(header);
+        return -1;
+    }
+
+    if (bodyInput.length > 100){
+        triggerElementGlow(body);
+        return -1;
+    }
+
+    if (bodyInput.length === 0){
+        triggerElementGlow(body);
+        return -1;
+    }
+
+    return 0;
+}
+
+function triggerElementGlow(el) {
+    el.classList.add('glow');
+    el.onanimationend = () => { el.classList.remove('glow') };
 }
 
 //*********************** LOADING SCREEN ***********************
@@ -125,6 +161,7 @@ window.onload = function(){
     };
 
     //Retrieve comments and fill into sidebar
+    getSidebar();
     getCommentsFromServer();
 }
 
@@ -293,11 +330,14 @@ function searchSetup(input){
 
 
 //*********************** SERVER-SIDE ***********************
+let numEls = 12;
+let jsonArray = [];
+
 async function getCommentsFromServer() {
     const response = await fetch('/data');
     const value = await response.json();
-    populateComments(value);
-    //document.getElementById("form-container").innerText = value;
+    jsonArray = value;
+    populateComments(value, numEls);
 }
 
 async function deleteAndFetchEmpty() {
@@ -314,10 +354,12 @@ async function deleteAndFetchEmpty() {
 
 //*********************** JSON CONVERSION ***********************
 
-function populateComments(jsonArray){
-    for (var i = 0; i < jsonArray.length; i++) {
-        createCommentElement(jsonArray[i]);
+function populateComments(jsonArray, num){
+    for (var i = 0; i < num; i++) {
+        let value = jsonArray.shift();
+        createCommentElement(value);
     }
+    numEls = jsonArray.length;
 }
 
 function createCommentElement(object){
@@ -358,4 +400,15 @@ function createCommentElement(object){
 
     document.getElementById('form-container').appendChild(newComment);
 
+}
+
+//*********************** PAGINATION ***********************
+function getSidebar(){
+    let sidebarEl = document.getElementById("sidebar");
+    sidebarEl.addEventListener('scroll', function() {
+        let location = sidebarEl.scrollTop + sidebarEl.clientHeight;
+        if (location + 135 >= sidebarEl.scrollHeight){
+            populateComments(jsonArray, numEls);
+        }
+    });
 }

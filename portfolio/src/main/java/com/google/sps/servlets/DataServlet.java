@@ -34,7 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 public class DataServlet extends HttpServlet {
 
   private ArrayList<Object> messages;
-  private int fetchLimit = 10; // fetch 5 by default
+  private int fetchLimit = 25; // fetch 5 by default
 
   @Override
   public void init() {
