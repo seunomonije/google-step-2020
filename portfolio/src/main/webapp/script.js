@@ -97,7 +97,6 @@ function shakeSearchBar(){
     el.onanimationend = () => { el.classList.remove('searchbarglow') };
 }
 
-
 //*********************** SEARCH IMPLEMENTATION ***********************
 
 /**
@@ -273,7 +272,6 @@ function search(retrievedInput){
 
     return; //success
 }
-
 
 //*********************** SERVER-SIDE ***********************
 async function getFromServer() {
