@@ -542,7 +542,7 @@ div#welcome:hover h2#computabeast {
     margin-bottom: 0px;
 }
 
-.comment-header-els .comment-ts {
+.comment-header-els.comment-ts {
     padding-top: 3px;
     font-size: 10px;
 }

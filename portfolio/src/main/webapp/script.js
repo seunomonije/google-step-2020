@@ -47,16 +47,99 @@ function toggleSidebar(){
     isSidebarOpen = !isSidebarOpen;
 }
 
+/**
+ * Opens the sidebar.
+ * @param {object} el - Sidebar DOM element.
+ * @param {object} button - Comment header button DOM element.
+ */
 function openSidebar(el, button){
     el.style.width = "0px";
     button.innerText = "Show comments!";
     button.classList.remove('closeButton');
 }
 
+/**
+ * Closes the sidebar.
+ * @param {object} el - Sidebar DOM element.
+ * @param {object} button - Comment header button DOM element.
+ */
 function closeSidebar(el, button){
     el.style.width = "550px";
     button.innerText = "Close";
     button.classList.add('closeButton');
+}
+
+//*********************** SIDEBAR HANDLING ***********************
+/**
+ * Listener to check for invalid inputs in the comment fields
+ */
+function checkForInvalidInputs(){
+    const header = document.getElementById('name-input');
+    const body = document.getElementById('text-input');
+    body.onkeydown = function(e){
+        if (e.key == "Enter"){
+
+            e.preventDefault(); //stops the enter from happening
+
+            const headerInput = header.value;
+            const bodyInput = body.value;
+            
+            let checker = checkInvalids(headerInput, bodyInput, header, body);
+            if (checker === 0) {
+                document.commentForm.submit();
+            }
+        }
+    }
+}
+
+/**
+ * Checks the header and body input fields for invalid inputs
+ * @param {String} headerInput - DOM comment header element.
+ * @param {String} bodyInput - DOM comment body element.
+ * @param {object} header - DOM element of the comment header input.
+ * @param {object} body - DOM element of the comment body input.
+ */
+function checkInvalids(headerInput, bodyInput, header, body){
+    if (headerInput.toLocaleLowerCase().includes("seun")){
+        triggerElementGlow(header);
+        return -1;
+    }
+
+    if (headerInput.toLocaleLowerCase().includes("computabeast")){
+        triggerElementGlow(header);
+        return -1;
+    }
+
+    if (headerInput.length === 0){
+        triggerElementGlow(header);
+        return -1;
+    }
+
+    if (headerInput.length > 25){
+        triggerElementGlow(header);
+        return -1;
+    }
+
+    if (bodyInput.length > 100){
+        triggerElementGlow(body);
+        return -1;
+    }
+
+    if (bodyInput.length === 0){
+        triggerElementGlow(body);
+        return -1;
+    }
+
+    return 0;
+}
+
+/**
+ * Triggers the element to glow 
+ * @param {object} el - DOM element of any type.
+ */
+function triggerElementGlow(el){
+    el.classList.add('glow');
+    el.onanimationend = () => { el.classList.remove('glow') };
 }
 
 //*********************** LOADING SCREEN ***********************
@@ -102,6 +185,10 @@ window.onload = function(){
             }
         }
     };
+
+    //Retrieve comments and fill into sidebar
+    sidebarScrollChecker();
+    getCommentsFromServer();
 }
 
 /**
@@ -298,13 +385,23 @@ function search(retrievedInput){
 }
 
 //*********************** SERVER-SIDE ***********************
-async function getFromServer() {
-    const quantity = document.getElementById('quantity').value;
-    const response = await fetch(`/data?quantity=${quantity}`);
-    const value = await response.text();
-    document.getElementById("form-container").innerText = value;
+let numEls = 12;
+let jsonArray = [];
+
+/**
+ * Grabs the comments from the server
+ */ 
+async function getCommentsFromServer() {
+    const response = await fetch('/data');
+    const value = await response.json();
+    jsonArray = value;
+    populateComments(value, numEls);
 }
 
+/**
+ * Deletes all entries in the database
+ * (NOT ACCESSIBLE VIA USER INTERFACE)
+ */ 
 async function deleteAndFetchEmpty() {
     // Delete data
     var init = {method: 'POST'};
@@ -315,4 +412,76 @@ async function deleteAndFetchEmpty() {
     const grabResponse = await fetch('/data');
     const value = await grabResponse.text();
     document.getElementById("form-container").innerText = value;
+}
+
+//*********************** JSON CONVERSION ***********************
+/**
+ * Creates comment elements from the JSON array
+ * @param {object} jsonArray - JSON array passed in to get information.
+ * @param {number} num - number of comment elements to be created
+ */
+function populateComments(jsonArray, num){
+    for (var i = 0; i < num; i++) {
+        let value = jsonArray.shift();
+        createCommentElement(value);
+    }
+    numEls = jsonArray.length;
+}
+
+/**
+ * Creates a comment element from values in the JSON object
+ * @param {object} object - Creates a DOM comment element from JSON object.
+ */
+function createCommentElement(object){
+    const newComment = document.createElement('div');
+    newComment.setAttribute('class', 'comments');
+
+    const newCommentHeader = document.createElement('div');
+    newCommentHeader.setAttribute('class', 'comment-header');
+
+    const newCommentName = document.createElement('p');
+    newCommentName.setAttribute('class', 'comment-header-els');
+    newCommentName.textContent = object.name;
+
+    const newSeparator = document.createElement('p');
+    newSeparator.setAttribute('class', 'comment-header-els');
+    newSeparator.textContent = "|";
+
+    const newCommentDate = document.createElement('p');
+    newCommentDate.setAttribute('class', 'comment-header-els comment-ts');
+    var s = new Date(object.timestamp).toLocaleDateString("en-US");
+    newCommentDate.textContent = s;
+
+    const newCommentBody = document.createElement('div');
+    newCommentBody.setAttribute('class', 'comment-body');
+
+    const newCommentBodyEl = document.createElement('p');
+    newCommentBodyEl.setAttribute('class', 'comment-body-el');
+    newCommentBodyEl.textContent = object.message;
+
+    newCommentHeader.appendChild(newCommentName);
+    newCommentHeader.appendChild(newSeparator);
+    newCommentHeader.appendChild(newCommentDate);
+
+    newCommentBody.appendChild(newCommentBodyEl);
+
+    newComment.appendChild(newCommentHeader);
+    newComment.appendChild(newCommentBody);
+
+    document.getElementById('form-container').appendChild(newComment);
+}
+
+//*********************** PAGINATION ***********************
+/**
+ * Listens if a user approaches the bottom of the sidebar and
+ * triggers more pages to be shown
+ */ 
+function sidebarScrollChecker(){
+    let sidebarEl = document.getElementById("sidebar");
+    sidebarEl.addEventListener('scroll', function() {
+        let location = sidebarEl.scrollTop + sidebarEl.clientHeight;
+        if (location + 135 >= sidebarEl.scrollHeight){
+            populateComments(jsonArray, numEls);
+        }
+    });
 }
