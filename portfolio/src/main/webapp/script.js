@@ -35,6 +35,30 @@ function addRandomGreeting() {
   greetingContainer.innerText = greeting;
 }
 
+//*********************** PAGE HANDLING ***********************
+/**
+ * Displays the right sidebar
+ */
+let isSidebarOpen = false;
+function toggleSidebar(){
+    let button = document.getElementById("commentbutton");
+    let el = document.getElementById("sidebar");
+    (isSidebarOpen) ? closeSidebar(el, button) : openSidebar(el, button);
+    isSidebarOpen = !isSidebarOpen;
+}
+
+function openSidebar(el, button){
+    el.style.width = "0px";
+    button.innerText = "Show comments!";
+    button.classList.remove('closeButton');
+}
+
+function closeSidebar(el, button){
+    el.style.width = "550px";
+    button.innerText = "Close";
+    button.classList.add('closeButton');
+}
+
 //*********************** LOADING SCREEN ***********************
 
 /**
