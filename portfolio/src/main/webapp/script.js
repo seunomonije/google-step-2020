@@ -43,21 +43,21 @@ let isSidebarOpen = false;
 function toggleSidebar(){
     let button = document.getElementById("commentbutton");
     let el = document.getElementById("sidebar");
-    if (isSidebarOpen == true){
-        closeSidebar(el, button);
-    } else {
+    if (isSidebarOpen === true){
         openSidebar(el, button);
+    } else {
+        closeSidebar(el, button);
     }
     isSidebarOpen = !isSidebarOpen;
 }
 
-function openSidebar(el, button){
+function closeSidebar(el, button){
     el.style.width = "0px";
     button.innerText = "Show comments!";
     button.classList.remove('closeButton');
 }
 
-function closeSidebar(el, button){
+function openSidebar(el, button){
     el.style.width = "550px";
     button.innerText = "Close";
     button.classList.add('closeButton');
@@ -95,7 +95,7 @@ window.onload = function(){
 
     //Runs search on enter
     document.getElementById('searchbar').onkeydown = function(e){
-        if(e.key == "Enter"){
+        if(e.key === "Enter"){
             // i only want single word alphanumerics to go through
             retrievedInput = document.getElementById('searchbar').value;
             const regex = new RegExp(/^[a-z0-9]+$/i);
@@ -172,7 +172,7 @@ function findTextNodesWithText(root, text){
         // Locates text nodes. Text nodes have no child nodes. 
         if (cur.nodeType==3){
             const regex = new RegExp(text, "i");
-            if (regex.test(cur.textContent) == true){
+            if (regex.test(cur.textContent) === true){
                 matches.push(cur);
                 continue;
             }
@@ -243,7 +243,7 @@ function highlighter(node, input){
 
     let foundIndices = findSubstringIndices(input, nodeText);
 
-    if (foundIndices == [] || foundIndices == null){
+    if (foundIndices === [] || foundIndices === null){
         return;
     }
 
@@ -292,7 +292,7 @@ function search(retrievedInput){
     //show the next button
     setHidden('nextbutton', false);
 
-    if (matchingNodes.length == 0){
+    if (matchingNodes.length === 0){
         setHidden('nextbutton', true);
         shakeSearchBar();
         return;
