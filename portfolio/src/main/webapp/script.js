@@ -76,17 +76,18 @@ function closeSidebar(el, button) {
 function checkForInvalidInputs() {
     const header = document.getElementById('name-input');
     const body = document.getElementById('text-input');
-    body.onkeydown = function(e) {
-        if (e.key == "Enter") {
-            e.preventDefault(); // stops the enter from happening
+    const form = document.getElementById('cmtForm');
 
-            const headerInput = header.value;
-            const bodyInput = body.value;
-            
-            let checker = validateComment(headerInput, bodyInput, header, body);
-            if (checker === 0) {
-                document.commentForm.submit();
-            }
+    form.onsubmit = function(e){
+        const headerInput = header.value;
+        const bodyInput = body.value;
+
+        let checker = isCommentValid(headerInput, bodyInput, header, body);
+        if (checker === true) {
+            document.commentForm.submit();
+        } else {
+            e.preventDefault();
+            return;
         }
     }
 }
@@ -97,39 +98,40 @@ function checkForInvalidInputs() {
  * @param {String} bodyInput - DOM comment body element.
  * @param {object} header - DOM element of the comment header input.
  * @param {object} body - DOM element of the comment body input.
+ * @returns {bool} - true if input is valid, false if fails parameters
  */
-function validateComment(headerInput, bodyInput, header, body) {
+function isCommentValid(headerInput, bodyInput, header, body) {
     if (headerInput.toLocaleLowerCase().includes("seun")) {
         triggerElementGlow(header);
-        return -1;
+        return false;
     }
 
     if (headerInput.toLocaleLowerCase().includes("computabeast")) {
         triggerElementGlow(header);
-        return -1;
+        return false;
     }
 
     if (headerInput.length === 0) {
         triggerElementGlow(header);
-        return -1;
+        return false;
     }
 
     if (headerInput.length > 25) {
         triggerElementGlow(header);
-        return -1;
+        return false;
     }
 
     if (bodyInput.length > 100) {
         triggerElementGlow(body);
-        return -1;
+        return false;
     }
 
     if (bodyInput.length === 0) {
         triggerElementGlow(body);
-        return -1;
+        return false;
     }
 
-    return 0;
+    return true;
 }
 
 /**
@@ -424,7 +426,7 @@ function populateComments(jsonArray, num) {
         let value = jsonArray.shift();
         createCommentElement(value);
     }
-    numEls = jsonArray.length;
+    numEls = numEls > jsonArray.length ? jsonArray.length : numEls;
 }
 
 /**

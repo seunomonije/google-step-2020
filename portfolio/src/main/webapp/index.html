@@ -34,7 +34,7 @@
         <div class="sidebar" id="sidebar">
             <p id="headerComment">What do you think?</p>
             <div id="commentForm">
-                <form action="/data" method="POST" name="commentForm">
+                <form action="/data" method="POST" name="commentForm" id="cmtForm">
                     <input type="text" name="name-input" id="name-input" 
                            placeholder="Name (25 chars max)"
                            class="commentinputs" required pattern="[\x00-\x7F]+"
@@ -45,7 +45,7 @@
                               placeholder="Enter your comments here! Press Enter to submit... (150 chars max)" 
                               onkeydown="checkForInvalidInputs()"required></textarea>
                     <br />
-                    <input type="submit" style="display: none" />
+                    <input type="submit" id="commentSubmit" />
                 </form>
             </div>
 
