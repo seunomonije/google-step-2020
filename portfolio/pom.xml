@@ -37,6 +37,13 @@
         <artifactId>appengine-api-1.0-sdk</artifactId>
         <version>1.9.59</version>
     </dependency>
+
+    <!--Cloud Natural Language API -->
+    <dependency>
+        <groupId>com.google.cloud</groupId>
+        <artifactId>google-cloud-language</artifactId>
+        <version>1.55.0</version>
+    </dependency>
   </dependencies>
 
   <build>
