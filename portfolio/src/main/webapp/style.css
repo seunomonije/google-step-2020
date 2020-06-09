@@ -440,6 +440,20 @@ div#welcome:hover h2#computabeast {
     outline: none;
 }
 
+#commentSubmit {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    background-color: #4885ed; /*Google blue*/
+    font-family: 'Montserrat', sans-serif;
+    border: 1px solid #4885ed;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 0;
+    margin-left: auto;
+}
 #commentbutton.closeButton {
     background-color: #db3236; /* Google red */
     color: white;
@@ -540,7 +554,7 @@ div#welcome:hover h2#computabeast {
     margin-bottom: 0px;
 }
 
-.comment-header-els .comment-ts {
+.comment-header-els.comment-ts {
     padding-top: 3px;
     font-size: 10px;
 }

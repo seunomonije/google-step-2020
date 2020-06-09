@@ -55,11 +55,12 @@ public class DataServlet extends HttpServlet {
 
     for (Entity entity : results.asIterable(FetchOptions.Builder.withLimit(fetchLimit))) {
       long id = entity.getKey().getId();
+      String name = (String) entity.getProperty("name");
       String message = (String) entity.getProperty("text");
       long timestamp = (long) entity.getProperty("timestamp");
 
-      CommentBlock comment = new CommentBlock(id, message, timestamp);
-      messages.add(message);
+      CommentBlock comment = new CommentBlock(id, name, message, timestamp);
+      messages.add(comment);
     }
       
     String json = convertToJsonUsingGson(messages);
@@ -73,11 +74,13 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+    
+    String name_input = getParameter(request, "name-input", "");
     String input = getParameter(request, "text-input", "");
     long timestamp = System.currentTimeMillis();
 
     Entity commentEntity = new Entity("Comment");
+    commentEntity.setProperty("name", name_input);
     commentEntity.setProperty("text", input);
     commentEntity.setProperty("timestamp", timestamp);
 
@@ -111,6 +114,7 @@ public class DataServlet extends HttpServlet {
 class CommentBlock {
 
   public long id;
+  public String name;
   public String message;
   public long timestamp;
 
@@ -118,11 +122,13 @@ class CommentBlock {
    * Class constructor.
    *
    * @param id the id of the post provided by datastore
+   * @param name the name of the commenter
    * @param message the message content
    * @param timestamp the time of the post, used for sorting
    */
-  public CommentBlock(long id, String message, long timestamp) {
+  public CommentBlock(long id, String name, String message, long timestamp) {
     this.id = id;
+    this.name = name;
     this.message = message;
     this.timestamp = timestamp;
   }
