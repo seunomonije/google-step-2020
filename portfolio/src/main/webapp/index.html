@@ -23,8 +23,9 @@
             placeholder="Search my page! Keywords only (ie. football, app)." />
         <input class="headerels hidden" id="nextbutton" type="button" value="next" />
 
-        <button onclick="toggleSidebar()" 
-                id="commentbutton">Show comments!</button>
+        <button onclick="toggleSidebar()" id="commentbutton">
+            Show comments!
+        </button>
     </div>
 
     <div id="contentspacer"></div>
@@ -43,7 +44,7 @@
                     <!-- this textarea needs to be formatted like this b/c of the placeholder -->
                     <textarea name="text-input" id="text-input" class="commentinputs"
                               placeholder="Enter your comments here! Press Enter to submit... (150 chars max)" 
-                              onkeydown="checkForInvalidInputs()"required></textarea>
+                              oninput="checkForInvalidInputs()" required></textarea>
                     <br />
                     <input type="submit" id="commentSubmit" />
                 </form>
