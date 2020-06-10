@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <title>Google Step 2020</title>
     <link rel="stylesheet" href="style.css">
+    
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="script.js"></script>
-
+    <script src="Chart.js"></script>
     <!-- fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
@@ -30,7 +32,7 @@
 
     <div id="contentspacer"></div>
 
-    <div class = "hidden" id="content">
+    <div class="hidden" id="content">
         
         <div class="sidebar" id="sidebar">
             <p id="headerComment">What do you think?</p>
@@ -65,9 +67,10 @@
                     </div>
                 </div>
             </div>
+
+            
         </div>
-
-
+        
         <div id="welcome-wrapper">
             <div id="welcome" class="fade-in">
                 <h1 class="bios opener" id="opener1">Oluseun Omonije</h1>
@@ -112,6 +115,10 @@
                     </tr>
                 </table>
             </div>
+        </div>
+
+        <div class="part" id="chartpart">
+            <div class="blur-content" id="columnchart_material"></div>
         </div>
 
         <div class="part" id="secondpart">

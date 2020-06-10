@@ -554,7 +554,7 @@ div#welcome:hover h2#computabeast {
     margin-bottom: 0px;
 }
 
-.comment-header-els.comment-ts {
+.commentma-header-els.comment-ts {
     padding-top: 3px;
     font-size: 10px;
 }
@@ -585,4 +585,21 @@ div#welcome:hover h2#computabeast {
 #sigstyle {
     height: 50px; 
     width: auto;
+}
+
+#chartpart {
+    height: 60%;
+}
+#columnchart_material {
+    width: 100%;
+    height: 500px;
+    padding: 30px;
+}
+
+.blur-content {
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
 }

@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// import 'https://www.gstatic.com/charts/loader.js';
+//import { Chart } from './Chart.js';
+
 //*********************** ENVIRONMENT VARIABLES ***********************
 let listenNext = null;
 let retrievedInput = null;
@@ -194,6 +197,12 @@ window.onload = function() {
     // Retrieve comments and fill into sidebar
     sidebarScrollChecker();
     getCommentsFromServer();
+
+    let chart = new Chart();
+    // Handle the graphs
+    google.charts.load('current', {'packages':['bar']});
+    google.charts.setOnLoadCallback(chart.drawBarChart); 
+
 }
 
 /**
@@ -212,7 +221,6 @@ function shakeSearchBar() {
     el.classList.add('searchbarglow');
     el.onanimationend = () => { el.classList.remove('searchbarglow') };
 }
-
 //*********************** SEARCH IMPLEMENTATION ***********************
 
 /**
