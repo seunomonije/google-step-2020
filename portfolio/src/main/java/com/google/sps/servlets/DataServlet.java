@@ -46,7 +46,7 @@ public class DataServlet extends HttpServlet {
     int fetchLimit;
     
     // Grab how many comments we want to load, if fails default to 20
-    fetchLimit = Integer.parseInt(getParameter(request, "quantity", "20"));
+    fetchLimit = Integer.parseInt(getParameter(request, "quantity", "20"));  //need to possibly get more, putting this extra long comment to remember to do it before pulling again
 
     // Send a query for the comments, latest first
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);

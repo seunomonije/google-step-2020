@@ -590,10 +590,11 @@ div#welcome:hover h2#computabeast {
 #chartpart {
     height: 60%;
 }
-#columnchart_material {
+#chart-container {
     width: 100%;
     height: 500px;
     padding: 30px;
+    text-align: center;
 }
 
 .blur-content {
@@ -602,4 +603,9 @@ div#welcome:hover h2#computabeast {
     -o-filter: blur(5px);
     -ms-filter: blur(5px);
     filter: blur(5px);
+}
+
+#chart-voting {
+    background-color: black;
+    width: 100%;
 }

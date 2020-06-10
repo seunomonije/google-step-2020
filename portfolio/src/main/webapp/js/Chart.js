@@ -5,22 +5,17 @@ let Chart = class {
     
     /** Creates a chart and adds it to the page. */
     drawChart() {
-        console.log("here2");
-        console.log(google.visualization);
-        console.log(google.visualization.DataTable);
         const data = new google.visualization.DataTable();
         data.addColumn('string', 'Animal');
         data.addColumn('number', 'Count');
                 data.addRows([
-                ['Lions', 10],
+                ['Blue', 10],
                 ['Tigers', 5],
-                ['Bears', 15]
+                ['Orange', 15]
                 ]);
 
         const options = {
             'title': 'Zoo Animals',
-            'width':500,
-            'height':400
         };
 
         const chart = new google.visualization.PieChart(
@@ -30,11 +25,11 @@ let Chart = class {
 
     drawBarChart(){
         var data = google.visualization.arrayToDataTable([
-          ['Sport', 'Sales', 'Expenses', 'Profit'],
-          ['2014', 1000, 400, 200],
-          ['2015', 1170, 460, 250],
-          ['2016', 660, 1120, 300],
-          ['2017', 1030, 540, 350]
+          ['Sport', 'Sales', 'Expenses'],
+          ['2014', 1000, 400],
+          ['2015', 1170, 460],
+          ['2016', 660, 1120],
+          ['2017', 1030, 540]
         ]);
 
         var options = {
