@@ -1,7 +1,10 @@
 //*********************** SERVER-SIDE ***********************
+let currentUser;
 let numEls = 12;
 let jsonArray = [];
 
+
+//*********************** COMMENTS ***********************
 /**
  * Grabs the comments from the server
  */ 
@@ -28,19 +31,57 @@ async function deleteAndFetchEmpty() {
     document.getElementById("form-container").innerText = value;
 }
 
+//*********************** VOTING ***********************
 /**
  * Authentication
  */ 
 async function displayAuth(){
-     const response = await fetch('/auth');
-     const value = await response.text();
-     if (value.localeCompare("logged") == 0){
-         removeClass("chart-container", "blur-content");
-     }
-     document.getElementById("authentication").innerHTML = value;
+    const response = await fetch('/auth');
+    const value = await response.json();
+    value.active ? logoutHandler(value) : loginHandler(value);
 }
 
+function loginHandler(value){
+    document.getElementById("authentication").innerHTML = '<a href=\"' + value.url + '\">Login</a>'
+}
 
+function logoutHandler(value){
+    currentUser = value;
+    document.getElementById("authentication").innerHTML = '<a href=\"' + value.url + '\">Logout</a>'
+    removeClass("chart-container", "blur-content");
+}
+
+function postGenreChoice(){
+    const form = document.getElementById("chartForm");
+    const el = document.getElementsByName('genre'); 
+    const sendingParam = document.getElementById("selectedRadio");
+    let selectedValue = null;
+         for(let i = 0; i < el.length; i++) { 
+            if(el[i].checked){
+            selectedValue = el[i].value;
+            sendingParam.innerText = el[i].value;
+            } 
+        }
+
+    form.onsubmit = function(e){
+        // get selected value          
+        for(let i = 0; i < el.length; i++) { 
+            if(el[i].checked){
+            selectedValue = el[i].value;
+            } 
+        }
+
+
+        if (selectedValue !== null){
+            document.chartForm.submit();
+        } else {
+            alert("you need to select a radio value to submit");
+        }
+
+    }
+
+    
+}
 //*********************** JSON CONVERSION ***********************
 /**
  * Creates comment elements from the JSON array
