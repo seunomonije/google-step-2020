@@ -194,6 +194,9 @@ window.onload = function() {
     // Retrieve comments and fill into sidebar
     sidebarScrollChecker();
     getCommentsFromServer();
+
+    // Authentication handling
+    displayAuth();
 }
 
 /**
@@ -417,6 +420,36 @@ async function deleteAndFetchEmpty() {
     const grabResponse = await fetch('/data');
     const value = await grabResponse.text();
     document.getElementById("form-container").innerText = value;
+}
+
+//*********************** AUTHENTICATION ***********************
+/**
+ * Allows for authentication
+ */ 
+async function displayAuth(){
+    const response = await fetch('/auth');
+    const value = await response.json();
+    value.active ? logoutHandler(value) : loginHandler(value);
+}
+
+/**
+ * Displays login when user is logged out
+ * @param value jsonArray which holds the login url
+ */ 
+function loginHandler(value){
+    document.getElementById("authentication")
+            .innerHTML = '<a href=\"' + value.url + '\">Login</a>'
+}
+
+/**
+ * Displays logout when user is logged in
+ * @param value jsonArray which holds the login url
+ */ 
+function logoutHandler(value){
+    currentUser = value;
+    document.getElementById("authentication")
+            .innerHTML = '<a href=\"' + value.url + '\">Logout</a>'
+    //removeClass("chart-container", "blur-content"); not necessary for this pr
 }
 
 //*********************** JSON CONVERSION ***********************
