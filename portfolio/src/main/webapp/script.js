@@ -17,6 +17,7 @@ let listenNext = null;
 let retrievedInput = null;
 let match_index = 0;
 let matchingNodes = null;
+let loggedIn = false;
 
 //*********************** RANDOM GREETINGS ***********************
 
@@ -197,6 +198,9 @@ window.onload = function() {
 
     // Authentication handling
     displayAuth();
+
+    // Chart Handling
+    getGenreChoice();
 }
 
 /**
@@ -429,6 +433,7 @@ async function deleteAndFetchEmpty() {
 async function displayAuth(){
     const response = await fetch('/auth');
     const value = await response.json();
+    loggedIn = value.active;
     value.active ? logoutHandler(value) : loginHandler(value);
 }
 
@@ -450,6 +455,66 @@ function logoutHandler(value){
     document.getElementById("authentication")
             .innerHTML = '<a href=\"' + value.url + '\">Logout</a>'
     //removeClass("chart-container", "blur-content"); not necessary for this pr
+}
+
+//*********************** VOTING HANDLING ***********************
+/**
+ * Listens for the selected genre by the user
+ */ 
+function listenForGenreChoice(){
+    const form = document.getElementById("chartForm");
+    const el = document.getElementsByName('genre'); 
+    const sendingParam = document.getElementById("selectedRadio");
+    let selectedValue = null;
+    
+    for(let i = 0; i < el.length; i++) { 
+        if(el[i].checked){
+            selectedValue = el[i].value;
+        } 
+    }
+
+    form.onsubmit = function(e){
+
+        if (!loggedIn){
+            //normally this affects blur, will see in style pr
+            alert("you need to log in to use this");
+            e.preventDefault();
+            return;
+        }
+
+        // get selected value          
+        for(let i = 0; i < el.length; i++) { 
+            if(el[i].checked){
+            selectedValue = el[i].value;
+            } 
+        }
+
+        if (selectedValue !== null){
+            setParameter(selectedValue);
+            document.chartForm.submit();
+        } else {
+            alert("you need to select a radio value to submit");
+            e.preventDefault();
+        }
+    }
+}
+
+/**
+ * Retrieve genre from server
+ */ 
+async function getGenreChoice(){
+    const response = await fetch('/chart');
+    const value = await response.json();
+    console.log(value);
+}
+
+/**
+ * Helper function that allows the server to grab selected radio
+ * @param value the value retrieved from radio
+ */ 
+function setParameter(value){
+    const input = document.getElementById("selGenre");
+    input.value = value;
 }
 
 //*********************** JSON CONVERSION ***********************

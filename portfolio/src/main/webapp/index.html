@@ -115,6 +115,41 @@
             </div>
         </div>
 
+       <div class="part" id="chartpart">
+            <div class="blur-content" id="chart-container"></div>
+            <div id="chart-voting">
+                <form action="/chart" method="POST" name="chartForm" id="chartForm">
+                    <input type="radio" id="genre1"
+                        name="genre" value="HipHop">
+                    <label for="genre1">Hip-Hop/Rap</label>
+
+                    <input type="radio" id="genre2"
+                        name="genre" value="Country">
+                    <label for="genre2">Country</label>
+
+                    <input type="radio" id="genre3"
+                        name="genre" value="Pop">
+                    <label for="genre3">Pop</label>
+
+                    <input type="radio" id="genre4"
+                        name="genre" value="Rock">
+                    <label for="genre4">Rock</label>
+
+                    <input type="radio" id="genre5"
+                        name="genre" value="Classical">
+                    <label for="genre5">Classical</label>
+
+                    <input type="radio" id="genre6"
+                        name="genre" value="RandB">
+                    <label for="genre6">R&amp;B</label>
+
+                    <input type="hidden" id="selGenre" name="selGenre">
+
+                    <button onclick="listenForGenreChoice()">Submit</button>
+                </form>
+            </div>
+        </div>
+
         <div class="part" id="secondpart">
             <div id="links-table">
                 <table class="tabler">
