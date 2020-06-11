@@ -120,7 +120,7 @@
 
         <div class="part" id="chartpart">
             <div class="blur-content" id="chart-container"></div>
-            <div id="chart-voting" onclick="postGenreChoice()">
+            <div id="chart-voting">
                 <form action="/chart" method="POST" name="chartForm" id="chartForm">
                     <input type="radio" id="genre1"
                         name="genre" value="HipHop">
@@ -146,7 +146,9 @@
                         name="genre" value="RandB">
                     <label for="genre6">R&amp;B</label>
 
-                    <button>Submit</button>
+                    <input type="hidden" id="selGenre" name="selGenre">
+
+                    <button onclick="postGenreChoice()">Submit</button>
                 </form>
             </div>
         </div>

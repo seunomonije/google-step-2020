@@ -56,12 +56,12 @@ function postGenreChoice(){
     const el = document.getElementsByName('genre'); 
     const sendingParam = document.getElementById("selectedRadio");
     let selectedValue = null;
-         for(let i = 0; i < el.length; i++) { 
-            if(el[i].checked){
+    
+    for(let i = 0; i < el.length; i++) { 
+        if(el[i].checked){
             selectedValue = el[i].value;
-            sendingParam.innerText = el[i].value;
-            } 
-        }
+        } 
+    }
 
     form.onsubmit = function(e){
         // get selected value          
@@ -71,16 +71,25 @@ function postGenreChoice(){
             } 
         }
 
-
         if (selectedValue !== null){
+            setParameter(selectedValue);
             document.chartForm.submit();
         } else {
             alert("you need to select a radio value to submit");
         }
 
     }
+}
 
-    
+async function getGenreChoice(){
+    const response = await fetch('/chart');
+    const value = await response.json();
+    console.log(value);
+}
+
+function setParameter(value){
+    const input = document.getElementById("selGenre");
+    input.value = value;
 }
 //*********************** JSON CONVERSION ***********************
 /**

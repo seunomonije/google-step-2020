@@ -56,6 +56,8 @@ window.onload = function() {
     //display Authentication
     displayAuth();
 
+    // console map data
+    getGenreChoice();
 }
 
 //*********************** BASIC HELPER FUNCTIONS ***********************

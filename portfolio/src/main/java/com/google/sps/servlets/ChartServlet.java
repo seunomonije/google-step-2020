@@ -27,10 +27,10 @@ public class ChartServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String genre = request.getParameter("color");
+    String genre = request.getParameter("selGenre");
     int currentVotes = mapData.containsKey(genre) ? mapData.get(genre) : 0;
     mapData.put(genre, currentVotes + 1);
-
+    
     response.sendRedirect("/index.html");
   }
 }
