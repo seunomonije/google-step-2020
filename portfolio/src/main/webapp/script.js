@@ -17,7 +17,8 @@ let listenNext = null;
 let retrievedInput = null;
 let match_index = 0;
 let matchingNodes = null;
-let loggedIn = false;
+let currentUser;
+let currentChartData;
 
 //*********************** RANDOM GREETINGS ***********************
 
@@ -433,7 +434,7 @@ async function deleteAndFetchEmpty() {
 async function displayAuth(){
     const response = await fetch('/auth');
     const value = await response.json();
-    loggedIn = value.active;
+    currentUser = value;
     value.active ? logoutHandler(value) : loginHandler(value);
 }
 
@@ -475,9 +476,17 @@ function listenForGenreChoice(){
 
     form.onsubmit = function(e){
 
-        if (!loggedIn){
+        //if not logged in
+        if (!currentUser.active) {
             //normally this affects blur, will see in style pr
             alert("you need to log in to use this");
+            e.preventDefault();
+            return;
+        }
+
+        //if the user has already posted
+        if(currentChartData.vUsers.includes(currentUser.id)) {
+            alert("you've already put in your 2wo cents");
             e.preventDefault();
             return;
         }
@@ -489,8 +498,8 @@ function listenForGenreChoice(){
             } 
         }
 
-        if (selectedValue !== null){
-            setParameter(selectedValue);
+        if (selectedValue !== null) {
+            setParameters(selectedValue);
             document.chartForm.submit();
         } else {
             alert("you need to select a radio value to submit");
@@ -505,6 +514,7 @@ function listenForGenreChoice(){
 async function getGenreChoice(){
     const response = await fetch('/chart');
     const value = await response.json();
+    currentChartData = value;
     console.log(value);
 }
 
@@ -512,9 +522,12 @@ async function getGenreChoice(){
  * Helper function that allows the server to grab selected radio
  * @param value the value retrieved from radio
  */ 
-function setParameter(value){
+function setParameters(value){
     const input = document.getElementById("selGenre");
     input.value = value;
+
+    const id = document.getElementById("postingUser");
+    id.value = currentUser.id;
 }
 
 //*********************** JSON CONVERSION ***********************
