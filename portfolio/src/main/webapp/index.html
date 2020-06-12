@@ -211,7 +211,11 @@
         <div class="part" id="chartpart">
             <div id="voting-stats">
                 <h1 class="chartpart-header">What's your favorite music genre?</h1>
-                <div class="buttonCenter"><button class="voting-buttons" onclick="toggleChart(false)" id="chartViewer">View Pie Chart</button></div>
+                <div class="buttonCenter">
+                    <button class="voting-buttons" 
+                            onclick="toggleChart(false)" 
+                            id="chartViewer">View Pie Chart</button>
+                </div>
                 <table id="voting-stats-table">
                     <tr class="voting-table-nonNums">
                         <td>Hip-Hop/Rap</td>
@@ -275,7 +279,11 @@
                     <input type="hidden" id="selGenre" name="selGenre">
                     <input type="hidden" id="postingUser" name="postingUser">
 
-                    <div class="buttonCenter"><button onclick="listenForGenreChoice()" class="voting-buttons" id="voting-submit-button">Vote!</button></div>
+                    <div class="buttonCenter">
+                        <button onclick="listenForGenreChoice()" 
+                                class="voting-buttons" id="voting-submit-button">
+                                Vote!</button>
+                    </div>
                 </form>
             </div>
         </div>
