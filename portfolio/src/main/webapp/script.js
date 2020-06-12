@@ -455,7 +455,6 @@ function logoutHandler(value){
     currentUser = value;
     document.getElementById("authentication")
             .innerHTML = '<a href=\"' + value.url + '\">Logout</a>'
-    //removeClass("chart-container", "blur-content"); not necessary for this pr
 }
 
 //*********************** VOTING HANDLING ***********************
@@ -516,6 +515,7 @@ async function getGenreChoice(){
     const value = await response.json();
     currentChartData = value;
     displayChart(currentChartData);
+    populateVotes();
     console.log(value);
 }
 
@@ -576,10 +576,9 @@ let Chart = class {
                 ]);
 
         const options = {
-            'legend':'left',
-            'title':'My Big Pie Chart',
-            'width':400,
-            'height':300
+          title: 'Genres',
+          legend: 'none',
+          pieSliceText: 'label',
         };
 
         const chart = new google.visualization.PieChart(
@@ -588,6 +587,36 @@ let Chart = class {
     }
 }
 
+function toggleChart(bool){
+    if (currentUser.active == false || !currentUser){
+        alert("you need to sign in to access the chart");
+        return;
+    }
+    setHidden("chart-wrapper", bool);
+}
+
+function populateVotes(){
+    let el;
+    let ids = ["HipHop", "Country", "Pop", "Rock", "Classical", "RandB"];
+
+    el = document.getElementById(ids[0]);
+    el.innerText = currentChartData.hMap.HipHop || 0;
+
+    el = document.getElementById(ids[1]);
+    el.innerText = currentChartData.hMap.Country || 0;
+
+    el = document.getElementById(ids[2]);
+    el.innerText = currentChartData.hMap.Pop || 0;
+
+    el = document.getElementById(ids[3]);
+    el.innerText = currentChartData.hMap.Rock || 0;
+
+    el = document.getElementById(ids[4]);
+    el.innerText = currentChartData.hMap.Classical || 0;
+
+    el = document.getElementById(ids[5]);
+    el.innerText = currentChartData.hMap.RandB || 0;
+}
 //*********************** JSON CONVERSION ***********************
 /**
  * Creates comment elements from the JSON array

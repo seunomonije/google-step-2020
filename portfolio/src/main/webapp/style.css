@@ -346,7 +346,7 @@ div#welcome:hover h2#computabeast {
 
 .text-container {
     padding: 20px;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin-right: 2%;
     margin-left: 2%;
 }
@@ -371,7 +371,7 @@ div#welcome:hover h2#computabeast {
 
 .bios {
     scroll-margin: 70px; /*to account for the header*/
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 .dts {
@@ -585,4 +585,133 @@ div#welcome:hover h2#computabeast {
 #sigstyle {
     height: 50px; 
     width: auto;
+}
+
+#chartpart {
+    border: 20px solid #f4c20d; /* Google yellow */
+    background-color: #e8e4c9;
+}
+
+.chartpart-header {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-family: Roboto, 'sans-serif';
+}
+.buttonCenter {
+    width: 15%;
+    margin-left: auto;
+    margin-right: auto;
+}
+#chartViewer {
+    height: 100%;
+    padding: 5px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#voting-stats-table {
+    margin-left: auto;
+    margin-right: auto;
+    width: 75%;
+    table-layout: fixed;
+}
+
+#voting-stats-table td {
+    font-family: Roboto, sans-serif;
+    padding: 10px;
+    width: 80%;
+    text-align: center;
+}
+
+#voting-stats-table .voting-table-nonNums td {
+    font-size: 20px;
+}
+
+#voting-stats-table .voting-table-nums td {
+    font-size: 30px;
+}
+
+.voting-buttons {
+    height: 30px;
+    background-color: red;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    margin-bottom: 10px;
+    width: 100%;
+    font-weight: bold;
+}
+
+#voting-submit-button {
+    height: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#chart-wrapper {
+    position: absolute;
+    left: 50%;
+}
+#chart-container {
+    position: relative;
+    left: -50%;
+    width: 900px;
+    height: 500px;
+}
+
+.blur-content {
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
+}
+
+#voting-stats {
+    width: 60%;
+}
+
+#chart-voting {
+    width: 40%;
+}
+
+section {
+  display: flex;
+  flex-flow: row wrap;
+}
+section > div {
+  flex: 1;
+  padding: 0.5rem;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+input[type="radio"]:checked + label {
+    background-color: #90EE90;
+    color: white;
+    cursor: pointer;
+}
+
+label {
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    height: 1.5rem;
+    font-weight: bold;
+    width: 120px;
+    border-radius: 5px;
+    display: block;
+    text-align: center;
+    padding: 1rem;
+    background-color: #ffcccb;
+    /*background: #fff4cc;*/
+    -webkit-box-shadow: inset 0px 0px 5px #c1c1c1;
+    -moz-box-shadow: inset 0px 0px 5px #c1c1c1;
+    box-shadow: inset 0px 0px 5px #c1c1c1;
+    outline: none;
 }

@@ -116,42 +116,6 @@
             </div>
         </div>
 
-       <div class="part" id="chartpart">
-            <div class="blur-content" id="chart-container"></div>
-            <div id="chart-voting">
-                <form action="/chart" method="POST" name="chartForm" id="chartForm">
-                    <input type="radio" id="genre1"
-                        name="genre" value="HipHop">
-                    <label for="genre1">Hip-Hop/Rap</label>
-
-                    <input type="radio" id="genre2"
-                        name="genre" value="Country">
-                    <label for="genre2">Country</label>
-
-                    <input type="radio" id="genre3"
-                        name="genre" value="Pop">
-                    <label for="genre3">Pop</label>
-
-                    <input type="radio" id="genre4"
-                        name="genre" value="Rock">
-                    <label for="genre4">Rock</label>
-
-                    <input type="radio" id="genre5"
-                        name="genre" value="Classical">
-                    <label for="genre5">Classical</label>
-
-                    <input type="radio" id="genre6"
-                        name="genre" value="RandB">
-                    <label for="genre6">R&amp;B</label>
-
-                    <input type="hidden" id="selGenre" name="selGenre">
-                    <input type="hidden" id="postingUser" name="postingUser">
-
-                    <button onclick="listenForGenreChoice()">Submit</button>
-                </form>
-            </div>
-        </div>
-
         <div class="part" id="secondpart">
             <div id="links-table">
                 <table class="tabler">
@@ -238,6 +202,82 @@
                 </table>
             </div>
 
+        </div>
+
+        <div class="hidden" id="chart-wrapper">
+            <div class="" id="chart-container"></div>
+            <button onclick="toggleChart(true)">Hide Chart</button>
+        </div>
+        <div class="part" id="chartpart">
+            <div id="voting-stats">
+                <h1 class="chartpart-header">What's your favorite music genre?</h1>
+                <div class="buttonCenter"><button class="voting-buttons" onclick="toggleChart(false)" id="chartViewer">View Pie Chart</button></div>
+                <table id="voting-stats-table">
+                    <tr class="voting-table-nonNums">
+                        <td>Hip-Hop/Rap</td>
+                        <td>Country</td>
+                        <td>Pop</td>
+                        <td>Rock</td>
+                        <td>Classical</td>
+                        <td>R&amp;B</td>
+                    </tr>
+                    <tr class="voting-table-nums">
+                        <td id="HipHop">0</td>
+                        <td id="Country">0</td>
+                        <td id="Pop">0</td>
+                        <td id="Rock">0</td>
+                        <td id="Classical">0</td>
+                        <td id="RandB">0</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div id="chart-voting">
+                <h2 class="chartpart-header">Choose genre:</h2>
+                <form action="/chart" method="POST" name="chartForm" id="chartForm">
+                    <section>
+                        <div>
+                            <input class="radio-box" type="radio" id="genre1"
+                                name="genre" value="HipHop">
+                            <label for="genre1">Hip-Hop/Rap</label>
+                        </div>
+
+                        <div>
+                            <input class="radio-box"  type="radio" id="genre2"
+                                name="genre" value="Country">
+                            <label for="genre2">Country</label>
+                        </div>
+
+                        <div>
+                            <input class="radio-box" type="radio" id="genre3"
+                                name="genre" value="Pop">
+                            <label for="genre3">Pop</label>
+                        </div>
+
+                        <div>
+                            <input class="radio-box" type="radio" id="genre4"
+                                name="genre" value="Rock">
+                            <label for="genre4">Rock</label>
+                        </div>
+
+                        <div>
+                            <input class="radio-box" type="radio" id="genre5"
+                                name="genre" value="Classical">
+                            <label for="genre5">Classical</label>
+                        </div>
+
+                        <div>
+                            <input class="radio-box" type="radio" id="genre6"
+                                name="genre" value="RandB">
+                            <label for="genre6">R&amp;B</label>
+                        </div>
+                    </section>
+                    <input type="hidden" id="selGenre" name="selGenre">
+                    <input type="hidden" id="postingUser" name="postingUser">
+
+                    <div class="buttonCenter"><button onclick="listenForGenreChoice()" class="voting-buttons" id="voting-submit-button">Vote!</button></div>
+                </form>
+            </div>
         </div>
 
         <div class="part" id="firstpart">
