@@ -201,7 +201,7 @@ window.onload = function() {
     displayAuth();
 
     // Chart Handling
-    getGenreChoice();
+    getGenreChoice(); //get all the data first
 }
 
 /**
@@ -515,12 +515,13 @@ async function getGenreChoice(){
     const response = await fetch('/chart');
     const value = await response.json();
     currentChartData = value;
+    displayChart(currentChartData);
     console.log(value);
 }
 
 /**
  * Helper function that allows the server to grab selected radio
- * @param value the value retrieved from radio
+ * @param value the data received from server
  */ 
 function setParameters(value){
     const input = document.getElementById("selGenre");
@@ -528,6 +529,63 @@ function setParameters(value){
 
     const id = document.getElementById("postingUser");
     id.value = currentUser.id;
+}
+
+/**
+ * Helper function that allows the server to grab selected radio
+ * @param value the data received from server
+ */ 
+function displayChart(value){
+    let chart = new Chart(
+                        value.hMap.HipHop,
+                        value.hMap.Country,
+                        value.hMap.Pop,
+                        value.hMap.Rock,
+                        value.hMap.Classical,
+                        value.hMap.RandB
+                        );
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(chart.drawChart.bind(chart)); 
+}
+
+//*********************** CHART CLASS/HANDLING ***********************
+let Chart = class {
+
+    constructor(hhVotes, coVotes, pVotes, 
+                roVotes, clVotes, rbVotes){
+        this.hhVotes = hhVotes ? hhVotes : 0;
+        this.coVotes = coVotes ? coVotes : 0;
+        this.pVotes = pVotes ? pVotes : 0;
+        this.roVotes = roVotes ? roVotes : 0;
+        this.clVotes = clVotes ? clVotes : 0;
+        this.rbVotes = rbVotes ? rbVotes : 0;
+    }
+    
+    /** Creates a chart and adds it to the page. */
+    drawChart() {
+        const data = new google.visualization.DataTable();
+        data.addColumn('string', 'Genre');
+        data.addColumn('number', 'Count');
+                data.addRows([
+                ['Hip-Hop/Rap', this.hhVotes],
+                ['Country', this.coVotes],
+                ['Pop', this.pVotes],
+                ['Rock', this.roVotes],
+                ['Classical', this.clVotes],
+                ['R&B', this.rbVotes]
+                ]);
+
+        const options = {
+            'legend':'left',
+            'title':'My Big Pie Chart',
+            'width':400,
+            'height':300
+        };
+
+        const chart = new google.visualization.PieChart(
+            document.getElementById('chart-container'));
+        chart.draw(data, options);
+    }
 }
 
 //*********************** JSON CONVERSION ***********************
