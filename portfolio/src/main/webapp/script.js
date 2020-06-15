@@ -42,10 +42,15 @@ function addRandomGreeting() {
  * Displays the right sidebar
  */
 let isSidebarOpen = false;
+let isBottombarOpen = false;
 function toggleSidebar() {
     let button = document.getElementById("commentbutton");
     let el = document.getElementById("sidebar");
     if (isSidebarOpen === false){
+        if (isBottombarOpen){
+            toggleBottomBar();
+            isBottombarOpen = !isBottombarOpen;
+        }
         openSidebar(el, button);
     } else {
         closeSidebar(el, button);
@@ -75,12 +80,15 @@ function openSidebar(el, button){
     button.classList.add('closeButton');
 }
 
-let isBottombarOpen = false;
 function toggleBottomBar() {
     let buttonDiv = document.getElementById('authentication');
     let button = document.getElementById('votingToggle');
     let el = document.getElementById("chartpart");
     if (isBottombarOpen === false){
+        if (isSidebarOpen){
+            toggleSidebar();
+            isSidebarOpen = !isSidebarOpen;
+        }
         el.style.height = "260px";
         button.innerText = "Close";
         buttonDiv.classList.remove('fixToBottom');

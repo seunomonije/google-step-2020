@@ -765,7 +765,8 @@ label {
     font-weight: bold;
     text-align: center;
     font-family: 'Montserrat', sans-serif;
-    background: #db3236; 
+    background: rgba(255, 255, 255, 0.8); 
+    border: 1px solid #d3d3d3;
     backdrop-filter: blur(12px); /*low browser support*/
     transition: 0.5s;
     border-bottom: 1px solid white;
@@ -780,14 +781,14 @@ label {
 }
 
 #authentication:hover {
-   background-color: #3cba54;
+   background-color: #ff6961;
 }
 
 #loginLink {
-    background-color: white;
+    background-color: #db3236;
     border-radius: 3px;
     padding: 5px 5px;
-    color: black;
+    color: white;
     transition: 0.8s;
     font-size: 18px;
     margin-left: 5px;
