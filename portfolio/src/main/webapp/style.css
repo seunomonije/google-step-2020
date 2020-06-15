@@ -24,12 +24,19 @@ input:focus {
     outline-width: 0; /*i don't want that ugly outline on any input */
 }
 
+button {
+    outline: none;
+}
 textarea:focus {
     outline-width: 0; /*i don't want that ugly outline on any input */
 }
 
 .hidden {
     visibility: hidden;
+}
+
+.not-here {
+    display: none;
 }
 
 .highlight {
@@ -565,12 +572,12 @@ div#welcome:hover h2#computabeast {
     border-bottom-left-radius: 5px;
     border: 1px solid #d3d3d3;  
 }
+
 .comment-body-el {
     margin-left: 5px;
     margin-right: 5px;
     margin-bottom: 5px;
     margin-top: 2px;
-
     padding: 5px;
     font-size: 15px;
     font-family: 'Montserrat', sans-serif;
@@ -587,11 +594,6 @@ div#welcome:hover h2#computabeast {
     width: auto;
 }
 
-#chartpart {
-    border: 20px solid #f4c20d; /* Google yellow */
-    background-color: #e8e4c9;
-}
-
 .chartpart-header {
     width: 80%;
     margin-left: auto;
@@ -599,17 +601,51 @@ div#welcome:hover h2#computabeast {
     text-align: center;
     font-family: Roboto, 'sans-serif';
 }
-.buttonCenter {
-    width: 15%;
+
+.chartpart-warning {
+    width: 30%;
     margin-left: auto;
     margin-right: auto;
-}
-#chartViewer {
-    height: 100%;
+    text-align: center;
+    font-family: Roboto, 'sans-serif';
+    transition: 0.3s;
+    background-color: red;
     padding: 5px;
-    margin-left: auto;
-    margin-right: auto;
+    color: white;
+    border-radius: 5px;
 }
+
+.buttonCenter {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    width: auto;
+    justify-content: center;
+}
+
+.voting-buttons {
+    background-color: #ff6961;
+    border: none;
+    color: white;
+    font-size: 18px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    padding: 0.5rem;
+    margin: 10px;
+    border-radius: 5px;
+    width: 200px;
+    transition: 1s;
+}
+
+.voting-buttons:hover {
+    background-color: #3cba54;
+}
+
+#chartViewer {
+    margin: 0 auto;
+    display: block;
+}
+
 #voting-stats-table {
     margin-left: auto;
     margin-right: auto;
@@ -632,34 +668,37 @@ div#welcome:hover h2#computabeast {
     font-size: 30px;
 }
 
-.voting-buttons {
-    height: 30px;
-    background-color: red;
-    border-radius: 10px;
-    border: none;
-    color: white;
-    font-size: 20px;
-    font-family: 'Roboto', sans-serif;
-    margin-bottom: 10px;
-    width: 100%;
-    font-weight: bold;
-}
-
-#voting-submit-button {
-    height: 50px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
 #chart-wrapper {
-    position: absolute;
+    position: fixed;
     left: 50%;
+    top: 50%;
+    -ms-transform: translate(-50%,-50%);
+    -moz-transform:translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
 }
+
+
 #chart-container {
     position: relative;
-    left: -50%;
     width: 900px;
     height: 500px;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    border: 3px solid #00afec; /*blue-ish*/
+}
+
+#chart-container-button {
+    position: relative;
+    border-radius: 3px;
+    background-color: #00afec; /*blue-ish*/
+    color: white;
+    padding: 8px;
+    margin-top: 5px;
+    border: none;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
 }
 
 .blur-content {
@@ -670,20 +709,19 @@ div#welcome:hover h2#computabeast {
     filter: blur(5px);
 }
 
-#voting-stats {
-    width: 60%;
-}
-
 #chart-voting {
-    width: 40%;
+    width: 100%;
 }
 
 section {
   display: flex;
-  flex-flow: row wrap;
+  flex-direction: row;
+  text-align: center;
+  width: auto;
+  justify-content: center;
 }
+
 section > div {
-  flex: 1;
   padding: 0.5rem;
 }
 
@@ -709,9 +747,80 @@ label {
     text-align: center;
     padding: 1rem;
     background-color: #ffcccb;
-    /*background: #fff4cc;*/
     -webkit-box-shadow: inset 0px 0px 5px #c1c1c1;
     -moz-box-shadow: inset 0px 0px 5px #c1c1c1;
     box-shadow: inset 0px 0px 5px #c1c1c1;
     outline: none;
+}
+
+#authentication {
+    position: fixed;
+    left: 0;
+    border-left: 0px;
+    border-top-right-radius: 3px;
+    padding: 20px 10px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    background: #db3236; 
+    backdrop-filter: blur(12px); /*low browser support*/
+    transition: 0.5s;
+    border-bottom: 1px solid white;
+}
+
+.fixToBottom {
+    bottom: 0;
+}
+
+.moveUp {
+    bottom: 260px;
+}
+
+#authentication:hover {
+   background-color: #3cba54;
+}
+
+#loginLink {
+    background-color: white;
+    border-radius: 3px;
+    padding: 5px 5px;
+    color: black;
+    transition: 0.8s;
+    font-size: 18px;
+    margin-left: 5px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.bottombar {
+    bottom:0;
+    left:0;
+    right: 0;
+    height: 0;
+    overflow-x: scroll;
+    overflow-y: scroll;
+    position: fixed;
+    z-index: 1;
+    /*white half transparent*/
+    background: rgba(255, 255, 255, 0.8); 
+    border-left: 1px solid #d3d3d3;
+    border-top: 1px solid #d3d3d3;
+    backdrop-filter: blur(12px); /*low browser support*/
+    transition: 0.5s;
+}
+
+#votingToggle {
+    padding: 5px 10px;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f4c20d; /*same green as the gif*/
+    color: black;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    transition: background 1s;
+    outline: none;
+    border: none;
 }

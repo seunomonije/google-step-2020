@@ -68,8 +68,6 @@
             </div>
         </div>
 
-        <div id="authentication"></div>
-
         <div id="welcome-wrapper">
             <div id="welcome" class="fade-in">
                 <h1 class="bios opener" id="opener1">Oluseun Omonije</h1>
@@ -205,41 +203,18 @@
         </div>
 
         <div class="hidden" id="chart-wrapper">
-            <div class="" id="chart-container"></div>
-            <button onclick="toggleChart(true)">Hide Chart</button>
-        </div>
-        <div class="part" id="chartpart">
-            <div id="voting-stats">
-                <h1 class="chartpart-header">What's your favorite music genre?</h1>
-                <div class="buttonCenter">
-                    <button class="voting-buttons" 
-                            onclick="toggleChart(false)" 
-                            id="chartViewer">View Pie Chart</button>
-                </div>
-                <table id="voting-stats-table">
-                    <tr class="voting-table-nonNums">
-                        <td>Hip-Hop/Rap</td>
-                        <td>Country</td>
-                        <td>Pop</td>
-                        <td>Rock</td>
-                        <td>Classical</td>
-                        <td>R&amp;B</td>
-                    </tr>
-                    <tr class="voting-table-nums">
-                        <td id="HipHop">0</td>
-                        <td id="Country">0</td>
-                        <td id="Pop">0</td>
-                        <td id="Rock">0</td>
-                        <td id="Classical">0</td>
-                        <td id="RandB">0</td>
-                    </tr>
-                </table>
+            <div id="chart-container">
             </div>
+            <button id="chart-container-button" onclick="toggleChart(true)">Hide Chart</button>
+        </div>
 
+        <div class="fixToBottom" id="authentication"></div>
+        <div class="bottombar" id="chartpart">
             <div id="chart-voting">
-                <h2 class="chartpart-header">Choose genre:</h2>
+                <h2 class="chartpart-header">What's your favorite music genre?</h2>
+                <h3 id="chartpartwarning" class="chartpart-warning not-here">Dummy text here</h3>
                 <form action="/chart" method="POST" name="chartForm" id="chartForm">
-                    <section>
+                    <section class="genreSection">
                         <div>
                             <input class="radio-box" type="radio" id="genre1"
                                 name="genre" value="HipHop">
@@ -283,8 +258,11 @@
                         <button onclick="listenForGenreChoice()" 
                                 class="voting-buttons" id="voting-submit-button">
                                 Vote!</button>
-                    </div>
+                    </div>  
                 </form>
+                <button class="voting-buttons" 
+                        onclick="toggleChart(false)" 
+                        id="chartViewer">View Results!</button>
             </div>
         </div>
 
