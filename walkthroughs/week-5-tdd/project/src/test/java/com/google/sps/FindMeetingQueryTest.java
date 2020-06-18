@@ -55,7 +55,6 @@ public final class FindMeetingQueryTest {
     query = new FindMeetingQuery();
   }
 
-  /*
     @Test
     public void optionsForNoAttendees() {
       MeetingRequest request = new MeetingRequest(NO_ATTENDEES, DURATION_1_HOUR);
@@ -131,7 +130,7 @@ public final class FindMeetingQueryTest {
 
       Assert.assertEquals(expected, actual);
     }
-  */
+
   @Test
   public void everyAttendeeIsConsideredOptionalPt1() {
     // Have each person have different events. We should see two options because each person has
@@ -170,6 +169,7 @@ public final class FindMeetingQueryTest {
     Assert.assertEquals(expected, actual);
   }
 
+ /*
   @Test
   public void everyAttendeeIsConsideredOptionalPt2() {
     // Have each person have different events. We should see two options because each person has
@@ -206,8 +206,7 @@ public final class FindMeetingQueryTest {
 
     Assert.assertEquals(expected, actual);
   }
-
-  /*
+*/
   @Test
   public void overlappingEvents() {
     // Have an event for each person, but have their events overlap. We should only see two options.
@@ -388,5 +387,5 @@ public final class FindMeetingQueryTest {
     Collection<TimeRange> expected = Arrays.asList();
 
     Assert.assertEquals(expected, actual);
-  }*/
+  }
 }
