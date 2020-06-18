@@ -53,8 +53,7 @@ public final class FindMeetingQuery {
         eventList.removeFirst();
         continue;
       }
-
-      if ((currentTime + request.getDuration()) <= eventList.getFirst().getStartTime()) {
+      if ((currentTime + request.getDuration()) <= eventList.getFirst().getStartTime()) {             
         TimeRange range =
             TimeRange.fromStartEnd(
                 (int) currentTime, (int) eventList.getFirst().getStartTime(), false);
