@@ -55,83 +55,83 @@ public final class FindMeetingQueryTest {
     query = new FindMeetingQuery();
   }
 
-/*
-  @Test
-  public void optionsForNoAttendees() {
-    MeetingRequest request = new MeetingRequest(NO_ATTENDEES, DURATION_1_HOUR);
+  /*
+    @Test
+    public void optionsForNoAttendees() {
+      MeetingRequest request = new MeetingRequest(NO_ATTENDEES, DURATION_1_HOUR);
 
-    Collection<TimeRange> actual = query.query(NO_EVENTS, request);
-    Collection<TimeRange> expected = Arrays.asList(TimeRange.WHOLE_DAY);
+      Collection<TimeRange> actual = query.query(NO_EVENTS, request);
+      Collection<TimeRange> expected = Arrays.asList(TimeRange.WHOLE_DAY);
 
-    Assert.assertEquals(expected, actual);
-  }
+      Assert.assertEquals(expected, actual);
+    }
 
-  @Test
-  public void noOptionsForTooLongOfARequest() {
-    // The duration should be longer than a day. This means there should be no options.
-    int duration = TimeRange.WHOLE_DAY.duration() + 1;
-    MeetingRequest request = new MeetingRequest(Arrays.asList(PERSON_A), duration);
+    @Test
+    public void noOptionsForTooLongOfARequest() {
+      // The duration should be longer than a day. This means there should be no options.
+      int duration = TimeRange.WHOLE_DAY.duration() + 1;
+      MeetingRequest request = new MeetingRequest(Arrays.asList(PERSON_A), duration);
 
-    Collection<TimeRange> actual = query.query(NO_EVENTS, request);
-    Collection<TimeRange> expected = Arrays.asList();
+      Collection<TimeRange> actual = query.query(NO_EVENTS, request);
+      Collection<TimeRange> expected = Arrays.asList();
 
-    Assert.assertEquals(expected, actual);
-  }
+      Assert.assertEquals(expected, actual);
+    }
 
-  @Test
-  public void eventSplitsRestriction() {
-    // The event should split the day into two options (before and after the event).
-    Collection<Event> events =
-        Arrays.asList(
-            new Event(
-                "Event 1",
-                TimeRange.fromStartDuration(TIME_0830AM, DURATION_30_MINUTES),
-                Arrays.asList(PERSON_A)));
+    @Test
+    public void eventSplitsRestriction() {
+      // The event should split the day into two options (before and after the event).
+      Collection<Event> events =
+          Arrays.asList(
+              new Event(
+                  "Event 1",
+                  TimeRange.fromStartDuration(TIME_0830AM, DURATION_30_MINUTES),
+                  Arrays.asList(PERSON_A)));
 
-    MeetingRequest request = new MeetingRequest(Arrays.asList(PERSON_A), DURATION_30_MINUTES);
+      MeetingRequest request = new MeetingRequest(Arrays.asList(PERSON_A), DURATION_30_MINUTES);
 
-    Collection<TimeRange> actual = query.query(events, request);
-    Collection<TimeRange> expected =
-        Arrays.asList(
-            TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TIME_0830AM, false),
-            TimeRange.fromStartEnd(TIME_0900AM, TimeRange.END_OF_DAY, true));
+      Collection<TimeRange> actual = query.query(events, request);
+      Collection<TimeRange> expected =
+          Arrays.asList(
+              TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TIME_0830AM, false),
+              TimeRange.fromStartEnd(TIME_0900AM, TimeRange.END_OF_DAY, true));
 
-    Assert.assertEquals(expected, actual);
-  }
+      Assert.assertEquals(expected, actual);
+    }
 
-  @Test
-  public void everyAttendeeIsConsidered() {
-    // Have each person have different events. We should see two options because each person has
-    // split the restricted times.
-    //
-    // Events  :       |--A--|     |--B--|
-    // Day     : |-----------------------------|
-    // Options : |--1--|     |--2--|     |--3--|
+    @Test
+    public void everyAttendeeIsConsidered() {
+      // Have each person have different events. We should see two options because each person has
+      // split the restricted times.
+      //
+      // Events  :       |--A--|     |--B--|
+      // Day     : |-----------------------------|
+      // Options : |--1--|     |--2--|     |--3--|
 
-    Collection<Event> events =
-        Arrays.asList(
-            new Event(
-                "Event 1",
-                TimeRange.fromStartDuration(TIME_0800AM, DURATION_30_MINUTES),
-                Arrays.asList(PERSON_A)),
-            new Event(
-                "Event 2",
-                TimeRange.fromStartDuration(TIME_0900AM, DURATION_30_MINUTES),
-                Arrays.asList(PERSON_B)));
+      Collection<Event> events =
+          Arrays.asList(
+              new Event(
+                  "Event 1",
+                  TimeRange.fromStartDuration(TIME_0800AM, DURATION_30_MINUTES),
+                  Arrays.asList(PERSON_A)),
+              new Event(
+                  "Event 2",
+                  TimeRange.fromStartDuration(TIME_0900AM, DURATION_30_MINUTES),
+                  Arrays.asList(PERSON_B)));
 
-    MeetingRequest request =
-        new MeetingRequest(Arrays.asList(PERSON_A, PERSON_B, PERSON_C), DURATION_30_MINUTES);
+      MeetingRequest request =
+          new MeetingRequest(Arrays.asList(PERSON_A, PERSON_B, PERSON_C), DURATION_30_MINUTES);
 
-    Collection<TimeRange> actual = query.query(events, request);
-    Collection<TimeRange> expected =
-        Arrays.asList(
-            TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TIME_0800AM, false),
-            TimeRange.fromStartEnd(TIME_0830AM, TIME_0900AM, false),
-            TimeRange.fromStartEnd(TIME_0930AM, TimeRange.END_OF_DAY, true));
+      Collection<TimeRange> actual = query.query(events, request);
+      Collection<TimeRange> expected =
+          Arrays.asList(
+              TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TIME_0800AM, false),
+              TimeRange.fromStartEnd(TIME_0830AM, TIME_0900AM, false),
+              TimeRange.fromStartEnd(TIME_0930AM, TimeRange.END_OF_DAY, true));
 
-    Assert.assertEquals(expected, actual);
-  }
-*/
+      Assert.assertEquals(expected, actual);
+    }
+  */
   @Test
   public void everyAttendeeIsConsideredOptionalPt1() {
     // Have each person have different events. We should see two options because each person has
@@ -151,11 +151,10 @@ public final class FindMeetingQueryTest {
                 "Event 2",
                 TimeRange.fromStartDuration(TIME_0900AM, DURATION_30_MINUTES),
                 Arrays.asList(PERSON_B)),
-            new Event (
+            new Event(
                 "Event 3",
                 TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TimeRange.END_OF_DAY, false),
-                Arrays.asList(PERSON_C))
-            );
+                Arrays.asList(PERSON_C)));
 
     MeetingRequest request =
         new MeetingRequest(Arrays.asList(PERSON_A, PERSON_B), DURATION_30_MINUTES);
@@ -170,7 +169,6 @@ public final class FindMeetingQueryTest {
 
     Assert.assertEquals(expected, actual);
   }
- 
 
   @Test
   public void everyAttendeeIsConsideredOptionalPt2() {
@@ -191,11 +189,10 @@ public final class FindMeetingQueryTest {
                 "Event 2",
                 TimeRange.fromStartDuration(TIME_0900AM, DURATION_30_MINUTES),
                 Arrays.asList(PERSON_B)),
-            new Event (
+            new Event(
                 "Event 3",
                 TimeRange.fromStartEnd(TIME_0830AM, TIME_0900AM, false),
-                Arrays.asList(PERSON_C))
-            );
+                Arrays.asList(PERSON_C)));
 
     MeetingRequest request =
         new MeetingRequest(Arrays.asList(PERSON_A, PERSON_B), DURATION_30_MINUTES);
@@ -210,7 +207,7 @@ public final class FindMeetingQueryTest {
     Assert.assertEquals(expected, actual);
   }
 
-/*
+  /*
   @Test
   public void overlappingEvents() {
     // Have an event for each person, but have their events overlap. We should only see two options.
