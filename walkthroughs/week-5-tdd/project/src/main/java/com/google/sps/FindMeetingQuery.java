@@ -14,10 +14,73 @@
 
 package com.google.sps;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
 
 public final class FindMeetingQuery {
+
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    throw new UnsupportedOperationException("TODO: Implement this method.");
+
+    // Using linked list as removing the first element will take O(1) time
+    LinkedList<Event> eventList = new LinkedList<Event>(events);
+    Collections.sort(eventList, Event.ORDER_EVENT_BY_START); // Collections.sort() -> O(nlogn)
+
+    ArrayList<TimeRange> s = new ArrayList<TimeRange>();
+
+    long currentTime = (long) TimeRange.START_OF_DAY;
+
+    // making sure the request is within bounds
+    if (request.getDuration() > TimeRange.WHOLE_DAY.duration()) {
+      return s;
+    }
+
+    if (request.getDuration() < 0) {
+      return s;
+    }
+
+    while (currentTime < (long) TimeRange.END_OF_DAY) {
+
+      if (eventList.isEmpty()) {
+        TimeRange range = TimeRange.fromStartEnd((int) currentTime, TimeRange.END_OF_DAY, true);
+        s.add(range);
+        break;
+      }
+
+      // if there are no common people between the request and the event
+      if (Collections.disjoint(eventList.getFirst().getAttendees(), request.getAttendees())) {
+        eventList.removeFirst();
+        continue;
+      }
+
+      if ((currentTime + request.getDuration()) <= eventList.getFirst().getStartTime()) {
+        TimeRange range =
+            TimeRange.fromStartEnd(
+                (int) currentTime, (int) eventList.getFirst().getStartTime(), false);
+        s.add(range);
+        currentTime = eventList.getFirst().getStartTime();
+        continue;
+      } else {
+        if (Collections.disjoint(eventList.getFirst().getAttendees(), request.getAttendees())) {
+          if ((currentTime + request.getDuration()) <= eventList.getFirst().getEndTime()) {
+            TimeRange range =
+                TimeRange.fromStartEnd(
+                    (int) currentTime, (int) eventList.getFirst().getEndTime(), false);
+            s.add(range);
+            currentTime = eventList.getFirst().getEndTime();
+            continue;
+          } else {
+            eventList.removeFirst();
+            continue;
+          }
+        } else {
+          long removedTime = eventList.removeFirst().getEndTime();
+          currentTime = currentTime < removedTime ? removedTime : currentTime;
+        }
+      }
+    }
+
+    return s;
   }
 }

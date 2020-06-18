@@ -26,25 +26,23 @@ public final class TimeRange {
 
   public static final TimeRange WHOLE_DAY = new TimeRange(0, 24 * 60);
 
-  /**
-   * A comparator for sorting ranges by their start time in ascending order.
-   */
-  public static final Comparator<TimeRange> ORDER_BY_START = new Comparator<TimeRange>() {
-    @Override
-    public int compare(TimeRange a, TimeRange b) {
-      return Long.compare(a.start, b.start);
-    }
-  };
+  /** A comparator for sorting ranges by their start time in ascending order. */
+  public static final Comparator<TimeRange> ORDER_BY_START =
+      new Comparator<TimeRange>() {
+        @Override
+        public int compare(TimeRange a, TimeRange b) {
+          return Long.compare(a.start, b.start);
+        }
+      };
 
-  /**
-   * A comparator for sorting ranges by their end time in ascending order.
-   */
-  public static final Comparator<TimeRange> ORDER_BY_END = new Comparator<TimeRange>() {
-    @Override
-    public int compare(TimeRange a, TimeRange b) {
-      return Long.compare(a.end(), b.end());
-    }
-  };
+  /** A comparator for sorting ranges by their end time in ascending order. */
+  public static final Comparator<TimeRange> ORDER_BY_END =
+      new Comparator<TimeRange>() {
+        @Override
+        public int compare(TimeRange a, TimeRange b) {
+          return Long.compare(a.end(), b.end());
+        }
+      };
 
   private final int start;
   private final int duration;
@@ -54,23 +52,17 @@ public final class TimeRange {
     this.duration = duration;
   }
 
-  /**
-   * Returns the start of the range in minutes.
-   */
+  /** Returns the start of the range in minutes. */
   public int start() {
     return start;
   }
 
-  /**
-   * Returns the number of minutes between the start and end.
-   */
+  /** Returns the number of minutes between the start and end. */
   public int duration() {
     return duration;
   }
 
-  /**
-   * Returns the end of the range. This ending value is the closing exclusive bound.
-   */
+  /** Returns the end of the range. This ending value is the closing exclusive bound. */
   public int end() {
     return start + duration;
   }
