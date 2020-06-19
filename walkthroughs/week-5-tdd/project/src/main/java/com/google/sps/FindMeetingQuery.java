@@ -28,24 +28,28 @@ public final class FindMeetingQuery {
     // Collections.sort() -> O(nlogn)
     Collections.sort(eventList, Event.ORDER_EVENT_BY_START);
 
-    ArrayList<TimeRange> openRanges = new ArrayList<TimeRange>();
-
     // making sure the request is within bounds
     if (request.getDuration() > TimeRange.WHOLE_DAY.duration()) {
-      return openRanges;
+      return new ArrayList<TimeRange>();
     }
 
     if (request.getDuration() < 0) {
-      return openRanges;
+      return new ArrayList<TimeRange>();
     }
-    return traverseThroughSchedule(events, request, eventList, openRanges);
-  }
 
+    return traverseThroughSchedule(request, eventList);
+  }
+  /**
+   * Traverses through the schedule and returns the list of available times
+   *
+   * @param request The requested meeting time duration.
+   * @param eventList A sorted list of events ascending from the starting times.
+   * @return Array of open TimeRange objects.
+   */
   public Collection<TimeRange> traverseThroughSchedule(
-      Collection<Event> events,
-      MeetingRequest request,
-      LinkedList<Event> eventList,
-      ArrayList<TimeRange> openRanges) {
+      MeetingRequest request, LinkedList<Event> eventList) {
+
+    ArrayList<TimeRange> openRanges = new ArrayList<TimeRange>();
 
     long currentTime = (long) TimeRange.START_OF_DAY;
 
@@ -56,54 +60,35 @@ public final class FindMeetingQuery {
         if ((long) TimeRange.END_OF_DAY - currentTime < request.getDuration()) {
           break;
         }
-        addFreeSpace(currentTime, TimeRange.END_OF_DAY, openRanges, true);
+        TimeRange range = TimeRange.fromStartEnd((int) currentTime, TimeRange.END_OF_DAY, true);
+        openRanges.add(range);
         break;
       }
 
       // Get the first element
       Event topOfList = eventList.getFirst();
-
-      // if there are no common people between the request and the event
-      if (Collections.disjoint(topOfList.getAttendees(), request.getAttendees())) {
+      boolean noCommonAttendees =
+          Collections.disjoint(topOfList.getAttendees(), request.getAttendees());
+      // No one in our event request is in this event
+      if (noCommonAttendees) {
         eventList.removeFirst();
         continue;
       }
 
       if ((currentTime + request.getDuration()) <= topOfList.getStartTime()) {
-        addFreeSpace(currentTime, (int) topOfList.getStartTime(), openRanges, false);
+        TimeRange range =
+            TimeRange.fromStartEnd((int) currentTime, (int) topOfList.getStartTime(), false);
+        openRanges.add(range);
         currentTime = topOfList.getStartTime();
         continue;
-      } else {
-        if (Collections.disjoint(topOfList.getAttendees(), request.getAttendees())) {
-          checkIfSpaceInMeeting(topOfList, currentTime, request, openRanges, eventList);
-          continue;
-        } else {
-          long removedTime = eventList.removeFirst().getEndTime();
-          currentTime = currentTime < removedTime ? removedTime : currentTime;
-        }
+      }
+
+      long removedTime = eventList.removeFirst().getEndTime();
+      // if we are still in the middle of the event, jump to the end
+      if (currentTime < removedTime) {
+        currentTime = removedTime;
       }
     }
-
     return openRanges;
-  }
-
-  private void addFreeSpace(
-      long currentTime, int timerange, ArrayList<TimeRange> openRanges, boolean inclusive) {
-    TimeRange range = TimeRange.fromStartEnd((int) currentTime, timerange, inclusive);
-    openRanges.add(range);
-  }
-
-  private void checkIfSpaceInMeeting(
-      Event topOfList,
-      long currentTime,
-      MeetingRequest request,
-      ArrayList<TimeRange> openRanges,
-      LinkedList<Event> eventList) {
-    if ((currentTime + request.getDuration()) <= topOfList.getEndTime()) {
-      addFreeSpace((int) currentTime, (int) topOfList.getEndTime(), openRanges, false);
-      currentTime = topOfList.getEndTime();
-    } else {
-      eventList.removeFirst();
-    }
   }
 }
