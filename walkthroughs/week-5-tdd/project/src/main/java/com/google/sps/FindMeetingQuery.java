@@ -25,7 +25,8 @@ public final class FindMeetingQuery {
 
     // Using linked list as removing the first element will take O(1) time
     LinkedList<Event> eventList = new LinkedList<Event>(events);
-    Collections.sort(eventList, Event.ORDER_EVENT_BY_START); // Collections.sort() -> O(nlogn)
+    // Collections.sort() -> O(nlogn)
+    Collections.sort(eventList, Event.ORDER_EVENT_BY_START); 
 
     ArrayList<TimeRange> s = new ArrayList<TimeRange>();
 
@@ -39,7 +40,6 @@ public final class FindMeetingQuery {
     if (request.getDuration() < 0) {
       return s;
     }
-
     while (currentTime < (long) TimeRange.END_OF_DAY) {
 
       if (eventList.isEmpty()) {
@@ -49,10 +49,30 @@ public final class FindMeetingQuery {
       }
 
       // if there are no common people between the request and the event
-      if (Collections.disjoint(eventList.getFirst().getAttendees(), request.getAttendees())) {
+      if (Collections.disjoint(eventList.getFirst().getAttendees(), request.getAttendees())
+          && !request.getAttendees().isEmpty()) {
+        // if this time can be used for any option attendees
+        if (eventList.getFirst().getAttendees().containsAll(request.getOptionalAttendees())
+            && !request.getOptionalAttendees().isEmpty()) {
+          Event removedEvent = eventList.removeFirst();
+
+          // if the schedule would result in a time slot smaller than what's requested
+          if (request.getDuration() > (removedEvent.getEndTime() - removedEvent.getStartTime())) {
+            continue;
+          }
+
+          // figure out where we need to restart
+          long newStart =
+              eventList.isEmpty() ? TimeRange.END_OF_DAY : eventList.getFirst().getStartTime();
+          currentTime = newStart >= removedEvent.getEndTime() ? newStart : currentTime;
+
+          continue;
+        }
+
         eventList.removeFirst();
         continue;
       }
+
       if ((currentTime + request.getDuration()) <= eventList.getFirst().getStartTime()) {
         TimeRange range =
             TimeRange.fromStartEnd(
@@ -61,16 +81,15 @@ public final class FindMeetingQuery {
         currentTime = eventList.getFirst().getStartTime();
         continue;
       } else {
-        if (Collections.disjoint(eventList.getFirst().getAttendees(), request.getAttendees())) {
+        // if there are no common people between the request and the event, including optionals
+        if (Collections.disjoint(eventList.getFirst().getAttendees(), request.getAttendees())
+            && Collections.disjoint(eventList.getFirst().getAttendees(), request.getOptionalAttendees())) {
           if ((currentTime + request.getDuration()) <= eventList.getFirst().getEndTime()) {
             TimeRange range =
                 TimeRange.fromStartEnd(
                     (int) currentTime, (int) eventList.getFirst().getEndTime(), false);
             s.add(range);
             currentTime = eventList.getFirst().getEndTime();
-            continue;
-          } else {
-            eventList.removeFirst();
             continue;
           }
         } else {
