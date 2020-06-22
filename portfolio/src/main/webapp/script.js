@@ -474,7 +474,8 @@ async function displayAuth(){
  */ 
 function loginHandler(value){
     document.getElementById("authentication")
-            .innerHTML = ` Welcome to the site! <a href="${value.url}">Login Here</a>`;
+            .innerHTML = ` Welcome to the site! 
+                        <a href="${value.url}">Login Here</a>`;
 }
 
 /**
@@ -483,7 +484,12 @@ function loginHandler(value){
  */ 
 function logoutHandler(value){
     currentUser = value;
-    const string = `<button id="votingToggle" onclick="toggleBottomBar()">Show voting!</button> <a id="loginLink" href="${value.url}">Logout</a>`;
+    const string = `<button id="votingToggle" onclick="toggleBottomBar()">
+                        Show voting!
+                    </button> 
+                    <a id="loginLink" href="${value.url}">
+                        Logout
+                    </a>`;
     document.getElementById("authentication").innerHTML = string;
 }
 
