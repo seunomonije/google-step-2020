@@ -25,11 +25,12 @@ public final class FindMeetingQuery {
 
     // Using linked list as removing the first element will take O(1) time
     LinkedList<Event> eventList = new LinkedList<Event>(events);
-    LinkedList<Event> eventList2 = new LinkedList<Event>(events);
 
     // Collections.sort() -> O(nlogn)
     Collections.sort(eventList, Event.ORDER_EVENT_BY_START);
-    Collections.sort(eventList2, Event.ORDER_EVENT_BY_START);
+
+    // Create a new list for traversal
+    LinkedList<Event> eventList2 = new LinkedList<Event>(eventList);
 
     // making sure the request is within bounds
     if (request.getDuration() > TimeRange.WHOLE_DAY.duration()) {
@@ -42,26 +43,31 @@ public final class FindMeetingQuery {
 
     Collection<TimeRange> result = traverseThroughSchedule(request, eventList);
     if (checkIfAvailability(result, eventList2)) {
-        Collection<String> newAttendees = combineArr(request.getAttendees(), request.getOptionalAttendees());
-        MeetingRequest withOptionals = new MeetingRequest(newAttendees, request.getDuration());
-        return traverseThroughSchedule(withOptionals, eventList2);
-    } else {
-       return result;
+      Collection<String> newAttendees =
+          combineArr(request.getAttendees(), request.getOptionalAttendees());
+      MeetingRequest withOptionals = new MeetingRequest(newAttendees, request.getDuration());
+      return traverseThroughSchedule(withOptionals, eventList2);
     }
+    return result;
   }
 
-//   private boolean checkIfAvailability(Collection<TimeRange> result, LinkedList<Event> eventList2) {
-//       for (Event event : eventList2) {
-//           for (TimeRange timerange: result) {
-//               if (timerange.overlaps(event.getWhen())){
-//                   continue;
-//               } else {
-//                   return true;
-//               }
-//           }
-//       }
-//     return false;
-//   }
+ /**
+   * Checks if there are any available times after traversing the events once
+   *
+   * @param result The returned available slots from the first traversal of events.
+   * @param eventList A sorted list of events ascending from the starting times.
+   * @return Whether or not there is a single available slot.
+   */
+  private boolean checkIfAvailability(Collection<TimeRange> result, LinkedList<Event> eventList2) {
+    for (Event event : eventList2) {
+      for (TimeRange timerange : result) {
+        if (timerange.contains(event.getWhen())) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 
   /**
    * Traverses through the schedule and returns the list of available times
@@ -89,7 +95,6 @@ public final class FindMeetingQuery {
         break;
       }
 
-   
       // Get the first element
       Event topOfList = eventList.getFirst();
       boolean noCommonAttendees =
@@ -101,10 +106,10 @@ public final class FindMeetingQuery {
         continue;
       }
 
-       if (request.getDuration() > (topOfList.getEndTime() - topOfList.getStartTime())) {
+      if (request.getDuration() > (topOfList.getEndTime() - topOfList.getStartTime())) {
         eventList.removeFirst();
         continue;
-        }
+      }
 
       if ((currentTime + request.getDuration()) <= topOfList.getStartTime()) {
         TimeRange range =
@@ -112,30 +117,35 @@ public final class FindMeetingQuery {
         openRanges.add(range);
         currentTime = topOfList.getStartTime();
         continue;
-      } 
+      }
 
       long removedTime = eventList.removeFirst().getEndTime();
       // if we are still in the middle of the event, jump to the end
       if (currentTime < removedTime) {
         currentTime = removedTime;
-  
       }
     }
     return openRanges;
   }
 
-private Collection<String> combineArr(Collection<String> arr1, Collection<String> arr2) {
-     Collection<String> res = new ArrayList<>();
+ /**
+   * Combines two arrays iteratively
+   *
+   * @param arr1 The first array.
+   * @param arr2 The second array.
+   * @return The combined array.
+   */
+  private Collection<String> combineArr(Collection<String> arr1, Collection<String> arr2) {
+    Collection<String> res = new ArrayList<>();
 
-      for (String string: arr1){
-        res.add(string);
-      }
+    for (String string : arr1) {
+      res.add(string);
+    }
 
-      for (String string: arr2){
-        res.add(string);
-      }
+    for (String string : arr2) {
+      res.add(string);
+    }
 
-      return res;
+    return res;
   }
-
 }
