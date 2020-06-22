@@ -466,17 +466,11 @@ function listenForGenreChoice(){
     const form = document.getElementById("chartForm");
     const el = document.getElementsByName('genre'); 
     const sendingParam = document.getElementById("selectedRadio");
-    let selectedValue = null;
-    
-    for(let i = 0; i < el.length; i++) { 
-        if(el[i].checked){
-            selectedValue = el[i].value;
-        } 
-    }
+    let selectedValue = document.querySelector('[name="genre"]:checked');
 
-    form.onsubmit = function(e){
+    form.onsubmit = function(e) {
 
-        //if not logged in
+        // if not logged in
         if (!currentUser.active) {
             //normally this affects blur, will see in style pr
             alert("you need to log in to use this");
@@ -489,13 +483,6 @@ function listenForGenreChoice(){
             alert("you've already put in your 2wo cents");
             e.preventDefault();
             return;
-        }
-
-        // get selected value          
-        for(let i = 0; i < el.length; i++) { 
-            if(el[i].checked){
-            selectedValue = el[i].value;
-            } 
         }
 
         if (selectedValue !== null) {
@@ -515,7 +502,6 @@ async function getGenreChoice(){
     const response = await fetch('/chart');
     const value = await response.json();
     currentChartData = value;
-    console.log(value);
 }
 
 /**

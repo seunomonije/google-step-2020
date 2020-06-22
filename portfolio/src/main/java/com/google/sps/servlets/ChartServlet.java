@@ -18,7 +18,6 @@ public class ChartServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
     MapAndUsers obj = new MapAndUsers(mapData, votedUsers);
     response.setContentType("application/json");
     String json = convertUserToJsonUsingGson(obj);
@@ -30,6 +29,11 @@ public class ChartServlet extends HttpServlet {
     String genre = request.getParameter("selGenre");
     String userId = request.getParameter("postingUser");
     int currentVotes = mapData.containsKey(genre) ? mapData.get(genre) : 0;
+    
+    //check if user has already voted
+    if (votedUsers.contains(userId)){
+        response.sendRedirect("/index.html");
+    }
     mapData.put(genre, currentVotes + 1);
     votedUsers.add(userId);
     response.sendRedirect("/index.html");
@@ -44,11 +48,11 @@ public class ChartServlet extends HttpServlet {
 }
 
 class MapAndUsers {
-  public Map<String, Integer> hMap;
-  public ArrayList<String> vUsers;
+  public Map<String, Integer> mapOfVotes;
+  public ArrayList<String> usersWhoVoted;
 
   public MapAndUsers(Map<String, Integer> hMap, ArrayList<String> vUsers) {
-    this.hMap = hMap;
-    this.vUsers = vUsers;
+    this.mapOfVotes = hMap;
+    this.usersWhoVoted = vUsers;
   }
 }
