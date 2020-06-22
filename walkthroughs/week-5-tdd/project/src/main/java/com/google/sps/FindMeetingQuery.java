@@ -41,32 +41,20 @@ public final class FindMeetingQuery {
       return new ArrayList<TimeRange>();
     }
 
-    Collection<TimeRange> result = traverseThroughSchedule(request, eventList);
-    if (checkIfAvailability(result, eventList2)) {
-      Collection<String> newAttendees =
-          combineArr(request.getAttendees(), request.getOptionalAttendees());
-      MeetingRequest withOptionals = new MeetingRequest(newAttendees, request.getDuration());
-      return traverseThroughSchedule(withOptionals, eventList2);
+    // Merge the two arrays
+    ArrayList<String> attendees = new ArrayList<String>(request.getAttendees());
+    attendees.addAll(request.getOptionalAttendees());
+
+    MeetingRequest withOptionals = new MeetingRequest(attendees, request.getDuration());
+    Collection<TimeRange> result = traverseThroughSchedule(withOptionals, eventList);
+
+    if (result.isEmpty()) {
+        if (request.getAttendees().isEmpty()) {
+            return new ArrayList<TimeRange>();
+        }
+      return traverseThroughSchedule(request, eventList2);
     }
     return result;
-  }
-
- /**
-   * Checks if there are any available times after traversing the events once
-   *
-   * @param result The returned available slots from the first traversal of events.
-   * @param eventList A sorted list of events ascending from the starting times.
-   * @return Whether or not there is a single available slot.
-   */
-  private boolean checkIfAvailability(Collection<TimeRange> result, LinkedList<Event> eventList2) {
-    for (Event event : eventList2) {
-      for (TimeRange timerange : result) {
-        if (timerange.contains(event.getWhen())) {
-          return true;
-        }
-      }
-    }
-    return false;
   }
 
   /**
@@ -77,7 +65,7 @@ public final class FindMeetingQuery {
    * @return Array of open TimeRange objects.
    */
   public Collection<TimeRange> traverseThroughSchedule(
-      MeetingRequest request, LinkedList<Event> eventList) {
+    MeetingRequest request, LinkedList<Event> eventList) {
 
     ArrayList<TimeRange> openRanges = new ArrayList<TimeRange>();
 
@@ -106,11 +94,6 @@ public final class FindMeetingQuery {
         continue;
       }
 
-      if (request.getDuration() > (topOfList.getEndTime() - topOfList.getStartTime())) {
-        eventList.removeFirst();
-        continue;
-      }
-
       if ((currentTime + request.getDuration()) <= topOfList.getStartTime()) {
         TimeRange range =
             TimeRange.fromStartEnd((int) currentTime, (int) topOfList.getStartTime(), false);
@@ -126,26 +109,5 @@ public final class FindMeetingQuery {
       }
     }
     return openRanges;
-  }
-
- /**
-   * Combines two arrays iteratively
-   *
-   * @param arr1 The first array.
-   * @param arr2 The second array.
-   * @return The combined array.
-   */
-  private Collection<String> combineArr(Collection<String> arr1, Collection<String> arr2) {
-    Collection<String> res = new ArrayList<>();
-
-    for (String string : arr1) {
-      res.add(string);
-    }
-
-    for (String string : arr2) {
-      res.add(string);
-    }
-
-    return res;
   }
 }
