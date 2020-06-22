@@ -670,6 +670,7 @@ div#welcome:hover h2#computabeast {
 
 #chart-wrapper {
     position: fixed;
+    box-shadow: gray 0px 0px 1px 0px;
     left: 50%;
     top: 50%;
     -ms-transform: translate(-50%,-50%);

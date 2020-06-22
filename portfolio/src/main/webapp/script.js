@@ -46,16 +46,18 @@ let isBottombarOpen = false;
 function toggleSidebar() {
     let button = document.getElementById("commentbutton");
     let el = document.getElementById("sidebar");
-    if (isSidebarOpen === false){
+
+    isSidebarOpen = !isSidebarOpen;
+
+    if (isSidebarOpen === true){ // inverted
         if (isBottombarOpen){
             toggleBottomBar();
-            isBottombarOpen = !isBottombarOpen;
+            isBottombarOpen = false;
         }
         openSidebar(el, button);
     } else {
         closeSidebar(el, button);
     }
-    isSidebarOpen = !isSidebarOpen;
 }
 
 /**
@@ -84,7 +86,10 @@ function toggleBottomBar() {
     let buttonDiv = document.getElementById('authentication');
     let button = document.getElementById('votingToggle');
     let el = document.getElementById("chartpart");
-    if (isBottombarOpen === false){
+
+    isBottombarOpen = !isBottombarOpen;
+
+    if (isBottombarOpen === true){ // inverted
         if (isSidebarOpen){
             toggleSidebar();
             isSidebarOpen = !isSidebarOpen;
@@ -99,7 +104,6 @@ function toggleBottomBar() {
         buttonDiv.classList.add('fixToBottom');
         buttonDiv.classList.remove('moveUp');
     }
-    isBottombarOpen = !isBottombarOpen;
 }
 //*********************** SIDEBAR HANDLING ***********************
 /**
@@ -470,7 +474,7 @@ async function displayAuth(){
  */ 
 function loginHandler(value){
     document.getElementById("authentication")
-            .innerHTML = 'Welcome to the site! <a id="loginLink" href=\"' + value.url + '\">Login Here</a>'
+            .innerHTML = ` Welcome to the site! <a href="${value.url}">Login Here</a>`;
 }
 
 /**
@@ -479,7 +483,7 @@ function loginHandler(value){
  */ 
 function logoutHandler(value){
     currentUser = value;
-    const string = '<button id="votingToggle" onclick="toggleBottomBar()">Show voting!</button> <a id="loginLink" href=\"' + value.url + '\">Logout</a>';
+    const string = `<button id="votingToggle" onclick="toggleBottomBar()">Show voting!</button> <a id="loginLink" href="${value.url}">Logout</a>`;
     document.getElementById("authentication").innerHTML = string;
 }
 
