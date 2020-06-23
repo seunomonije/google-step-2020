@@ -29,9 +29,6 @@ public final class FindMeetingQuery {
     // Collections.sort() -> O(nlogn)
     Collections.sort(eventList, Event.ORDER_EVENT_BY_START);
 
-    // Create a new list for traversal
-    LinkedList<Event> eventList2 = new LinkedList<Event>(eventList);
-
     // making sure the request is within bounds
     if (request.getDuration() > TimeRange.WHOLE_DAY.duration()) {
       return new ArrayList<TimeRange>();
@@ -52,7 +49,7 @@ public final class FindMeetingQuery {
         if (request.getAttendees().isEmpty()) {
             return new ArrayList<TimeRange>();
         }
-      return traverseThroughSchedule(request, eventList2);
+      return traverseThroughSchedule(request, eventList);
     }
     return result;
   }
@@ -65,7 +62,10 @@ public final class FindMeetingQuery {
    * @return Array of open TimeRange objects.
    */
   public Collection<TimeRange> traverseThroughSchedule(
-    MeetingRequest request, LinkedList<Event> eventList) {
+    MeetingRequest request, LinkedList<Event> sortedList) {
+
+    // copying to save the state after we're done
+    LinkedList<Event> eventList = new LinkedList<Event>(sortedList);
 
     ArrayList<TimeRange> openRanges = new ArrayList<TimeRange>();
 
