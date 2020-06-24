@@ -58,78 +58,148 @@ public final class Events {
   private static final int TIME_2100 = TimeRange.getTimeInMinutes(21, 0);
 
   public static final Event[] events = {
-      new Event("1-on-1 : Project Management", TimeRange.fromStartEnd(TIME_1500, TIME_1530, false),
-          Arrays.asList(PERSON_LOGAN)),
-      new Event("1-on-1 Career Advice", TimeRange.fromStartEnd(TIME_1000, TIME_1030, false),
-          Arrays.asList(PERSON_ISABELLA)),
-      new Event("1-on-1 Catch-up", TimeRange.fromStartEnd(TIME_1330, TIME_1400, false),
-          Arrays.asList(PERSON_EMMA)),
-      new Event("Career Development Talk", TimeRange.fromStartEnd(TIME_1000, TIME_1100, false),
-          Arrays.asList(PERSON_AVA)),
-      new Event("Company Year-end Review", TimeRange.fromStartEnd(TIME_1000, TIME_1100, false),
-          Arrays.asList(PERSON_EMMA)),
-      new Event("Head-down work", TimeRange.fromStartEnd(TIME_1430, TIME_1600, false),
-          Arrays.asList(PERSON_ISABELLA)),
-      new Event("Hiring Meeting", TimeRange.fromStartEnd(TIME_1100, TIME_1200, false),
-          Arrays.asList(PERSON_JAMES, PERSON_OLIVIA)),
-      new Event("Hiring Review", TimeRange.fromStartEnd(TIME_0900, TIME_1000, false),
-          Arrays.asList(PERSON_JAMES)),
-      new Event("Hiring Review", TimeRange.fromStartEnd(TIME_1030, TIME_1200, false),
-          Arrays.asList(PERSON_ISABELLA)),
-      new Event("Hiring Review", TimeRange.fromStartEnd(TIME_1400, TIME_1430, false),
-          Arrays.asList(PERSON_ISABELLA)),
-      new Event("Interview Recap", TimeRange.fromStartEnd(TIME_1100, TIME_1130, false),
-          Arrays.asList(PERSON_AMELIA)),
-      new Event("Team Lunch", TimeRange.fromStartEnd(TIME_1200, TIME_1300, false),
-          Arrays.asList(PERSON_AMELIA, PERSON_AVA, PERSON_ISABELLA, PERSON_LOGAN)),
-      new Event("Lunch", TimeRange.fromStartEnd(TIME_1200, TIME_1300, false),
-          Arrays.asList(PERSON_NOAH, PERSON_OLIVER)),
-      new Event("OOO - Appointment", TimeRange.fromStartEnd(TIME_0830, TIME_0900, false),
-          Arrays.asList(PERSON_LOGAN)),
-      new Event("OOO - Appointment", TimeRange.fromStartEnd(TIME_0900, TIME_1000, false),
-          Arrays.asList(PERSON_AMELIA)),
-      new Event("OOO - Appointment", TimeRange.fromStartEnd(TIME_0900, TIME_1000, false),
-          Arrays.asList(PERSON_AVA)),
-      new Event("OOO - Appointment", TimeRange.fromStartEnd(TIME_1200, TIME_1430, false),
-          Arrays.asList(PERSON_LIAM)),
-      new Event(
-          "OOO", TimeRange.fromStartEnd(TIME_1700, TIME_2000, false), Arrays.asList(PERSON_EMMA)),
-      new Event("Partners Dinner", TimeRange.fromStartEnd(TIME_1830, TIME_2100, false),
-          Arrays.asList(PERSON_AMELIA)),
-      new Event("Partners Meeting", TimeRange.fromStartEnd(TIME_1430, TIME_1700, false),
-          Arrays.asList(PERSON_AMELIA)),
-      new Event("Phone Interview", TimeRange.fromStartEnd(TIME_1400, TIME_1500, false),
-          Arrays.asList(PERSON_AMELIA)),
-      new Event("Product Leadership AMA", TimeRange.fromStartEnd(TIME_0930, TIME_1030, false),
-          Arrays.asList(PERSON_OLIVER)),
-      new Event("Release Planning", TimeRange.fromStartEnd(TIME_1030, TIME_1100, false),
-          Arrays.asList(PERSON_LOGAN)),
-      new Event("Self-study", TimeRange.fromStartEnd(TIME_1400, TIME_1430, false),
-          Arrays.asList(PERSON_OLIVIA)),
-      new Event("Team Outing - Pick-up Tickets",
-          TimeRange.fromStartEnd(TIME_1130, TIME_1330, false), Arrays.asList(PERSON_OLIVER)),
-      new Event("Team Outing", TimeRange.fromStartEnd(TIME_1130, TIME_1400, false),
-          Arrays.asList(PERSON_JAMES, PERSON_OLIVIA)),
-      new Event("Team Sync", TimeRange.fromStartEnd(TIME_1030, TIME_1100, false),
-          Arrays.asList(PERSON_OLIVIA, PERSON_EMMA)),
-      new Event("Team Sync", TimeRange.fromStartEnd(TIME_1100, TIME_1130, false),
-          Arrays.asList(PERSON_LOGAN)),
-      new Event("Team Sync", TimeRange.fromStartEnd(TIME_1300, TIME_1400, false),
-          Arrays.asList(PERSON_LOGAN)),
-      new Event("Team Vision Planning", TimeRange.fromStartEnd(TIME_1430, TIME_1530, false),
-          Arrays.asList(PERSON_LIAM)),
-      new Event("Team planning", TimeRange.fromStartEnd(TIME_1300, TIME_1330, false),
-          Arrays.asList(PERSON_ISABELLA)),
-      new Event("Team stand-up", TimeRange.fromStartEnd(TIME_1100, TIME_1130, false),
-          Arrays.asList(PERSON_AVA, PERSON_ISABELLA, PERSON_OLIVER)),
-      new Event("Team sync", TimeRange.fromStartEnd(TIME_1030, TIME_1100, false),
-          Arrays.asList(PERSON_JAMES)),
-      new Event("Team triage", TimeRange.fromStartEnd(TIME_1330, TIME_1400, false),
-          Arrays.asList(PERSON_ISABELLA)),
-      new Event("Vendor Sync", TimeRange.fromStartEnd(TIME_1000, TIME_1030, false),
-          Arrays.asList(PERSON_EMMA)),
-      new Event("Work Trip Planning", TimeRange.fromStartEnd(TIME_1000, TIME_1030, false),
-          Arrays.asList(PERSON_LIAM)),
+    new Event(
+        "1-on-1 : Project Management",
+        TimeRange.fromStartEnd(TIME_1500, TIME_1530, false),
+        Arrays.asList(PERSON_LOGAN)),
+    new Event(
+        "1-on-1 Career Advice",
+        TimeRange.fromStartEnd(TIME_1000, TIME_1030, false),
+        Arrays.asList(PERSON_ISABELLA)),
+    new Event(
+        "1-on-1 Catch-up",
+        TimeRange.fromStartEnd(TIME_1330, TIME_1400, false),
+        Arrays.asList(PERSON_EMMA)),
+    new Event(
+        "Career Development Talk",
+        TimeRange.fromStartEnd(TIME_1000, TIME_1100, false),
+        Arrays.asList(PERSON_AVA)),
+    new Event(
+        "Company Year-end Review",
+        TimeRange.fromStartEnd(TIME_1000, TIME_1100, false),
+        Arrays.asList(PERSON_EMMA)),
+    new Event(
+        "Head-down work",
+        TimeRange.fromStartEnd(TIME_1430, TIME_1600, false),
+        Arrays.asList(PERSON_ISABELLA)),
+    new Event(
+        "Hiring Meeting",
+        TimeRange.fromStartEnd(TIME_1100, TIME_1200, false),
+        Arrays.asList(PERSON_JAMES, PERSON_OLIVIA)),
+    new Event(
+        "Hiring Review",
+        TimeRange.fromStartEnd(TIME_0900, TIME_1000, false),
+        Arrays.asList(PERSON_JAMES)),
+    new Event(
+        "Hiring Review",
+        TimeRange.fromStartEnd(TIME_1030, TIME_1200, false),
+        Arrays.asList(PERSON_ISABELLA)),
+    new Event(
+        "Hiring Review",
+        TimeRange.fromStartEnd(TIME_1400, TIME_1430, false),
+        Arrays.asList(PERSON_ISABELLA)),
+    new Event(
+        "Interview Recap",
+        TimeRange.fromStartEnd(TIME_1100, TIME_1130, false),
+        Arrays.asList(PERSON_AMELIA)),
+    new Event(
+        "Team Lunch",
+        TimeRange.fromStartEnd(TIME_1200, TIME_1300, false),
+        Arrays.asList(PERSON_AMELIA, PERSON_AVA, PERSON_ISABELLA, PERSON_LOGAN)),
+    new Event(
+        "Lunch",
+        TimeRange.fromStartEnd(TIME_1200, TIME_1300, false),
+        Arrays.asList(PERSON_NOAH, PERSON_OLIVER)),
+    new Event(
+        "OOO - Appointment",
+        TimeRange.fromStartEnd(TIME_0830, TIME_0900, false),
+        Arrays.asList(PERSON_LOGAN)),
+    new Event(
+        "OOO - Appointment",
+        TimeRange.fromStartEnd(TIME_0900, TIME_1000, false),
+        Arrays.asList(PERSON_AMELIA)),
+    new Event(
+        "OOO - Appointment",
+        TimeRange.fromStartEnd(TIME_0900, TIME_1000, false),
+        Arrays.asList(PERSON_AVA)),
+    new Event(
+        "OOO - Appointment",
+        TimeRange.fromStartEnd(TIME_1200, TIME_1430, false),
+        Arrays.asList(PERSON_LIAM)),
+    new Event(
+        "OOO", TimeRange.fromStartEnd(TIME_1700, TIME_2000, false), Arrays.asList(PERSON_EMMA)),
+    new Event(
+        "Partners Dinner",
+        TimeRange.fromStartEnd(TIME_1830, TIME_2100, false),
+        Arrays.asList(PERSON_AMELIA)),
+    new Event(
+        "Partners Meeting",
+        TimeRange.fromStartEnd(TIME_1430, TIME_1700, false),
+        Arrays.asList(PERSON_AMELIA)),
+    new Event(
+        "Phone Interview",
+        TimeRange.fromStartEnd(TIME_1400, TIME_1500, false),
+        Arrays.asList(PERSON_AMELIA)),
+    new Event(
+        "Product Leadership AMA",
+        TimeRange.fromStartEnd(TIME_0930, TIME_1030, false),
+        Arrays.asList(PERSON_OLIVER)),
+    new Event(
+        "Release Planning",
+        TimeRange.fromStartEnd(TIME_1030, TIME_1100, false),
+        Arrays.asList(PERSON_LOGAN)),
+    new Event(
+        "Self-study",
+        TimeRange.fromStartEnd(TIME_1400, TIME_1430, false),
+        Arrays.asList(PERSON_OLIVIA)),
+    new Event(
+        "Team Outing - Pick-up Tickets",
+        TimeRange.fromStartEnd(TIME_1130, TIME_1330, false),
+        Arrays.asList(PERSON_OLIVER)),
+    new Event(
+        "Team Outing",
+        TimeRange.fromStartEnd(TIME_1130, TIME_1400, false),
+        Arrays.asList(PERSON_JAMES, PERSON_OLIVIA)),
+    new Event(
+        "Team Sync",
+        TimeRange.fromStartEnd(TIME_1030, TIME_1100, false),
+        Arrays.asList(PERSON_OLIVIA, PERSON_EMMA)),
+    new Event(
+        "Team Sync",
+        TimeRange.fromStartEnd(TIME_1100, TIME_1130, false),
+        Arrays.asList(PERSON_LOGAN)),
+    new Event(
+        "Team Sync",
+        TimeRange.fromStartEnd(TIME_1300, TIME_1400, false),
+        Arrays.asList(PERSON_LOGAN)),
+    new Event(
+        "Team Vision Planning",
+        TimeRange.fromStartEnd(TIME_1430, TIME_1530, false),
+        Arrays.asList(PERSON_LIAM)),
+    new Event(
+        "Team planning",
+        TimeRange.fromStartEnd(TIME_1300, TIME_1330, false),
+        Arrays.asList(PERSON_ISABELLA)),
+    new Event(
+        "Team stand-up",
+        TimeRange.fromStartEnd(TIME_1100, TIME_1130, false),
+        Arrays.asList(PERSON_AVA, PERSON_ISABELLA, PERSON_OLIVER)),
+    new Event(
+        "Team sync",
+        TimeRange.fromStartEnd(TIME_1030, TIME_1100, false),
+        Arrays.asList(PERSON_JAMES)),
+    new Event(
+        "Team triage",
+        TimeRange.fromStartEnd(TIME_1330, TIME_1400, false),
+        Arrays.asList(PERSON_ISABELLA)),
+    new Event(
+        "Vendor Sync",
+        TimeRange.fromStartEnd(TIME_1000, TIME_1030, false),
+        Arrays.asList(PERSON_EMMA)),
+    new Event(
+        "Work Trip Planning",
+        TimeRange.fromStartEnd(TIME_1000, TIME_1030, false),
+        Arrays.asList(PERSON_LIAM)),
   };
 
   private Events() {

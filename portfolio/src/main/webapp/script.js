@@ -17,6 +17,8 @@ let listenNext = null;
 let retrievedInput = null;
 let match_index = 0;
 let matchingNodes = null;
+let currentUser;
+let currentChartData;
 
 //*********************** RANDOM GREETINGS ***********************
 
@@ -40,15 +42,22 @@ function addRandomGreeting() {
  * Displays the right sidebar
  */
 let isSidebarOpen = false;
+let isBottombarOpen = false;
 function toggleSidebar() {
     let button = document.getElementById("commentbutton");
     let el = document.getElementById("sidebar");
-    if (isSidebarOpen === false){
+
+    isSidebarOpen = !isSidebarOpen;
+
+    if (isSidebarOpen === true){ // inverted
+        if (isBottombarOpen){
+            toggleBottomBar();
+            isBottombarOpen = false;
+        }
         openSidebar(el, button);
     } else {
         closeSidebar(el, button);
     }
-    isSidebarOpen = !isSidebarOpen;
 }
 
 /**
@@ -73,6 +82,29 @@ function openSidebar(el, button){
     button.classList.add('closeButton');
 }
 
+function toggleBottomBar() {
+    let buttonDiv = document.getElementById('authentication');
+    let button = document.getElementById('votingToggle');
+    let el = document.getElementById("chartpart");
+
+    isBottombarOpen = !isBottombarOpen;
+
+    if (isBottombarOpen === true){ // inverted
+        if (isSidebarOpen){
+            toggleSidebar();
+            isSidebarOpen = !isSidebarOpen;
+        }
+        el.style.height = "260px";
+        button.innerText = "Close";
+        buttonDiv.classList.remove('fixToBottom');
+        buttonDiv.classList.add('moveUp');
+    } else {
+        el.style.height = "0";
+        button.innerText = "Show voting!";
+        buttonDiv.classList.add('fixToBottom');
+        buttonDiv.classList.remove('moveUp');
+    }
+}
 //*********************** SIDEBAR HANDLING ***********************
 /**
  * Listener to check for invalid inputs in the comment fields
@@ -197,6 +229,9 @@ window.onload = function() {
 
     // Authentication handling
     displayAuth();
+
+    // Chart Handling
+    getGenreChoice(); // get all the data first
 }
 
 /**
@@ -429,6 +464,7 @@ async function deleteAndFetchEmpty() {
 async function displayAuth(){
     const response = await fetch('/auth');
     const value = await response.json();
+    currentUser = value;
     value.active ? logoutHandler(value) : loginHandler(value);
 }
 
@@ -438,7 +474,8 @@ async function displayAuth(){
  */ 
 function loginHandler(value){
     document.getElementById("authentication")
-            .innerHTML = '<a href=\"' + value.url + '\">Login</a>'
+            .innerHTML = ` Welcome to the site! 
+                        <a href="${value.url}">Login Here</a>`;
 }
 
 /**
@@ -447,9 +484,149 @@ function loginHandler(value){
  */ 
 function logoutHandler(value){
     currentUser = value;
-    document.getElementById("authentication")
-            .innerHTML = '<a href=\"' + value.url + '\">Logout</a>'
-    //removeClass("chart-container", "blur-content"); not necessary for this pr
+    const string = `<button id="votingToggle" onclick="toggleBottomBar()">
+                        Show voting!
+                    </button> 
+                    <a id="loginLink" href="${value.url}">
+                        Logout
+                    </a>`;
+    document.getElementById("authentication").innerHTML = string;
+}
+
+//*********************** VOTING HANDLING ***********************
+/**
+ * Listens for the selected genre by the user
+ */ 
+function listenForGenreChoice(){
+    const form = document.getElementById("chartForm");
+    const el = document.getElementsByName('genre'); 
+    const sendingParam = document.getElementById("selectedRadio");
+    let selectedValue = document.querySelector('[name="genre"]:checked');
+
+    form.onsubmit = function(e) {
+
+        // if not logged in
+        if (!currentUser.active) {
+            summonChartAlert("You need to log in to use this");
+            e.preventDefault();
+            return;
+        }
+
+        //if the user has already posted
+        if(currentChartData.vUsers.includes(currentUser.id)) {
+            summonChartAlert("You've already voted! Only one per user.");
+            e.preventDefault();
+            return;
+        }
+
+        if (selectedValue !== null) {
+            setParameters(selectedValue);
+            document.chartForm.submit();
+        } else {
+            summonChartAlert("Select a value before you submit.");
+            e.preventDefault();
+            return;
+        }
+    }
+}
+
+/**
+ * Displays an alert if the parameters aren't met to vote
+ * @param string the message to be displayed to the user
+ */ 
+function summonChartAlert(string) {
+    let el = document.getElementById("chartpartwarning");
+    el.innerText = string;
+    el.classList.remove("not-here");
+}
+
+/**
+ * Retrieve genre from server
+ */ 
+async function getGenreChoice(){
+    const response = await fetch('/chart');
+    const value = await response.json();
+    currentChartData = value;
+    displayChart(currentChartData);
+}
+
+/**
+ * Helper function that allows the server to grab selected radio
+ * @param value the data received from server
+ */ 
+function setParameters(value){
+    const input = document.getElementById("selGenre");
+    input.value = value;
+
+    const id = document.getElementById("postingUser");
+    id.value = currentUser.id;
+}
+
+/**
+ * Helper function that allows the server to grab selected radio
+ * @param value the data received from server
+ */ 
+function displayChart(value){
+    let chart = new Chart(
+                        value.hMap.HipHop,
+                        value.hMap.Country,
+                        value.hMap.Pop,
+                        value.hMap.Rock,
+                        value.hMap.Classical,
+                        value.hMap.RandB
+                        );
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(chart.drawChart.bind(chart)); 
+}
+
+//*********************** CHART CLASS/HANDLING ***********************
+let Chart = class {
+
+    constructor(hhVotes, coVotes, pVotes, 
+                roVotes, clVotes, rbVotes){
+        this.hhVotes = hhVotes || 0;
+        this.coVotes = coVotes || 0;
+        this.pVotes = pVotes || 0;
+        this.roVotes = roVotes || 0;
+        this.clVotes = clVotes || 0;
+        this.rbVotes = rbVotes || 0;
+    }
+    
+    /** Creates a chart and adds it to the page. */
+    drawChart() {
+        const data = new google.visualization.DataTable();
+        data.addColumn('string', 'Genre');
+        data.addColumn('number', 'Count');
+                data.addRows([
+                ['Hip-Hop/Rap', this.hhVotes],
+                ['Country', this.coVotes],
+                ['Pop', this.pVotes],
+                ['Rock', this.roVotes],
+                ['Classical', this.clVotes],
+                ['R&B', this.rbVotes]
+                ]);
+
+        const options = {
+          title: 'Genres',
+          legend: 'none',
+          pieSliceText: 'label',
+        };
+
+        const chart = new google.visualization.PieChart(
+            document.getElementById('chart-container'));
+        chart.draw(data, options);
+    }
+}
+
+/**
+ * Brings the google chart into view
+ * @param bool determines whether I'm hiding or showing the display
+ */ 
+function toggleChart(bool){
+    if (currentUser.active == false || !currentUser){
+        return;
+    }
+    setHidden("chart-wrapper", bool);
 }
 
 //*********************** JSON CONVERSION ***********************
