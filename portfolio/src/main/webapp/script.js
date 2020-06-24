@@ -42,15 +42,22 @@ function addRandomGreeting() {
  * Displays the right sidebar
  */
 let isSidebarOpen = false;
+let isBottombarOpen = false;
 function toggleSidebar() {
     let button = document.getElementById("commentbutton");
     let el = document.getElementById("sidebar");
-    if (isSidebarOpen === false){
+
+    isSidebarOpen = !isSidebarOpen;
+
+    if (isSidebarOpen === true){ // inverted
+        if (isBottombarOpen){
+            toggleBottomBar();
+            isBottombarOpen = false;
+        }
         openSidebar(el, button);
     } else {
         closeSidebar(el, button);
     }
-    isSidebarOpen = !isSidebarOpen;
 }
 
 /**
@@ -75,6 +82,29 @@ function openSidebar(el, button){
     button.classList.add('closeButton');
 }
 
+function toggleBottomBar() {
+    let buttonDiv = document.getElementById('authentication');
+    let button = document.getElementById('votingToggle');
+    let el = document.getElementById("chartpart");
+
+    isBottombarOpen = !isBottombarOpen;
+
+    if (isBottombarOpen === true){ // inverted
+        if (isSidebarOpen){
+            toggleSidebar();
+            isSidebarOpen = !isSidebarOpen;
+        }
+        el.style.height = "260px";
+        button.innerText = "Close";
+        buttonDiv.classList.remove('fixToBottom');
+        buttonDiv.classList.add('moveUp');
+    } else {
+        el.style.height = "0";
+        button.innerText = "Show voting!";
+        buttonDiv.classList.add('fixToBottom');
+        buttonDiv.classList.remove('moveUp');
+    }
+}
 //*********************** SIDEBAR HANDLING ***********************
 /**
  * Listener to check for invalid inputs in the comment fields
@@ -444,7 +474,8 @@ async function displayAuth(){
  */ 
 function loginHandler(value){
     document.getElementById("authentication")
-            .innerHTML = '<a href=\"' + value.url + '\">Login</a>'
+            .innerHTML = ` Welcome to the site! 
+                        <a href="${value.url}">Login Here</a>`;
 }
 
 /**
@@ -453,9 +484,13 @@ function loginHandler(value){
  */ 
 function logoutHandler(value){
     currentUser = value;
-    document.getElementById("authentication")
-            .innerHTML = '<a href=\"' + value.url + '\">Logout</a>'
-    //removeClass("chart-container", "blur-content"); not necessary for this pr
+    const string = `<button id="votingToggle" onclick="toggleBottomBar()">
+                        Show voting!
+                    </button> 
+                    <a id="loginLink" href="${value.url}">
+                        Logout
+                    </a>`;
+    document.getElementById("authentication").innerHTML = string;
 }
 
 //*********************** VOTING HANDLING ***********************
@@ -478,15 +513,14 @@ function listenForGenreChoice(){
 
         //if not logged in
         if (!currentUser.active) {
-            //normally this affects blur, will see in style pr
-            alert("you need to log in to use this");
+            summonChartAlert("You need to log in to use this");
             e.preventDefault();
             return;
         }
 
         //if the user has already posted
         if(currentChartData.vUsers.includes(currentUser.id)) {
-            alert("you've already put in your 2wo cents");
+            summonChartAlert("You've already voted! Only one per user.");
             e.preventDefault();
             return;
         }
@@ -502,10 +536,21 @@ function listenForGenreChoice(){
             setParameters(selectedValue);
             document.chartForm.submit();
         } else {
-            alert("you need to select a radio value to submit");
+            summonChartAlert("Select a value before you submit.");
             e.preventDefault();
+            return;
         }
     }
+}
+
+/**
+ * Displays an alert if the parameters aren't met to vote
+ * @param string the message to be displayed to the user
+ */ 
+function summonChartAlert(string) {
+    let el = document.getElementById("chartpartwarning");
+    el.innerText = string;
+    el.classList.remove("not-here");
 }
 
 /**
@@ -516,7 +561,6 @@ async function getGenreChoice(){
     const value = await response.json();
     currentChartData = value;
     displayChart(currentChartData);
-    console.log(value);
 }
 
 /**
@@ -576,16 +620,26 @@ let Chart = class {
                 ]);
 
         const options = {
-            'legend':'left',
-            'title':'My Big Pie Chart',
-            'width':400,
-            'height':300
+          title: 'Genres',
+          legend: 'none',
+          pieSliceText: 'label',
         };
 
         const chart = new google.visualization.PieChart(
             document.getElementById('chart-container'));
         chart.draw(data, options);
     }
+}
+
+/**
+ * Brings the google chart into view
+ * @param bool determines whether I'm hiding or showing the display
+ */ 
+function toggleChart(bool){
+    if (currentUser.active == false || !currentUser){
+        return;
+    }
+    setHidden("chart-wrapper", bool);
 }
 
 //*********************** JSON CONVERSION ***********************
