@@ -428,8 +428,8 @@ async function deleteAndFetchEmpty() {
  */ 
 async function displayAuth(){
     const response = await fetch('/auth');
-    const value = await response.json();
-    value.active ? logoutHandler(value) : loginHandler(value);
+    const authState = await response.json();
+    authState.active ? logoutHandler(authState) : loginHandler(authState);
 }
 
 /**

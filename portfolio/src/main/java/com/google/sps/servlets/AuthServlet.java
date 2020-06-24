@@ -62,20 +62,20 @@ class User {
   public String id;
   public String email;
   public boolean active;
-  public String url;
+  public String logoutUrl;
 
   /**
    * Class constructor.
    *
    * @param id the id of the user
    * @param email the email of the user
-   * @param hasVoted boolean to set if the user has voted
+   * @param logoutUrl the given logoutUrl
    */
   public User(String id, String email, String logoutUrl) {
     this.id = id;
     this.email = email;
     this.active = true;
-    this.url = logoutUrl;
+    this.logoutUrl = logoutUrl;
   }
 }
 
