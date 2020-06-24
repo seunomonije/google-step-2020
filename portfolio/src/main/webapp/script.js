@@ -501,17 +501,11 @@ function listenForGenreChoice(){
     const form = document.getElementById("chartForm");
     const el = document.getElementsByName('genre'); 
     const sendingParam = document.getElementById("selectedRadio");
-    let selectedValue = null;
-    
-    for(let i = 0; i < el.length; i++) { 
-        if(el[i].checked){
-            selectedValue = el[i].value;
-        } 
-    }
+    let selectedValue = document.querySelector('[name="genre"]:checked');
 
-    form.onsubmit = function(e){
+    form.onsubmit = function(e) {
 
-        //if not logged in
+        // if not logged in
         if (!currentUser.active) {
             summonChartAlert("You need to log in to use this");
             e.preventDefault();
@@ -523,13 +517,6 @@ function listenForGenreChoice(){
             summonChartAlert("You've already voted! Only one per user.");
             e.preventDefault();
             return;
-        }
-
-        // get selected value          
-        for(let i = 0; i < el.length; i++) { 
-            if(el[i].checked){
-            selectedValue = el[i].value;
-            } 
         }
 
         if (selectedValue !== null) {
