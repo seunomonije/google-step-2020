@@ -670,7 +670,6 @@ div#welcome:hover h2#computabeast {
 
 #chart-wrapper {
     position: fixed;
-    box-shadow: gray 0px 0px 1px 0px;
     left: 50%;
     top: 50%;
     -ms-transform: translate(-50%,-50%);
@@ -687,6 +686,7 @@ div#welcome:hover h2#computabeast {
     border-radius: 5px;
     background-color: #f0f0f0;
     border: 3px solid #00afec; /*blue-ish*/
+    box-shadow: gray 0px 0px 3px 0px;
 }
 
 #chart-container-button {

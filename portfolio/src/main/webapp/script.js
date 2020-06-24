@@ -464,6 +464,7 @@ async function deleteAndFetchEmpty() {
 async function displayAuth(){
     const response = await fetch('/auth');
     const authState = await response.json();
+    currentUser = authState;
     authState.active ? logoutHandler(authState) : loginHandler(authState);
 }
 
@@ -486,7 +487,7 @@ function logoutHandler(value){
     const string = `<button id="votingToggle" onclick="toggleBottomBar()">
                         Show voting!
                     </button> 
-                    <a id="loginLink" href="${value.url}">
+                    <a id="loginLink" href="${value.logoutUrl}">
                         Logout
                     </a>`;
     document.getElementById("authentication").innerHTML = string;
@@ -497,13 +498,14 @@ function logoutHandler(value){
  * Listens for the selected genre by the user
  */ 
 function listenForGenreChoice(){
+   
     const form = document.getElementById("chartForm");
     const el = document.getElementsByName('genre'); 
     const sendingParam = document.getElementById("selectedRadio");
     let selectedValue = document.querySelector('[name="genre"]:checked');
 
     form.onsubmit = function(e) {
-
+ 
         // if not logged in
         if (!currentUser.active) {
             summonChartAlert("You need to log in to use this");
@@ -512,14 +514,14 @@ function listenForGenreChoice(){
         }
 
         //if the user has already posted
-        if(currentChartData.vUsers.includes(currentUser.id)) {
+        if(currentChartData.usersWhoVoted.includes(currentUser.id)) {
             summonChartAlert("You've already voted! Only one per user.");
             e.preventDefault();
             return;
         }
 
         if (selectedValue !== null) {
-            setParameters(selectedValue);
+            setParameters(selectedValue.value);
             document.chartForm.submit();
         } else {
             summonChartAlert("Select a value before you submit.");
@@ -567,12 +569,12 @@ function setParameters(value){
  */ 
 function displayChart(value){
     let chart = new Chart(
-                        value.hMap.HipHop,
-                        value.hMap.Country,
-                        value.hMap.Pop,
-                        value.hMap.Rock,
-                        value.hMap.Classical,
-                        value.hMap.RandB
+                        value.mapOfVotes.HipHop,
+                        value.mapOfVotes.Country,
+                        value.mapOfVotes.Pop,
+                        value.mapOfVotes.Rock,
+                        value.mapOfVotes.Classical,
+                        value.mapOfVotes.RandB
                         );
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(chart.drawChart.bind(chart)); 
