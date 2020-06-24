@@ -39,8 +39,9 @@ public final class FindMeetingQuery {
 
     return traverseThroughSchedule(request, eventList);
   }
+
   /**
-   * Traverses through the schedule and returns the list of available times
+   * Traverses through all given schedules and returns the list of available times
    *
    * @param request The requested meeting time duration.
    * @param eventList A sorted list of events ascending from the starting times.
@@ -55,7 +56,7 @@ public final class FindMeetingQuery {
 
     while (currentTime < (long) TimeRange.END_OF_DAY) {
 
-      // if the last open time slot is between the last meeting and the end of the day
+      // the last open time slot is between the last meeting and the end of the day
       if (eventList.isEmpty()) {
         if ((long) TimeRange.END_OF_DAY - currentTime < request.getDuration()) {
           break;
