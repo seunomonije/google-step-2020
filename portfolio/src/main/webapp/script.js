@@ -201,7 +201,7 @@ window.onload = function() {
     displayAuth();
 
     // Chart Handling
-    getGenreChoice(); //get all the data first
+    getGenreChoice(); // get all the data first
 }
 
 /**
@@ -553,12 +553,12 @@ let Chart = class {
 
     constructor(hhVotes, coVotes, pVotes, 
                 roVotes, clVotes, rbVotes){
-        this.hhVotes = hhVotes ? hhVotes : 0;
-        this.coVotes = coVotes ? coVotes : 0;
-        this.pVotes = pVotes ? pVotes : 0;
-        this.roVotes = roVotes ? roVotes : 0;
-        this.clVotes = clVotes ? clVotes : 0;
-        this.rbVotes = rbVotes ? rbVotes : 0;
+        this.hhVotes = hhVotes || 0;
+        this.coVotes = coVotes || 0;
+        this.pVotes = pVotes || 0;
+        this.roVotes = roVotes || 0;
+        this.clVotes = clVotes || 0;
+        this.rbVotes = rbVotes || 0;
     }
     
     /** Creates a chart and adds it to the page. */
