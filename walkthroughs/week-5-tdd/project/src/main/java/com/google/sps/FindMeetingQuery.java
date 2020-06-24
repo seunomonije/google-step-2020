@@ -45,6 +45,9 @@ public final class FindMeetingQuery {
     MeetingRequest withOptionals = new MeetingRequest(attendees, request.getDuration());
     Collection<TimeRange> result = traverseThroughSchedule(withOptionals, eventList);
 
+    /* If the first traversal with required+optional returns no matches,
+        run through it again with only required ppl.
+        Time: O(n) + O(n) */
     if (result.isEmpty()) {
         if (request.getAttendees().isEmpty()) {
             return new ArrayList<TimeRange>();
