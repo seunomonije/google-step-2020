@@ -16,6 +16,7 @@ package com.google.sps;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -53,23 +54,34 @@ public final class Event {
     this.attendees.addAll(attendees);
   }
 
-  /**
-   * Returns the human-readable name for this event.
-   */
+  /** A comparator for sorting ranges by their start time in ascending order. */
+  public static final Comparator<Event> ORDER_EVENT_BY_START =
+      new Comparator<Event>() {
+        @Override
+        public int compare(Event a, Event b) {
+          return TimeRange.ORDER_BY_START.compare(a.when, b.when);
+        }
+      };
+
+  /** Get the starting time of an event */
+  public long getStartTime() {
+    return (long) when.start();
+  }
+
+  public long getEndTime() {
+    return (long) when.end();
+  }
+  /** Returns the human-readable name for this event. */
   public String getTitle() {
     return title;
   }
 
-  /**
-   * Returns the {@code TimeRange} for when this event occurs.
-   */
+  /** Returns the {@code TimeRange} for when this event occurs. */
   public TimeRange getWhen() {
     return when;
   }
 
-  /**
-   * Returns a read-only set of required attendees for this event.
-   */
+  /** Returns a read-only set of required attendees for this event. */
   public Set<String> getAttendees() {
     // Return the attendees as an unmodifiable set so that the caller can't change our
     // internal data.
