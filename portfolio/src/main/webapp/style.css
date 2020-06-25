@@ -24,12 +24,19 @@ input:focus {
     outline-width: 0; /*i don't want that ugly outline on any input */
 }
 
+button {
+    outline: none;
+}
 textarea:focus {
     outline-width: 0; /*i don't want that ugly outline on any input */
 }
 
 .hidden {
     visibility: hidden;
+}
+
+.not-here {
+    display: none;
 }
 
 .highlight {
@@ -346,7 +353,7 @@ div#welcome:hover h2#computabeast {
 
 .text-container {
     padding: 20px;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin-right: 2%;
     margin-left: 2%;
 }
@@ -371,7 +378,7 @@ div#welcome:hover h2#computabeast {
 
 .bios {
     scroll-margin: 70px; /*to account for the header*/
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 .dts {
@@ -565,12 +572,12 @@ div#welcome:hover h2#computabeast {
     border-bottom-left-radius: 5px;
     border: 1px solid #d3d3d3;  
 }
+
 .comment-body-el {
     margin-left: 5px;
     margin-right: 5px;
     margin-bottom: 5px;
     margin-top: 2px;
-
     padding: 5px;
     font-size: 15px;
     font-family: 'Montserrat', sans-serif;
@@ -585,4 +592,237 @@ div#welcome:hover h2#computabeast {
 #sigstyle {
     height: 50px; 
     width: auto;
+}
+
+.chartpart-header {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-family: Roboto, 'sans-serif';
+}
+
+.chartpart-warning {
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-family: Roboto, 'sans-serif';
+    transition: 0.3s;
+    background-color: red;
+    padding: 5px;
+    color: white;
+    border-radius: 5px;
+}
+
+.buttonCenter {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    width: auto;
+    justify-content: center;
+}
+
+.voting-buttons {
+    background-color: #ff6961;
+    border: none;
+    color: white;
+    font-size: 18px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    padding: 0.5rem;
+    margin: 10px;
+    border-radius: 5px;
+    width: 200px;
+    transition: 1s;
+}
+
+.voting-buttons:hover {
+    background-color: #3cba54;
+}
+
+#chartViewer {
+    margin: 0 auto;
+    display: block;
+}
+
+#voting-stats-table {
+    margin-left: auto;
+    margin-right: auto;
+    width: 75%;
+    table-layout: fixed;
+}
+
+#voting-stats-table td {
+    font-family: Roboto, sans-serif;
+    padding: 10px;
+    width: 80%;
+    text-align: center;
+}
+
+#voting-stats-table .voting-table-nonNums td {
+    font-size: 20px;
+}
+
+#voting-stats-table .voting-table-nums td {
+    font-size: 30px;
+}
+
+#chart-wrapper {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    -ms-transform: translate(-50%,-50%);
+    -moz-transform:translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+}
+
+
+#chart-container {
+    position: relative;
+    width: 900px;
+    height: 500px;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    border: 3px solid #00afec; /*blue-ish*/
+    box-shadow: gray 0px 0px 3px 0px;
+}
+
+#chart-container-button {
+    position: relative;
+    border-radius: 3px;
+    background-color: #00afec; /*blue-ish*/
+    color: white;
+    padding: 8px;
+    margin-top: 5px;
+    border: none;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+}
+
+.blur-content {
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
+}
+
+#chart-voting {
+    width: 100%;
+}
+
+section {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  width: auto;
+  justify-content: center;
+}
+
+section > div {
+  padding: 0.5rem;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+input[type="radio"]:checked + label {
+    background-color: #90EE90;
+    color: white;
+    cursor: pointer;
+}
+
+label {
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    height: 1.5rem;
+    font-weight: bold;
+    width: 120px;
+    border-radius: 5px;
+    display: block;
+    text-align: center;
+    padding: 1rem;
+    background-color: #ffcccb;
+    -webkit-box-shadow: inset 0px 0px 5px #c1c1c1;
+    -moz-box-shadow: inset 0px 0px 5px #c1c1c1;
+    box-shadow: inset 0px 0px 5px #c1c1c1;
+    outline: none;
+}
+
+#authentication {
+    position: fixed;
+    left: 0;
+    border-left: 0px;
+    border-top-right-radius: 3px;
+    padding: 20px 10px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    background: rgba(255, 255, 255, 0.8); 
+    border: 1px solid #d3d3d3;
+    backdrop-filter: blur(12px); /*low browser support*/
+    transition: 0.5s;
+    border-bottom: 1px solid white;
+}
+
+.fixToBottom {
+    bottom: 0;
+}
+
+.moveUp {
+    bottom: 260px;
+}
+
+#authentication:hover {
+   background-color: #ff6961;
+}
+
+#loginLink {
+    background-color: #db3236;
+    border-radius: 3px;
+    padding: 5px 5px;
+    color: white;
+    transition: 0.8s;
+    font-size: 18px;
+    margin-left: 5px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.bottombar {
+    bottom:0;
+    left:0;
+    right: 0;
+    height: 0;
+    overflow-x: scroll;
+    overflow-y: scroll;
+    position: fixed;
+    z-index: 1;
+    /*white half transparent*/
+    background: rgba(255, 255, 255, 0.8); 
+    border-left: 1px solid #d3d3d3;
+    border-top: 1px solid #d3d3d3;
+    backdrop-filter: blur(12px); /*low browser support*/
+    transition: 0.5s;
+}
+
+#votingToggle {
+    padding: 5px 10px;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f4c20d; /*same green as the gif*/
+    color: black;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    transition: background 1s;
+    outline: none;
+    border: none;
 }
